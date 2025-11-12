@@ -1,20 +1,4 @@
-# classlib/generators/kronecker_qp.py
-from __future__ import annotations
-import numpy as np
-
-# --- Try to import qmcpy's LD base; fall back to a shim if not present ----
-try:
-    from qmcpy.discrete_distribution._discrete_distribution import \
-        LDDiscreteDistribution as _LDBase  # qmcpy >= some versions
-except Exception:
-    try:
-        # Older layout (guess); harmless if not present
-        from qmcpy.abstract_discrete_distribution import \
-            AbstractLDDiscreteDistribution as _LDBase
-    except Exception:
-        class _LDBase:  # minimal shim; just to “look like” the base
-            pass
-
+from .abstract_discrete_distribution import AbstractLDDiscreteDistribution
 from numpy import *
 from sympy import nextprime
 

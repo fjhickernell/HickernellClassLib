@@ -170,5 +170,28 @@ class QPKronecker(_LDBase):
             self.rng = None
             self.shift = np.zeros(self.dimension)
         return self
+    
+    def __call__(self, *args, **kwargs):
+        """
+        Match the callable interface used by plotting helpers.
+        Accept (n) or (d, n) and return (n, d) samples.
+        """
+        if len(args) == 1:
+            # called as obj(n)
+            n = int(args[0])
+            return self.gen_samples(n, **kwargs)
+        elif len(args) == 2:
+            # called as obj(d, n)
+            d, n = map(int, args)
+            if getattr(self, "d", d) != d:
+                # either reconfigure or raise; here we reconfigure if supported
+                if hasattr(self, "set_dimension"):
+                    self.set_dimension(d)
+                else:
+                    raise ValueError(f"QPKronecker is dimension {getattr(self,'d',None)}, "
+                                     f"but was called with d={d} and no set_dimension available.")
+            return self.gen_samples(n, **kwargs)
+        else:
+            raise TypeError("QPKronecker.__call__ expects (n) or (d, n).")
 
 __all__ = ["QPKronecker"]

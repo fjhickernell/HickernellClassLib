@@ -1,2 +1,3 @@
 from .kronecker_qp import QPKronecker
-__all__ = ["QPKronecker"]
+from .kronecker import Kronecker
+__all__ = ["QPKronecker", "Kronecker"]

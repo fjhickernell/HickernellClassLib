@@ -1,3 +1,4 @@
 from .kronecker_qp import QPKronecker
 from .kronecker import Kronecker
-__all__ = ["QPKronecker", "Kronecker"]
+from .tensor_product_grid import TensorProductGrid
+__all__ = ["QPKronecker", "Kronecker", "TensorProductGrid" ]

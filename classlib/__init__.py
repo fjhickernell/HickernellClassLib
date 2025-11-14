@@ -14,9 +14,21 @@ __all__ = []
 __all__ += getattr(_distributions, "__all__", [])
 __all__ += getattr(_generators, "__all__", [])
 __all__ += getattr(_discrepancy, "__all__", [])
-__all__ += ["nbviz", "options", "plots", "sampling"]
+__all__ += [
+    "distributions",
+    "generators",
+    "discrepancy",
+    "nbviz",
+    "options",
+    "plots",
+    "sampling",
+]
 
-nbviz = _nbviz
-options = _options
-plots = _plots
-sampling = _sampling
+# Expose submodules on the package for legacy code
+distributions = _distributions
+generators    = _generators
+discrepancy   = _discrepancy
+nbviz         = _nbviz
+options       = _options
+plots         = _plots
+sampling      = _sampling

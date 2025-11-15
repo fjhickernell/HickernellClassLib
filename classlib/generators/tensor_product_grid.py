@@ -1,10 +1,30 @@
 import numpy as np
-import warnings
 
-class TensorProductGrid:
+# 👇 IMPORTANT: import the SAME base class you used for Kronecker.
+# In your code this might be `DiscreteDistribution` or `AbstractDiscreteDistribution`.
+# For example, if Kronecker has:
+#   from qmcpy.discrete_distribution import AbstractDiscreteDistribution
+# then do the same here.
+from qmcpy.discrete_distribution.abstract_discrete_distribution import AbstractLDDiscreteDistribution  # adjust to match Kronecker
+
+
+class TensorProductGrid(AbstractLDDiscreteDistribution):
     """
-    Tensor-product grid in [0,1]^d with a QMCPy-like interface.
-    Minimal notebook version — safe to paste anywhere.
+    Deterministic tensor-product grid on [0,1]^d, implemented as a
+    QMCPy DiscreteDistribution-style object.
+
+    Parameters
+    ----------
+    levels_per_dim : int or sequence of int
+        If int L: use L equally spaced levels in each dimension.
+        If sequence (L_1, ..., L_d): use L_j levels in dimension j.
+    dimension : int, optional
+        If levels_per_dim is a scalar, this is required and gives d.
+        If levels_per_dim is a sequence, defaults to len(levels_per_dim).
+    centered : bool, default True
+        If True, use midpoints (k + 0.5)/L_j. If False, use linspace grid.
+    endpoint : bool, default False
+        Only used when centered=False; passed to np.linspace.
     """
 
     def __init__(
@@ -14,75 +34,103 @@ class TensorProductGrid:
         *,
         centered=True,
         endpoint=False,
+        replications=None, 
+        randomize=True, 
+        seed=None
     ):
-        # Normalize dim + levels
+        # ---- Normalize dimension & levels ---------------------------------
         if np.isscalar(levels_per_dim):
             if dimension is None:
-                raise ValueError("If scalar levels_per_dim is used, you must specify dimension.")
+                raise ValueError(
+                    "If levels_per_dim is scalar, you must supply `dimension`."
+                )
             L = int(levels_per_dim)
             if L <= 0:
                 raise ValueError("levels_per_dim must be positive.")
-            self.levels_per_dim = np.full(int(dimension), L, dtype=int)
+            levels = np.full(int(dimension), L, dtype=int)
         else:
             levels = np.asarray(levels_per_dim, dtype=int)
             if levels.ndim != 1:
                 raise ValueError("levels_per_dim must be a 1D sequence of ints.")
             if np.any(levels <= 0):
                 raise ValueError("All entries of levels_per_dim must be positive.")
-            self.levels_per_dim = levels
             if dimension is None:
-                dimension = len(levels)
-            elif dimension != len(levels):
-                raise ValueError("dimension does not match len(levels_per_dim).")
+                dimension = int(levels.size)
+            elif int(dimension) != levels.size:
+                raise ValueError(
+                    f"dimension={dimension} does not match "
+                    f"len(levels_per_dim)={levels.size}"
+                )
 
-        self.dimension = int(dimension)
+        self.levels_per_dim = levels
+        d = int(dimension)
+
         self.centered = bool(centered)
         self.endpoint = bool(endpoint)
 
-        # Build axes
+        # ---- Call parent constructor just like Kronecker does ------------
+        # 👉 VERY IMPORTANT: Make this line match your Kronecker __init__.
+        # For example, if Kronecker has:
+        #
+        #   super().__init__(dimension=d, randomize=False, mimics="StdUniform", **kwargs)
+        #
+        # then do the same here. Copy & paste from Kronecker and just swap in d.
+        super(TensorProductGrid,self).__init__(dimension,replications,seed,d_limit=dimension,n_limit=np.inf)
+
+        # ---- Precompute the grid in [0,1]^d -------------------------------
         axes = []
         for L in self.levels_per_dim:
             if self.centered:
                 k = np.arange(L, dtype=float)
-                axis = (k + 0.5) / L          # midpoints in [0,1]
+                axis = (k + 0.5) / L        # midpoints in (0,1)
             else:
                 axis = np.linspace(0.0, 1.0, num=L, endpoint=self.endpoint)
             axes.append(axis)
 
-        # Tensor product grid: N × d
         mesh = np.meshgrid(*axes, indexing="ij")
-        self.points = np.stack([m.ravel(order="C") for m in mesh], axis=1)
-        self.n_total = self.points.shape[0]
+        points = np.stack([m.ravel(order="C") for m in mesh], axis=1)
 
-        # For compatibility with TrueMeasure-like attributes
-        self.lower_bound = np.zeros(self.dimension)
-        self.upper_bound = np.ones(self.dimension)
+        self._points = points                 # shape (n_total, d)
+        self.n_total = int(points.shape[0])
 
-    def gen_samples(self, n=None, warn=True):
+        # Optional: bounds in [0,1]^d for nice printing
+        self.lower_bound = np.zeros(d, dtype=float)
+        self.upper_bound = np.ones(d, dtype=float)
+
+    # ---- QMCPy sampling interface ----------------------------------------
+
+    def gen_samples(self, n):
         """
-        Returns an n × d NumPy array of grid points.
-        If n is None or >= total, returns full grid.
-        """
-        if n is None or n >= self.n_total or n < 0:
-            return self.points.copy()
+        Return the first n grid points (tiling if n > n_total).
 
+        Parameters
+        ----------
+        n : int
+            Number of samples requested.
+
+        Returns
+        -------
+        x : ndarray, shape (n, dimension)
+        """
         n = int(n)
-        if n == 0:
-            return np.empty((0, self.dimension))
+        if n <= self.n_total:
+            return self._points[:n, :].copy()
 
-        if warn and n != self.n_total:
-            warnings.warn(
-                f"TensorProductGrid: returning first {n} of {self.n_total} grid points.",
-                RuntimeWarning,
-            )
-        return self.points[:n].copy()
+        # If more points requested than in the grid, tile deterministically.
+        reps = (n + self.n_total - 1) // self.n_total
+        tiled = np.tile(self._points, (reps, 1))
+        return tiled[:n, :].copy()
 
-    # >>> This is the key new bit for qp.plot_proj <<<
+    # QMCPy usually calls the sampler like sampler(n)
     def __call__(self, n, **kwargs):
-        """Allow instances to be called like a QMCPy sampler: sampler(n)."""
         return self.gen_samples(n)
 
     def __repr__(self):
-        return (f"TensorProductGrid(dim={self.dimension}, "
-                f"levels={self.levels_per_dim.tolist()}, "
-                f"n_total={self.n_total})")
+        return (
+            f"{self.__class__.__name__}("
+            f"dimension={self.dimension}, "
+            f"levels_per_dim={self.levels_per_dim.tolist()}, "
+            f"centered={self.centered}, "
+            f"endpoint={self.endpoint}, "
+            f"n_total={self.n_total})"
+        )

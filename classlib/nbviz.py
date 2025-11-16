@@ -22,12 +22,14 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from IPython.display import display, HTML
 from cycler import cycler
+import pandas as pd
 
 __all__ = [
     "init", "configure", "savefig",
     "set_tol_color_cycle", "set_highlight_color",
     "fit_log_trend", "plot_log_trend_line",
-    "TOL_BRIGHT", "TOL_BRIGHT_ORDER", "TINY",
+    "TOL_BRIGHT", "TOL_BRIGHT_ORDER", "TINY", 
+    "note",  "note_md",
 ]
 
 # ---- Defaults / constants ----
@@ -63,11 +65,10 @@ def _inject_css(color: str) -> None:
       }}
       .highlight-note {{
         padding: 0.75em 1em;
-        border-left: 5px solid {color};
-        background-color: #e3f3f9;
+        background-color: #e6f7ff;  /* light blue background */
         border-radius: 6px;
         margin: 1em 0;
-      }}
+      }}      }}
       .highlight-note strong {{
         color: #224466;
       }}
@@ -176,6 +177,15 @@ def init(
 
     _inject_css(highlight_color)
 
+    # ---- Pandas display options ----
+    try:
+        pd.set_option("display.width", 200)
+        pd.set_option("display.max_colwidth", 200)
+        pd.set_option("display.expand_frame_repr", False)
+    except Exception:
+        pass
+
+
     # Make sure figures display inline without requiring explicit plt.show()
     try:
         plt.ion()
@@ -231,7 +241,6 @@ def savefig(name: str, *, ext: str | None = None, **kwargs) -> None:
     suffix = (ext or IMGFRMT).lstrip(".")
     outfile = FIGPATH / f"{name}.{suffix}"
     plt.gcf().savefig(outfile, **kwargs)
-
 
 # ---- Public: color utilities ----
 
@@ -414,3 +423,33 @@ def plot_power_line(
 
     ax.loglog([x0, x1], [y0, y1], color=color, linestyle=ls, label=label)
     return float(power), float(coef)
+
+# ---- Highlight note ----
+def note(html: str):
+    """
+    Render a blue callout box in a Jupyter notebook using the
+    CSS class `.highlight-note` injected by `_inject_css`.
+
+    Example
+    -------
+    cl.nbviz.note("<strong>Reminder:</strong> Tune tolerance before running.")
+    """
+    return HTML(f'<div class="highlight-note">{html}</div>')
+
+try:
+    import markdown as _markdown_lib
+except Exception:
+    _markdown_lib = None
+
+
+def note_md(text: str):
+    """
+    Render a blue callout box whose contents are written in Markdown.
+    Requires the 'markdown' package; falls back to raw text if missing.
+    """
+    if _markdown_lib is not None:
+        inner_html = _markdown_lib.markdown(text)
+    else:
+        # Fallback: minimal escaping, still boxed
+        inner_html = text.replace("<", "&lt;").replace(">", "&gt;")
+    return HTML(f'<div class="highlight-note">{inner_html}</div>')

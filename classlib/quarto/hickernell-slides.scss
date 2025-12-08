@@ -29,13 +29,13 @@
   padding: 0.20em 0.6em;
   margin: 0 -0.5em 0.7em -0.5em;
   border-radius: 0;
-  font-size: 1.05em;
+  font-size: 1.4em;
   font-weight: 700;
 }
 
 /* Major slides: larger header */
 .reveal section.major h2 {
-  font-size: 1.30em;
+  font-size: 1.60em;
 }
 
 /* Headerless slides */
@@ -52,6 +52,7 @@
 .reveal h3 {
   color: var(--header-blue);
   font-weight: 600;
+  font-size: 1.2em;
   margin-top: 0.8em;
 }
 

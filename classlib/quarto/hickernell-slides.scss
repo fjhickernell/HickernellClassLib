@@ -20,6 +20,10 @@
   padding-top: 0 !important;
 }
 
+.reveal .slides {
+  padding-top: 0 !important;
+}
+
 
 /* ============================================================
    SLIDE HEADERS
@@ -33,17 +37,17 @@
   background-color: var(--header-blue);
   color: #ffffff;
 
-  /* Outer spacing: flush to top, but align with text margins left/right */
+  /* Pull the blue background over the side margins */
   margin-top: 0 !important;
-  margin-left: 0;
-  margin-right: 0;
+  margin-left: -1.5em;
+  margin-right: -1.5em;
   margin-bottom: 0.7em;
 
-  /* Internal padding: give text breathing room */
-  padding: 0.25em 1em;   /* <-- increase from 0.6em to ~1em */
+  /* Keep the text away from the edges inside the bar */
+  padding: 0.25em 1.5em;
 
-  width: 100% !important;
   border-radius: 0;
+  width: auto;  /* let the negative margins control width */
 
   font-size: 1.4em;
   font-weight: 700;

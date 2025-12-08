@@ -3,7 +3,7 @@
 format:
   revealjs:
     theme: simple
-    css: classlib/classlib/quarto/hickernell-slides.scss
+    css: classlib/classlib/quarto/hickernell-slides.css
  #   include-in-header:
  #     - classlib/classlib/quarto/hickernell-latex-macros.tex
     slide-number: c/t

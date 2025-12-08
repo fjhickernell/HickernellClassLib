@@ -1,3 +1,4 @@
+<script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: {
     Macros: {
@@ -163,15 +164,15 @@ MathJax.Hub.Config({
       mU: "{\\mathsf{U}}",
       mV: "{\\mathsf{V}}",
       mW: "{\\mathsf{W}}",
-      mX: "{\\mathsf{X}}}",
-      mY: "{\\mathsf{Y}}}",
-      mZ: "{\\mathsf{Z}}}",
+      mX: "{\\mathsf{X}}",
+      mY: "{\\mathsf{Y}}",
+      mZ: "{\\mathsf{Z}}",
       mLambda: "{\\mathsf{\\Lambda}}",
       mSigma:  "{\\mathsf{\\Sigma}}",
       mzero:   "{\\mathsf{0}}",
       mGamma:  "{\\mathsf{\\Gamma}}",
 
-      // --- Caligraphic ---
+      // --- Calligraphic ---
       ca: "{\\mathcal{A}}",
       cb: "{\\mathcal{B}}",
       cc: "{\\mathcal{C}}",
@@ -222,3 +223,4 @@ MathJax.Hub.Config({
     }
   }
 });
+</script>

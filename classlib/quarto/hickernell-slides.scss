@@ -1,8 +1,7 @@
 :root {
   --header-blue: #004b80;   /* dark, for title bars */
   --accent-blue: #007acc;   /* bright, for accents */
-  --slide-margin-left: 1em;
-  --slide-margin-right: 4.4em; /* Control all left/right slide margins from one place */
+  --slide-margin: 1.3em;    /* adjust this only if you want more/less side space */
 }
 
 /* Remove browser + Reveal outer margins (fix fullscreen white strip) */
@@ -20,9 +19,9 @@ body,
   color: #333333;
 }
 
-/* Overall font sizing + remove outer padding (fix fullscreen white strip) */
+/* Overall font sizing + remove outer padding */
 .reveal {
-  font-size: 36px;
+  font-size: 34px;          /* adjust if you want bigger/smaller text */
   padding: 0 !important;
 }
 
@@ -36,35 +35,29 @@ body,
   padding: 0 !important;
 }
 
-/* Comfortable margins for slide body text */
-.reveal .slides section {
-  padding-left: var(--slide-margin-left) !important;
-  padding-right: var(--slide-margin-right) !important;
+/* Comfortable, symmetric margins for slide content items */
+.reveal .slides section > * {
+  margin-left: var(--slide-margin);
+  margin-right: var(--slide-margin);
 }
-
-/* ============================================================
-   SLIDE HEADERS
-   Major (## {.major})       → larger header
-   Minor (##)                → smaller header
-   Headerless (## {.headerless}) → no visible header
-   ============================================================ */
 
 /* Default slide header (minor slides) */
 .reveal section:not(.title-slide) h2 {
   background-color: var(--header-blue);
   color: #ffffff;
 
-  /* Pull the blue background over the side margins */
+  /* Make the blue bar full-width and flush to top */
   margin-top: 0 !important;
-  margin-left: calc(-1 * var(--slide-margin-left));
-  margin-right: calc(-1 * var(--slide-margin-right));
   margin-bottom: 0.7em;
-
-  /* Keep the text aligned with body text */
-  padding: 0.25em var(--slide-margin-right) 0.25em var(--slide-margin-left);
+  margin-left: calc(-1 * var(--slide-margin));
+  margin-right: calc(-1 * var(--slide-margin));
+ 
+  /* Header text aligned with body text */
+  padding: 0.25em var(--slide-margin)  0.25em  var(--slide-margin);
+  text-indent: 0.8em;   /* <<< tiny shift of the header text only */
 
   border-radius: 0;
-  width: auto;  /* let the negative margins control width */
+  width: 100%;  /* let margins control width */
 
   font-size: 1.4em;
   font-weight: 700;

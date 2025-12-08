@@ -55,8 +55,8 @@ body,
 
   /* Pull the blue background over the side margins */
   margin-top: 0 !important;
-  margin-left: -calc(-1 * var(--slide-margin));
-  margin-right: -calc(-1 * var(--slide-margin));
+  margin-left: calc(-1 * var(--slide-margin));
+  margin-right: calc(-1 * var(--slide-margin));
   margin-bottom: 0.7em;
 
   /* Keep the text aligned with body text */

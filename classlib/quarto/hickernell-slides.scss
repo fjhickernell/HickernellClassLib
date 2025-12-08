@@ -18,7 +18,7 @@
 /* Reduce top whitespace above slide headers (non-title slides) */
 .reveal .slides > section:not(.title-slide),
 .reveal .slides > section > section:not(.title-slide) {
-  padding-top: 0em;  /* tweak: smaller = higher headers */
+  padding-top: -1em;  /* tweak: smaller = higher headers */
 }
 
 

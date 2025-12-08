@@ -38,7 +38,7 @@ body,
 /* Comfortable margins for slide body text */
 .reveal .slides section {
   padding-left: var(--slide-margin) !important;
-  padding-right: calc(var(--slide-margin) + 3.5em) !important;
+  padding-right: calc(var(--slide-margin) + 13.5em) !important;
 }
 
 /* ============================================================
@@ -60,7 +60,7 @@ body,
   margin-bottom: 0.7em;
 
   /* Keep the text aligned with body text */
-  padding: 0.25em calc(var(--slide-margin) + 3.5em) 0.25em var(--slide-margin);
+  padding: 0.25em calc(var(--slide-margin) + 13.5em) 0.25em var(--slide-margin);
 
   border-radius: 0;
   width: auto;  /* let the negative margins control width */

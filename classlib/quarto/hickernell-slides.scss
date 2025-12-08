@@ -10,9 +10,10 @@
   color: #333333;
 }
 
-/* Overall font sizing */
+/* Overall font sizing + remove outer padding (fix fullscreen white strip) */
 .reveal {
   font-size: 30px;
+  padding: 0 !important;
 }
 
 /* Remove top padding on non-title slides */
@@ -20,8 +21,9 @@
   padding-top: 0 !important;
 }
 
+/* Remove all padding on slides container (fullscreen fix) */
 .reveal .slides {
-  padding-top: 0 !important;
+  padding: 0 !important;
 }
 
 

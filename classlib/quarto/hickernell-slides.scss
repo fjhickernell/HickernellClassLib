@@ -3,6 +3,14 @@
   --accent-blue: #007acc;   /* bright, for accents */
 }
 
+/* Remove browser + Reveal outer margins (fix fullscreen white strip) */
+html,
+body,
+.reveal-viewport {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 /* Base text color: dark gray instead of black */
 .reveal,
 .reveal p,

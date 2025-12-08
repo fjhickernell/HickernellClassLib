@@ -11,7 +11,7 @@ format:
     footer: "© Fred J. Hickernell, updated {{< meta date >}}"
     width: 1400
     height: 800
-    margin: 0.04
+    margin: 0.00
     center: false
     slide-level: 2
     title-slide-attributes:

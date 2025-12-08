@@ -18,7 +18,7 @@
 /* Reduce top whitespace above slide headers (non-title slides) */
 .reveal .slides > section:not(.title-slide),
 .reveal .slides > section > section:not(.title-slide) {
-  padding-top: 0em;  /* tweak: smaller = higher headers */
+  padding-top: 0 !important;
 }
 
 
@@ -34,7 +34,11 @@
   background-color: var(--header-blue);
   color: #ffffff;
   padding: 0.20em 0.6em;
-  margin: 0 -0.5em 0.7em -0.5em;
+  /* full-width banner within the slide content box */
+  margin-top: 0 !important;
+  margin-left: -1.5em;
+  margin-right: -1.5em;
+  margin-bottom: 0.7em;
   border-radius: 0;
   font-size: 1.4em;
   font-weight: 700;

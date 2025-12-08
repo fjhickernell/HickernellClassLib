@@ -15,9 +15,8 @@
   font-size: 30px;
 }
 
-/* Reduce top whitespace above slide headers (non-title slides) */
-.reveal .slides > section:not(.title-slide),
-.reveal .slides > section > section:not(.title-slide) {
+/* Remove top padding on non-title slides */
+.reveal .slides section:not(.title-slide) {
   padding-top: 0 !important;
 }
 
@@ -33,13 +32,19 @@
 .reveal section:not(.title-slide) h2 {
   background-color: var(--header-blue);
   color: #ffffff;
-  padding: 0.20em 0.6em;
-  /* full-width banner within the slide content box */
+
+  /* Outer spacing: flush to top, but align with text margins left/right */
   margin-top: 0 !important;
-  margin-left: -1.5em;
-  margin-right: -1.5em;
+  margin-left: 0;
+  margin-right: 0;
   margin-bottom: 0.7em;
+
+  /* Internal padding: give text breathing room */
+  padding: 0.25em 1em;   /* <-- increase from 0.6em to ~1em */
+
+  width: 100% !important;
   border-radius: 0;
+
   font-size: 1.4em;
   font-weight: 700;
 }

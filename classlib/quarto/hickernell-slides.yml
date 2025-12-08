@@ -19,3 +19,18 @@ format:
       data-background-size: 55%
       data-background-position: "top left"
       data-background-color: "#f5f7fb"
+    include-in-header:
+      - text: |
+          <script>
+          // Global MathJax macros for stats courses
+          MathJax = {
+            tex: {
+              macros: {
+                Prob: "\\\\mathbb{P}",
+                Ex: "\\\\mathbb{E}",
+                Var: "\\\\mathrm{Var}",
+                Cov: "\\\\mathrm{Cov}"
+              }
+            }
+          };
+          </script>

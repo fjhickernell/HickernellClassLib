@@ -20,4 +20,4 @@ format:
       data-background-position: "top left"
       data-background-color: "#f5f7fb"
     include-in-header:
-      - file: classlib/classlib/quarto/hickernell-mathjax-config.js
+      - file: classlib/classlib/quarto/hickernell-latex-macros.js

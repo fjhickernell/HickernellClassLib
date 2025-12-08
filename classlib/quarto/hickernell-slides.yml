@@ -19,9 +19,5 @@ format:
       data-background-size: 55%
       data-background-position: "top left"
       data-background-color: "#f5f7fb"
-    mathjax:
-      macros:
-        Prob: "\\mathbb{P}"
-        Ex:   "\\mathbb{E}"
-        Var:  "\\mathrm{Var}"
-        Cov:  "\\mathrm{Cov}"
+    include-in-header:
+      - file: classlib/classlib/quarto/hickernell-mathjax-config.html

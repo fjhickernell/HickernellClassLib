@@ -15,6 +15,13 @@
   font-size: 30px;
 }
 
+/* Reduce top whitespace above slide headers (non-title slides) */
+.reveal .slides > section:not(.title-slide),
+.reveal .slides > section > section:not(.title-slide) {
+  padding-top: 0.6em;  /* tweak: smaller = higher headers */
+}
+
+
 /* ============================================================
    SLIDE HEADERS
    Major (## {.major})       → larger header

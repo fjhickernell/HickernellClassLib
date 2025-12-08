@@ -4,8 +4,8 @@ format:
   revealjs:
     theme: simple
     css: classlib/classlib/quarto/hickernell-slides.scss
-    include-in-header:
-      - classlib/classlib/quarto/hickernell-latex-macros.tex
+ #   include-in-header:
+ #     - classlib/classlib/quarto/hickernell-latex-macros.tex
     slide-number: c/t
     show-slide-number: all
     footer: "© Fred J. Hickernell, updated {{< meta date >}}"

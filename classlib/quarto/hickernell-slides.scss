@@ -1,7 +1,8 @@
 :root {
   --header-blue: #004b80;   /* dark, for title bars */
   --accent-blue: #007acc;   /* bright, for accents */
-  --slide-margin: 1em;  /* Control all left/right slide margins from one place */
+  --slide-margin-left: 1em;
+  --slide-margin-right: 1.4em; /* Control all left/right slide margins from one place */
 }
 
 /* Remove browser + Reveal outer margins (fix fullscreen white strip) */
@@ -37,8 +38,8 @@ body,
 
 /* Comfortable margins for slide body text */
 .reveal .slides section {
-  padding-left: var(--slide-margin) !important;
-  padding-right: calc(var(--slide-margin) + 13.5em) !important;
+  padding-left: var(--slide-margin-left) !important;
+  padding-right: var(--slide-margin-right) !important;
 }
 
 /* ============================================================
@@ -55,12 +56,12 @@ body,
 
   /* Pull the blue background over the side margins */
   margin-top: 0 !important;
-  margin-left: calc(-1 * var(--slide-margin));
-  margin-right: calc(-1 * var(--slide-margin));
+  margin-left: calc(-1 * var(--slide-margin-left));
+  margin-right: calc(-1 * var(--slide-margin-right));
   margin-bottom: 0.7em;
 
   /* Keep the text aligned with body text */
-  padding: 0.25em calc(var(--slide-margin) + 13.5em) 0.25em var(--slide-margin);
+  padding: 0.25em var(--slide-margin-right) 0.25em var(--slide-margin-left);
 
   border-radius: 0;
   width: auto;  /* let the negative margins control width */

@@ -145,7 +145,7 @@ for sm in "${SUBMODULES[@]}"; do
   log "Updating submodule at path: ${sm} ..."
 
   # Initialize to recorded pointer
-  git submodule update --init "$sm"
+  git submodule update --init --no-fetch "$sm"
 
   (
     cd "$sm"

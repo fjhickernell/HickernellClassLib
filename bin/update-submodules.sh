@@ -17,16 +17,13 @@ set -euo pipefail
 #       --push     auto-commit + push
 #
 #   Behavior:
-#     • Detects the "real" repo root:
-#         - If we're inside a submodule:
-#             git rev-parse --show-superproject-working-tree
-#           gives the superproject root (e.g. MATH565Fall2025).
-#         - Otherwise:
-#             git rev-parse --show-toplevel
-#           is used as the root.
-#     • Updates submodules by path:
-#         - classlib      → HickernellClassLib repo (remote tracking)
-#         - qmcsoftware   → QMCSoftware, develop branch
+#     • Detects the "real" superproject root.
+#     • Fast-forwards the superproject (`git pull --ff-only`).
+#     • Initializes submodules.
+#     • Fast-forwards each submodule to its upstream branch:
+#         - classlib → main
+#         - qmcsoftware → develop
+#     • Commits pointer updates if requested.
 # --------------------------------------------------------------------
 
 AUTO_COMMIT=0
@@ -54,9 +51,7 @@ log() {
   echo "[$ts] $*"
 }
 
-# Decide which repo we are really operating on:
-#   - If this script is running from inside a submodule, use the superproject root.
-#   - Otherwise, just use this repo's own top-level.
+# Detect superproject root (if any)
 SUPER_ROOT="$(git rev-parse --show-superproject-working-tree 2>/dev/null || true)"
 if [[ -n "$SUPER_ROOT" ]]; then
   REPO_ROOT="$SUPER_ROOT"
@@ -89,7 +84,7 @@ ensure_clean_worktree() {
     return 0
   fi
 
-  # Check if *only* submodule pointers (classlib/qmcsoftware) are dirty
+  # Check if only submodule pointers are dirty
   local only_submodules=1
   local line path
   while IFS= read -r line; do
@@ -101,48 +96,41 @@ ensure_clean_worktree() {
   done <<< "${ws}"
 
   if (( only_submodules == 1 )); then
-    # If we're auto-committing, just proceed and include them
     if [[ "$AUTO_COMMIT" -eq 1 ]]; then
-      log "Submodule pointers (classlib/qmcsoftware) already modified; will include them in this auto-commit."
+      log "Submodule pointers modified; will include in auto-commit."
       return 0
     fi
 
-    log "Uncommitted changes present — submodule pointers (classlib/qmcsoftware) are modified."
+    log "Uncommitted submodule pointer changes detected."
     echo
     echo "git status --short:"
     echo "${ws}"
     echo
-    echo "This usually means:"
-    echo "  • You pulled new changes and updated submodule pointers."
-    echo "  • A previous run of this script stopped before committing."
-    echo
-    echo "To record these pointer updates, either:"
-    echo "  • run this script again with --commit or --push, or"
-    echo "  • manually run:"
-    echo "      git add classlib qmcsoftware"
-    echo "      git commit -m \"Update submodule pointers\""
-    echo
-    echo "To discard them, run:"
-    echo "  git restore --staged classlib qmcsoftware 2>/dev/null || true"
-    echo "  git submodule update --init --recursive"
-    echo
-    echo "Then re-run:"
-    echo "  ${SCRIPT_PATH}${EXTRA_FLAGS}"
+    echo "Run this script again with --commit or --push, or commit manually."
+    exit 1
   else
-    log "Uncommitted changes present — working tree is not clean."
-    echo
-    echo "git status --short:"
-    echo "${ws}"
-    echo
-    echo "Please commit, stash, or discard these changes before running:"
+    log "Uncommitted non-submodule changes detected."
+    echo "Please commit, stash, or discard them before running:"
     echo "  ${SCRIPT_PATH}${EXTRA_FLAGS}"
+    exit 1
   fi
-  exit 1
 }
 
 ensure_clean_worktree
 
-# IMPORTANT: these are **paths** in the *superproject*, not GitHub names
+# ----------------------------------------------------
+# NEW: Fast-forward the superproject itself
+# ----------------------------------------------------
+log "Fast-forwarding superproject at $REPO_ROOT ..."
+git pull --ff-only || {
+  echo "Error: superproject cannot fast-forward. Resolve manually."
+  exit 1
+}
+
+# ----------------------------------------------------
+# Submodule update + upstream fast-forward
+# ----------------------------------------------------
+
 SUBMODULES=(
   "classlib"
   "qmcsoftware"
@@ -150,26 +138,39 @@ SUBMODULES=(
 
 for sm in "${SUBMODULES[@]}"; do
   if ! grep -q "path = ${sm}" .gitmodules 2>/dev/null; then
-    log "Skipping: no submodule with path '${sm}' in this repo."
+    log "Skipping: no submodule '${sm}' in this repo."
     continue
   fi
 
   log "Updating submodule at path: ${sm} ..."
 
-  if [[ "$sm" == "qmcsoftware" ]]; then
-    git submodule update --init "$sm"
-    (
-      cd "$sm"
-      git fetch origin develop
-      git checkout develop
-      git pull --ff-only origin develop
-    )
-  else
-    git submodule update --init --remote "$sm"
-  fi
+  # Initialize to recorded pointer
+  git submodule update --init "$sm"
+
+  (
+    cd "$sm"
+
+    # Determine branch
+    branch="main"
+    if [[ "$sm" == "qmcsoftware" ]]; then
+      branch="develop"
+    fi
+
+    # NEW: Fast-forward submodule to its upstream branch
+    log "  Fast-forwarding $sm to origin/$branch ..."
+    git fetch origin "$branch"
+    git checkout "$branch" 2>/dev/null || true
+    git pull --ff-only origin "$branch" || {
+      echo "Error: submodule $sm cannot fast-forward. Resolve manually."
+      exit 1
+    }
+  )
 done
 
-# If nothing changed, we are done
+# ----------------------------------------------------
+# Determine whether anything changed and commit if needed
+# ----------------------------------------------------
+
 if [[ -z "$(git status --porcelain)" ]]; then
   log "All submodules already up to date for repo at ${REPO_ROOT}."
   exit 0

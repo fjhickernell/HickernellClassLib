@@ -10,7 +10,7 @@ format:
 
 website:
   navbar:
-    logo: images/normal-scatter.png
+    logo: classlib/classlib/quarto/assets/images/normal-scatter.png
     left:
       - href: index.qmd
         text: Home

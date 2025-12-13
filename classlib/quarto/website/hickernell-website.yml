@@ -1,0 +1,33 @@
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: left
+    css:
+      - classlib/quarto/website/hickernell-website.css
+
+website:
+  navbar:
+    logo: classlib/quarto/website/images/normal-scatter.png
+    left:
+      - href: index.qmd
+        text: Home
+      - href: pages/syllabus.qmd
+        text: Syllabus
+      - href: pages/schedule.qmd
+        text: Schedule
+      - href: pages/homework.qmd
+        text: Homework
+      - href: pages/resources.qmd
+        text: Resources
+      - href: slides/index.qmd
+        text: Slides
+  page-footer:
+    left: "© 2026 Fred J. Hickernell"
+    right: "Illinois Institute of Technology"
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: left

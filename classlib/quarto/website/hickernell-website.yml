@@ -25,9 +25,3 @@ website:
   page-footer:
     left: "© 2026 Fred J. Hickernell"
     right: "Illinois Institute of Technology"
-
-format:
-  html:
-    theme: cosmo
-    toc: true
-    toc-location: left

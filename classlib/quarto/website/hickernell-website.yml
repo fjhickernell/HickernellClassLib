@@ -1,17 +1,12 @@
 # HickernellClassLib/classlib/quarto/website/hickernell-website.yml
 
-project:
-  resources:
-    - classlib/classlib/quarto/website/hickernell-website.css
-    - classlib/classlib/quarto/website/images/normal-scatter.png
-
 format:
   html:
     theme: cosmo
     toc: true
     toc-location: left
     css:
-      - hickernell-website.css
+      - classlib/classlib/quarto/website/hickernell-website.css
 
 website:
   navbar:

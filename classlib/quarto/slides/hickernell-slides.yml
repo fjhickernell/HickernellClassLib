@@ -1,8 +1,10 @@
+# HickernellClassLib/classlib/quarto/slides/hickernell-slides.yml
+
 format:
   revealjs:
-    theme:
-      - simple
-      - ./classlib/classlib/quarto/slides/hickernell-slides.scss
+    theme: simple
+    css: /classlib/classlib/quarto/slides/hickernell-slides.css
+
     slide-number: c/t
     show-slide-number: all
     footer: "© Fred J. Hickernell"
@@ -11,10 +13,12 @@ format:
     margin: 0.00
     center: false
     slide-level: 2
+
     include-in-header:
-      - ./classlib/classlib/quarto/slides/hickernell-latex-macros.js
+      - classlib/classlib/quarto/slides/hickernell-latex-macros.js
+
     title-slide-attributes:
-      data-background-image: ./classlib/classlib/quarto/assets/images/normal-scatter.png
+      data-background-image: /classlib/classlib/quarto/assets/images/normal-scatter.png
       data-background-size: 55%
       data-background-position: "top left"
       data-background-color: "#f5f7fb"

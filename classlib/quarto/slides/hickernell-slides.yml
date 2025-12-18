@@ -15,7 +15,7 @@ format:
     slide-level: 2
 
     include-in-header:
-      - classlib/classlib/quarto/slides/hickernell-latex-macros.js
+      - ../classlib/classlib/quarto/slides/hickernell-latex-macros.js
 
     title-slide-attributes:
       data-background-image: /classlib/classlib/quarto/assets/images/normal-scatter.png

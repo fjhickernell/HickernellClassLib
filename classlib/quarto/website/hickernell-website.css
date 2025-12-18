@@ -32,4 +32,11 @@ th, td { padding: 0.4em 0.6em; vertical-align: top; }
 
 a { text-decoration-thickness: 0.08em; text-underline-offset: 0.15em; }
 
+/* Navbar dropdown menu items: increase readability */
+.navbar .dropdown-menu .dropdown-item {
+  font-size: 1.1rem;
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+}
+
 footer { margin-top: 2rem; }

@@ -1,3 +1,4 @@
+/*-- scss:rules --*/
 :root {
   --header-blue: #004b80;
   /* dark, for title bars */
@@ -33,35 +34,52 @@ body,
 .reveal .slides {
   padding: 0 !important; }
 
-/* Comfortable, symmetric margins for slide content items */
-.reveal .slides section > * {
+/* Apply margins to real content elements, not Quarto/Reveal wrappers */
+.reveal .slides section p,
+.reveal .slides section ul,
+.reveal .slides section ol,
+.reveal .slides section pre,
+.reveal .slides section blockquote,
+.reveal .slides section table,
+.reveal .slides section h1,
+.reveal .slides section h2,
+.reveal .slides section h3,
+.reveal .slides section h4,
+.reveal .slides section figure {
   margin-left: var(--slide-margin);
   margin-right: var(--slide-margin); }
 
-/* Default slide header (minor slides) */
-.reveal section:not(.title-slide) h2 {
+/* ===============================
+   Slide headers for stacked slides
+   #  => h1  (horizontal)
+   ## => h2  (vertical)
+   =============================== */
+.reveal .slides section.slide {
+  padding: 0 !important; }
+
+.reveal .slides section.slide:not(#title-slide) h1,
+.reveal .slides section.slide:not(#title-slide) h2 {
   background-color: var(--header-blue);
   color: #ffffff;
-  /* Make the blue bar full-width and flush to top */
   margin-top: 0 !important;
   margin-bottom: 0.7em;
   margin-left: calc(-1 * var(--slide-margin));
   margin-right: calc(-1 * var(--slide-margin));
-  /* Header text aligned with body text */
   padding: 0.25em var(--slide-margin) 0.25em var(--slide-margin);
   text-indent: 0.8em;
-  /* <<< tiny shift of the header text only */
   border-radius: 0;
   width: 100%;
-  /* let margins control width */
-  font-size: 1.4em;
   font-weight: 700; }
 
-/* Major slides: larger header */
-.reveal section.major h2 {
+/* Size hierarchy: horizontal header a bit larger */
+.reveal section:not(.title-slide) h1 {
   font-size: 1.60em; }
 
-/* Headerless slides */
+.reveal section:not(.title-slide) h2 {
+  font-size: 1.40em; }
+
+/* Headerless slides: hide whichever header level is present */
+.reveal section.headerless h1,
 .reveal section.headerless h2 {
   display: none; }
 
@@ -148,5 +166,24 @@ body,
 /* Prevent flex centering */
 .reveal #title-slide .quarto-title-authors {
   display: block !important; }
+
+/* Fix H1 slides in vertical stacks (stack parent positioning) */
+.reveal:not(.overview) .slides section.title-slide.slide.level1 {
+  top: 0 !important;
+  left: 0 !important;
+  transform: none !important; }
+
+/* Prevent Reveal from centering H1 slides except the real title */
+.reveal:not(.overview)
+.slides section.title-slide.slide.level1:not(#title-slide) {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: 100% !important; }
+
+/* Quarto RevealJS: prevent level2 slide content from being horizontally centered */
+.reveal:not(.overview) .slides section.slide.level2 .slide-content {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: none !important; }
 
 /*# sourceMappingURL=hickernell-slides.css.map */

@@ -1,2 +1,35 @@
-html { font-size: 19px; }
-body { line-height: 1.35; }
+/*
+ * hickernell-website.css
+ *
+ * Shared website styles for HickernellClassLib
+ * - Loaded via root-relative path (/classlib/...)
+ * - Applied to Quarto website pages (not RevealJS slides)
+ * - Designed for teaching readability on large screens & projectors
+ */
+
+/* --------------------------------------------------
+   Base typography (override Bootstrap/Quarto defaults)
+-------------------------------------------------- */
+
+body,
+main,
+.content,
+.quarto-container {
+  font-size: 21px !important;
+}
+
+body {
+  line-height: 1.6;
+}
+
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.45rem; }
+h4 { font-size: 1.2rem; }
+
+table { font-size: 1em; }
+th, td { padding: 0.4em 0.6em; vertical-align: top; }
+
+a { text-decoration-thickness: 0.08em; text-underline-offset: 0.15em; }
+
+footer { margin-top: 2rem; }

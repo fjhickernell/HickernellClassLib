@@ -2,6 +2,12 @@
 
 format:
   html:
+    page-layout: article
+    grid:
+      sidebar-width: 340px
+      body-width: 1800px
+      margin-width: 0px
+      gutter-width: 1.25rem
     theme: cosmo
     toc: true
     toc-location: left

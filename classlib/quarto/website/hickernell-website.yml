@@ -1,5 +1,14 @@
 # HickernellClassLib/classlib/quarto/website/hickernell-website.yml
 
+# NOTE (IMPORTANT):
+# This file controls *layout and styling only* (format, grid, typography, CSS).
+#
+# Do NOT put `website:` / navbar / footer / site title here.
+# Quarto requires navigation (website.navbar, page-footer, title)
+# to live in the project-level _quarto.yml.
+#
+# If the navbar disappears, check _quarto.yml first.
+
 format:
   html:
     page-layout: article

@@ -6,11 +6,11 @@ format:
     toc: true
     toc-location: left
     css:
-      - classlib/classlib/quarto/website/hickernell-website.css
+      - /classlib/classlib/quarto/website/hickernell-website.css
 
 website:
   navbar:
-    logo: classlib/classlib/quarto/assets/images/normal-scatter.png
+    logo: /classlib/classlib/quarto/assets/images/normal-scatter.png
     left:
       - href: index.qmd
         text: Home
@@ -22,8 +22,6 @@ website:
         text: Homework
       - href: pages/resources.qmd
         text: Resources
-      - href: slides/index.qmd
-        text: Slides
   page-footer:
     left: "© 2026 Fred J. Hickernell"
     right: "Illinois Institute of Technology"

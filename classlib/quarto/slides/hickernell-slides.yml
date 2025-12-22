@@ -19,6 +19,5 @@ format:
     title-slide-attributes:
       data-background-image: /classlib/classlib/quarto/assets/images/normal-scatter.png
       data-background-size: 55%
-      data-background-size: 55%
       data-background-position: "top left"
       data-background-color: "#f5f7fb"

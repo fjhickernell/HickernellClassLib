@@ -4,6 +4,7 @@
   --header-blue: #004b80;   /* dark, for title bars */
   --accent-blue: #007acc;   /* bright, for accents */
   --slide-margin: 1.3em;    /* adjust this only if you want more/less side space */
+  --gold-border: #c9a23a;
 }
 
 /* Remove browser + Reveal outer margins (fix fullscreen white strip) */
@@ -51,6 +52,15 @@ body,
 .reveal .slides section figure {
   margin-left: var(--slide-margin);
   margin-right: var(--slide-margin);
+}
+
+/*===============================
+   Slide border styling
+   =============================== */ 
+.reveal .slides section.slide {
+  box-sizing: border-box;
+  border: 6px solid var(--gold-border);
+  border-radius: 12px;
 }
 
 /* ===============================

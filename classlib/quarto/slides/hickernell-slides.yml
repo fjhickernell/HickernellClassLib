@@ -2,8 +2,9 @@
 
 format:
   revealjs:
-    theme: simple
-    css: /classlib/classlib/quarto/slides/hickernell-slides.scss
+    theme: 
+      -simple
+      -hickernell-slides.scss
 
     slide-number: c/t
     show-slide-number: all

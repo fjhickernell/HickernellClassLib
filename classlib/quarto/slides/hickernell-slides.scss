@@ -109,6 +109,10 @@ body,
   margin-top: 0.8em;
 }
 
+.reveal .slides section h3:first-of-type {
+  margin-top: 2.5em;
+}
+
 /* Alert-style text (like Beamer \alert) */
 .reveal .alert {
   color: var(--accent-blue);

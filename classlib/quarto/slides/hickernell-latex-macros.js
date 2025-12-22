@@ -33,6 +33,20 @@ MathJax.Hub.Config({
       vol:   "{\\operatorname{vol}}",
       bias:  "{\\operatorname{bias}}",
 
+      Ber:   "{\\operatorname{Ber}}",
+      Bin:   "{\\operatorname{Bin}}",
+      Unif:  "{\\operatorname{Unif}}",
+      Norm:  "{\\operatorname{N}}",
+      Exp:   "{\\operatorname{Exp}}",
+      Pois:  "{\\operatorname{Pois}}",
+      Geom:  "{\\operatorname{Geom}}",
+      Cauchy:"{\\operatorname{Cauchy}}",
+      Laplace:"{\\operatorname{Laplace}}",
+      Gamma: "{\\operatorname{Gamma}}",
+      Beta:  "{\\operatorname{Beta}}",
+      Weibull:"{\\operatorname{Weibull}}",
+      Lognorm:"{\\operatorname{Lognormal}}",
+
       Var: "{\\operatorname{Var}}",
       Cov: "{\\operatorname{Cov}}",
 

@@ -5,6 +5,9 @@ __pycache__/
 *.pyo
 *.pyd
 
+*ipynb_checkpoints
+*.jupyter*
+
 # C extensions
 *.so
 

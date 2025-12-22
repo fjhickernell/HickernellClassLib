@@ -1,10 +1,8 @@
-# HickernellClassLib/classlib/quarto/slides/hickernell-slides.yml
-
 format:
   revealjs:
-    theme: 
-      -simple
-      -hickernell-slides.scss
+    theme:
+      - simple
+      - hickernell-slides.scss
 
     slide-number: c/t
     show-slide-number: all
@@ -16,7 +14,7 @@ format:
     slide-level: 2
 
     include-in-header:
-      - ../classlib/classlib/quarto/slides/hickernell-latex-macros.js
+      - hickernell-latex-macros.js
 
     title-slide-attributes:
       data-background-image: /classlib/classlib/quarto/assets/images/normal-scatter.png

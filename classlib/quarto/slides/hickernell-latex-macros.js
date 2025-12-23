@@ -227,6 +227,11 @@ MathJax.Hub.Config({
       fh: "{\\mathfrak{h}}",
       fu: "{\\mathfrak{u}}",
 
+      // --- Bar ---
+      barX: "{\\overbar{x}}",     
+      barY: "{\\overbar{Y}}",
+      barZ: "{\\overbar{Z}}",
+
       // --- Constants ---
       me:  "{\\mathrm{e}}",
       mi:  "{\\mathrm{i}}",

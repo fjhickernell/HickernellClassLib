@@ -33,7 +33,7 @@ MathJax.Hub.Config({
       vol:   "{\\operatorname{vol}}",
       bias:  "{\\operatorname{bias}}",
 
-      Ber:   "{\\operatorname{Ber}}",
+      Bern:   "{\\operatorname{Bern}}",
       Bin:   "{\\operatorname{Bin}}",
       Unif:  "{\\operatorname{Unif}}",
       Norm:  "{\\operatorname{N}}",

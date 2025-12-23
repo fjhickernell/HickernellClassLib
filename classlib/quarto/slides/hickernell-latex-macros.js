@@ -65,7 +65,7 @@ MathJax.Hub.Config({
       // --- IID / LD ---
       IIDsim: "{\\overset{\\text{IID}}{\\sim}}",
       LDsim:  "{\\overset{\\text{LD}}{\\sim}}",
-      appxsim: "{\\overset{\cdot}{\\sim}}",
+      appxsim: "{\\overset{\\cdot}{\\sim}}",
 
       // --- Sets ---
       naturals:  "{\\mathbb{N}}",

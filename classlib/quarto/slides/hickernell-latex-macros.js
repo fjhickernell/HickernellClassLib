@@ -63,9 +63,9 @@ MathJax.Hub.Config({
       Order: "{\\mathcal{O}}",
 
       // --- IID / LD ---
-      IIDsim: "{\\overset{\\text{IID}}{\\sim}}",
-      LDsim:  "{\\overset{\\text{LD}}{\\sim}}",
-      appxsim: "{\\overset{\\cdot}{\\sim}}",
+      IIDsim: "{\\stackrel{\\text{IID}}{\\sim}}",
+      LDsim:  "{\\stackrel{\\text{LD}}{\\sim}}",
+      appxsim: "{\\stackrel{\\cdot}{\\sim}}",
 
       // --- Sets ---
       naturals:  "{\\mathbb{N}}",

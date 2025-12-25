@@ -1,5 +1,9 @@
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
+  "HTML-CSS": {
+    webFont: "TeX",
+    mtextFontInherit: true
+  },
   TeX: {
     Macros: {
 

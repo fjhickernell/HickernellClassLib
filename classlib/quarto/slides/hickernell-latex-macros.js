@@ -7,6 +7,9 @@ MathJax.Hub.Config({
   TeX: {
     Macros: {
 
+      // --- RevealJS fragments (Beamer-style) ---
+      frag: ["{\\class{fragment}{#2}}", 2],
+
       // --- Probability / statistics operators ---
       success: "{\\operatorname{succ}}",
       sinc:    "{\\operatorname{sinc}}",

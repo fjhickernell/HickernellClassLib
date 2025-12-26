@@ -1,16 +1,44 @@
 <script>
-window.MathJax = {
+  window.MathJax = {
   startup: {
     typeset: false,
     pageReady: () => {
+      const typesetAndLayout = (() => {
+        let busy = false;
+        let queued = false;
+
+        const run = async () => {
+          if (busy) {
+            queued = true;
+            return;
+          }
+          busy = true;
+          queued = false;
+
+          try {
+            await MathJax.typesetPromise();
+            if (window.Reveal && typeof Reveal.layout === "function") {
+              Reveal.layout();
+            }
+          } finally {
+            busy = false;
+            if (queued) {
+              requestAnimationFrame(run);
+            }
+          }
+        };
+
+        return () => requestAnimationFrame(run);
+      })();
+
       return MathJax.startup.defaultPageReady().then(() => {
         if (window.Reveal) {
-          const typeset = () => MathJax.typesetPromise();
-          Reveal.on('ready', typeset);
-          Reveal.on('slidechanged', typeset);
-          Reveal.on('fragmentshown', typeset);
-          Reveal.on('fragmenthidden', typeset);
+          Reveal.on("ready", typesetAndLayout);
+          Reveal.on("slidechanged", typesetAndLayout);
+          Reveal.on("fragmentshown", typesetAndLayout);
+          Reveal.on("fragmenthidden", typesetAndLayout);
         }
+        typesetAndLayout();
       });
     }
   },

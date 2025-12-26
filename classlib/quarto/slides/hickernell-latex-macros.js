@@ -108,8 +108,8 @@
       nullspace: "{\\operatorname{null}}",
       Order: "{\\mathcal{O}}",
 
-      IIDsim: "\\mathrel{\\stackrel{\\text{IID}}{\\sim}}",
-      LDsim:  "\\mathrel{\\stackrel{\\text{LD}}{\\sim}}",
+      IIDsim: "\\mathrel{\\stackrel{\\mathrm{IID}}{\\sim}}",
+      LDsim:  "\\mathrel{\\stackrel{\\mathrm{LD}}{\\sim}}",
       appxsim: "\\mathrel{\\stackrel{\\cdot}{\\sim}}",
 
       naturals:  "{\\mathbb{N}}",

@@ -151,10 +151,15 @@
 
     const doReload = () => setTimeout(() => location.reload(), 250);
 
-    if (document.readyState === "complete") {
-      doReload();
-    } else {
-      window.addEventListener("load", doReload, { once: true });
-    }
+    const hook = () => {
+      if (window.Reveal) {
+        Reveal.on("ready", doReload);
+      } else {
+        doReload();
+      }
+    };
+
+    if (document.readyState === "complete") hook();
+    else window.addEventListener("load", hook, { once: true });
   })();
 </script>

@@ -43,9 +43,11 @@
       }
     },
     
-    chtml: {
-      mtextInheritFont: true
+    svg: {
+      mtextInheritFont: true,
+      fontCache: "global"
     },
+    
     tex: {
       macros: {
 
@@ -144,22 +146,4 @@
       }
     }
   };
-
-  (() => {
-    if (sessionStorage.getItem("fh_slide_refreshed_once")) return;
-    sessionStorage.setItem("fh_slide_refreshed_once", "1");
-
-    const doReload = () => setTimeout(() => location.reload(), 250);
-
-    const hook = () => {
-      if (window.Reveal) {
-        Reveal.on("ready", doReload);
-      } else {
-        doReload();
-      }
-    };
-
-    if (document.readyState === "complete") hook();
-    else window.addEventListener("load", hook, { once: true });
-  })();
 </script>

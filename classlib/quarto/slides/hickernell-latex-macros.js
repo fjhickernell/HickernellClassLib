@@ -148,8 +148,13 @@
   (() => {
     if (sessionStorage.getItem("fh_slide_refreshed_once")) return;
     sessionStorage.setItem("fh_slide_refreshed_once", "1");
-    window.addEventListener("load", () => {
-      setTimeout(() => location.reload(), 250);
-    });
+
+    const doReload = () => setTimeout(() => location.reload(), 250);
+
+    if (document.readyState === "complete") {
+      doReload();
+    } else {
+      window.addEventListener("load", doReload, { once: true });
+    }
   })();
 </script>

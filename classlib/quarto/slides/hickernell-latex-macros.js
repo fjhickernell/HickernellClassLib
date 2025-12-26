@@ -1,16 +1,12 @@
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  "HTML-CSS": {
-    webFont: "TeX",
-    mtextFontInherit: true
+<script>
+window.MathJax = {
+  chtml: {
+    mtextInheritFont: true
   },
-  TeX: {
-    Macros: {
-
-      // --- RevealJS fragments (Beamer-style) ---
+  tex: {
+    macros: {
       frag: ["{\\class{fragment}{#2}}", 2],
 
-      // --- Probability / statistics operators ---
       success: "{\\operatorname{succ}}",
       sinc:    "{\\operatorname{sinc}}",
       sech:    "{\\operatorname{sech}}",
@@ -69,12 +65,10 @@ MathJax.Hub.Config({
       nullspace: "{\\operatorname{null}}",
       Order: "{\\mathcal{O}}",
 
-      // --- IID / LD ---
       IIDsim: "\\stackrel{\\text{IID}}{\\sim}",
       LDsim:  "\\stackrel{\\text{LD}}{\\sim}",
       appxsim: "\\stackrel{\\cdot}{\\sim}",
 
-      // --- Sets ---
       naturals:  "{\\mathbb{N}}",
       natzero:   "{\\mathbb{N}_0}",
       integers:  "{\\mathbb{Z}}",
@@ -82,12 +76,10 @@ MathJax.Hub.Config({
       reals:     "{\\mathbb{R}}",
       complex:   "{\\mathbb{C}}",
 
-      // --- Norms, abs, inner products ---
       abs:  ["{\\left\\lvert #1 \\right\\rvert}", 1],
       norm: ["{\\left\\lVert #1 \\right\\rVert}", 1],
       ip:   ["{\\left\\langle #1, #2 \\right\\rangle}", 2],
 
-      // --- Bold vectors ---
       bvec: ["{\\boldsymbol{#1}}", 1],
       avec: ["{\\vec{#1}}", 1],
       vecsym: ["{\\boldsymbol{#1}}", 1],
@@ -96,158 +88,16 @@ MathJax.Hub.Config({
       vone:  "{\\boldsymbol{1}}",
       vinf:  "{\\boldsymbol{\\infty}}",
 
-      // Latin vector names (boldsymbol)
-      va: "{\\boldsymbol{a}}",
-      vA: "{\\boldsymbol{A}}",
-      vb: "{\\boldsymbol{b}}",
-      vB: "{\\boldsymbol{B}}",
-      vc: "{\\boldsymbol{c}}",
-      vC: "{\\boldsymbol{C}}",
-      vd: "{\\boldsymbol{d}}",
-      vD: "{\\boldsymbol{D}}",
-      ve: "{\\boldsymbol{e}}",
-      vf: "{\\boldsymbol{f}}",
-      vF: "{\\boldsymbol{F}}",
-      vg: "{\\boldsymbol{g}}",
-      vG: "{\\boldsymbol{G}}",
-      vh: "{\\boldsymbol{h}}",
-      vH: "{\\boldsymbol{H}}",
-      vi: "{\\boldsymbol{i}}",
-      vj: "{\\boldsymbol{j}}",
-      vk: "{\\boldsymbol{k}}",
-      vK: "{\\boldsymbol{K}}",
-      vl: "{\\boldsymbol{l}}",
-      vell: "{\\boldsymbol{\\ell}}",
-      vL: "{\\boldsymbol{L}}",
-      vm: "{\\boldsymbol{m}}",
-      vp: "{\\boldsymbol{p}}",
-      vq: "{\\boldsymbol{q}}",
-      vr: "{\\boldsymbol{r}}",
-      vs: "{\\boldsymbol{s}}",
-      vS: "{\\boldsymbol{S}}",
-      vt: "{\\boldsymbol{t}}",
-      vT: "{\\boldsymbol{T}}",
-      vu: "{\\boldsymbol{u}}",
-      vU: "{\\boldsymbol{U}}",
-      vv: "{\\boldsymbol{v}}",
-      vV: "{\\boldsymbol{V}}",
-      vw: "{\\boldsymbol{w}}",
-      vW: "{\\boldsymbol{W}}",
-      vx: "{\\boldsymbol{x}}",
-      vX: "{\\boldsymbol{X}}",
-      vy: "{\\boldsymbol{y}}",
-      vY: "{\\boldsymbol{Y}}",
-      vz: "{\\boldsymbol{z}}",
-      vZ: "{\\boldsymbol{Z}}",
-
-      // Greek vector names (boldsymbol)
-      valpha:  "{\\boldsymbol{\\alpha}}",
-      vbeta:   "{\\boldsymbol{\\beta}}",
-      vgamma:  "{\\boldsymbol{\\gamma}}",
-      vGamma:  "{\\boldsymbol{\\Gamma}}",
-      vdelta:  "{\\boldsymbol{\\delta}}",
-      vDelta:  "{\\boldsymbol{\\Delta}}",
-      vphi:    "{\\boldsymbol{\\phi}}",
-      vvphi:   "{\\boldsymbol{\\varphi}}",
-      vPhi:    "{\\boldsymbol{\\Phi}}",
-      vomega:  "{\\boldsymbol{\\omega}}",
-      vkappa:  "{\\boldsymbol{\\kappa}}",
-      vlambda: "{\\boldsymbol{\\lambda}}",
-      vmu:     "{\\boldsymbol{\\mu}}",
-      vnu:     "{\\boldsymbol{\\nu}}",
-      vpsi:    "{\\boldsymbol{\\psi}}",
-      vPsi:    "{\\boldsymbol{\\Psi}}",
-      vepsilon: "{\\boldsymbol{\\epsilon}}",
-      veps:     "{\\boldsymbol{\\varepsilon}}",
-      veta:     "{\\boldsymbol{\\eta}}",
-      vxi:      "{\\boldsymbol{\\xi}}",
-      vtheta:   "{\\boldsymbol{\\theta}}",
-      vtau:     "{\\boldsymbol{\\tau}}",
-      vzeta:    "{\\boldsymbol{\\zeta}}",
-
-      // --- Matrices (mathsf) ---
-      mA: "{\\mathsf{A}}",
-      mB: "{\\mathsf{B}}",
-      mC: "{\\mathsf{C}}",
-      vmC: "{\\boldsymbol{\\mathsf{C}}}",
-      mD: "{\\mathsf{D}}",
-      mF: "{\\mathsf{F}}",
-      mG: "{\\mathsf{G}}",
-      mH: "{\\mathsf{H}}",
-      mI: "{\\mathsf{I}}",
-      mK: "{\\mathsf{K}}",
-      mL: "{\\mathsf{L}}",
-      mM: "{\\mathsf{M}}",
-      mP: "{\\mathsf{P}}",
-      mQ: "{\\mathsf{Q}}",
-      mR: "{\\mathsf{R}}",
-      mS: "{\\mathsf{S}}",
-      mT: "{\\mathsf{T}}",
-      mU: "{\\mathsf{U}}",
-      mV: "{\\mathsf{V}}",
-      mW: "{\\mathsf{W}}",
-      mX: "{\\mathsf{X}}",
-      mY: "{\\mathsf{Y}}",
-      mZ: "{\\mathsf{Z}}",
-      mLambda: "{\\mathsf{\\Lambda}}",
-      mSigma:  "{\\mathsf{\\Sigma}}",
-      mzero:   "{\\mathsf{0}}",
-      mGamma:  "{\\mathsf{\\Gamma}}",
-
-      // --- Calligraphic ---
-      ca: "{\\mathcal{A}}",
-      cb: "{\\mathcal{B}}",
-      cc: "{\\mathcal{C}}",
-      cd: "{\\mathcal{D}}",
-      ce: "{\\mathcal{E}}",
-      cf: "{\\mathcal{F}}",
-      cg: "{\\mathcal{G}}",
-      ch: "{\\mathcal{H}}",
-      ci: "{\\mathcal{I}}",
-      cj: "{\\mathcal{J}}",
-      ck: "{\\mathcal{K}}",
-      cl: "{\\mathcal{L}}",
-      cm: "{\\mathcal{M}}",
-      cn: "{\\mathcal{N}}",
-      cp: "{\\mathcal{P}}",
-      cq: "{\\mathcal{Q}}",
-      calr: "{\\mathcal{R}}",
-      cs: "{\\mathcal{S}}",
-      ct: "{\\mathcal{T}}",
-      cu: "{\\mathcal{U}}",
-      cv: "{\\mathcal{V}}",
-      cw: "{\\mathcal{W}}",
-      cx: "{\\mathcal{X}}",
-      cy: "{\\mathcal{Y}}",
-      cz: "{\\mathcal{Z}}",
-
-      // --- Blackboard bold ---
-      bbE: "{\\mathbb{E}}",
-      bbF: "{\\mathbb{F}}",
-      bbK: "{\\mathbb{K}}",
-      bbV: "{\\mathbb{V}}",
-      bbZ: "{\\mathbb{Z}}",
-      bbone: "{\\boldsymbol{1}}",
-
-      // --- Fraktur ---
-      fc: "{\\mathfrak{c}}",
-      fC: "{\\mathfrak{C}}",
-      fh: "{\\mathfrak{h}}",
-      fu: "{\\mathfrak{u}}",
-
-      // --- Bar ---
-      barX: "{\\overline{X}}",     
+      barX: "{\\overline{X}}",
       barY: "{\\overline{Y}}",
       barZ: "{\\overline{Z}}",
 
-      // --- Constants ---
       me:  "{\\mathrm{e}}",
       mi:  "{\\mathrm{i}}",
       mpi: "{\\mathrm{\\pi}}",
 
-      // Differential
       dif: "{\\mathrm{d}}"
     }
   }
-});
+};
 </script>

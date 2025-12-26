@@ -1,10 +1,25 @@
 <script>
 window.MathJax = {
+  startup: {
+    typeset: false,
+    pageReady: () => {
+      return MathJax.startup.defaultPageReady().then(() => {
+        if (window.Reveal) {
+          const typeset = () => MathJax.typesetPromise();
+          Reveal.on('ready', typeset);
+          Reveal.on('slidechanged', typeset);
+          Reveal.on('fragmentshown', typeset);
+          Reveal.on('fragmenthidden', typeset);
+        }
+      });
+    }
+  },
   chtml: {
     mtextInheritFont: true
   },
   tex: {
     macros: {
+
       frag: ["{\\class{fragment}{#2}}", 2],
 
       success: "{\\operatorname{succ}}",
@@ -65,9 +80,9 @@ window.MathJax = {
       nullspace: "{\\operatorname{null}}",
       Order: "{\\mathcal{O}}",
 
-      IIDsim: "\\stackrel{\\text{IID}}{\\sim}",
-      LDsim:  "\\stackrel{\\text{LD}}{\\sim}",
-      appxsim: "\\stackrel{\\cdot}{\\sim}",
+      IIDsim: "\\mathrel{\\stackrel{\\text{IID}}{\\sim}}",
+      LDsim:  "\\mathrel{\\stackrel{\\text{LD}}{\\sim}}",
+      appxsim: "\\mathrel{\\stackrel{\\cdot}{\\sim}}",
 
       naturals:  "{\\mathbb{N}}",
       natzero:   "{\\mathbb{N}_0}",

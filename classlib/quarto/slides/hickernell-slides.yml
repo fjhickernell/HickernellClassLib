@@ -1,5 +1,15 @@
 format:
   revealjs:
+    navigation-mode: grid
+    controls: true
+
+    html-math-method:
+      method: mathjax
+      url: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js
+
+    include-in-header:
+      - ../classlib/classlib/quarto/slides/hickernell-latex-macros.js
+
     theme:
       - simple
       - ../classlib/classlib/quarto/slides/hickernell-slides.scss
@@ -12,9 +22,6 @@ format:
     margin: 0.00
     center: false
     slide-level: 2
-
-    include-in-header:
-      - ../classlib/classlib/quarto/slides/hickernell-latex-macros.js
 
     title-slide-attributes:
       data-background-image: /classlib/classlib/quarto/assets/images/normal-scatter.png

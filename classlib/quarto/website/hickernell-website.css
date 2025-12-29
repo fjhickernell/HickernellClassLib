@@ -43,9 +43,11 @@ footer { margin-top: 2rem; }
 
 .instructor-photo {
   float: right;
-  width: 300px
   margin-left: 1rem;
   margin-bottom: 0.75rem;
+  width: 300px;
+  max-width: 100%;
+  height: auto;
 }
 
 @media (max-width: 768px) {

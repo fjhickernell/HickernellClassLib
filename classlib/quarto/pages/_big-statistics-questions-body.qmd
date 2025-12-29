@@ -1,0 +1,82 @@
+### Filter by course {#filter}
+
+```{=html}
+<div class="stats-filter">
+  <div class="stats-filter-left">
+    <label><input type="checkbox" checked data-filter="476"> MATH 476</label>
+    <label><input type="checkbox" checked data-filter="563"> MATH 563</label>
+    <label><input type="checkbox" checked data-filter="565"> MATH 565</label>
+  </div>
+  <div id="filter-note" class="stats-filter-right"></div>
+</div>
+
+<nav class="stats-jump" aria-label="Jump to section">
+  <a href="#sampling">Sampling</a>
+  <a href="#point-estimation">Point Estimation</a>
+</nav>
+```
+---
+
+### Sampling {#sampling}
+
+```{=html}
+<div class="stats-headrow">
+  <div class="stats-col-course"><strong>Course(s)</strong></div>
+  <div class="stats-col-q"><strong>Big question</strong></div>
+</div>
+
+<div class="stats-q" data-course="476 563">
+  <div class="stats-col-course">476, 563, 565</div>
+  <div class="stats-col-q">
+    <div class="stats-q-title">What is the population?</div>
+    American adults? Units from a production line? Students with bachelor's degree?
+  </div>
+</div>
+
+<div class="stats-q" data-course="476">
+  <div class="stats-col-course">476</div>
+  <div class="stats-col-q">
+    <div class="stats-q-title">What can go wrong between intended and actual sampling?</div>
+    <ul>
+      <li>Nonresponse and missingness (informal preview)</li>
+      <li>Measurement error</li>
+      <li>Coverage error</li>
+    </ul>
+  </div>
+</div>
+```
+
+---
+
+### Point Estimation {#point-estimation}
+
+```{=html}
+<div class="stats-headrow">
+  <div class="stats-col-course"><strong>Course(s)</strong></div>
+  <div class="stats-col-q"><strong>Big question</strong></div>
+</div>
+
+<div class="stats-q" data-course="476 563">
+  <div class="stats-col-course">476, 563</div>
+  <div class="stats-col-q">
+    <div class="stats-q-title">What is the estimand?</div>
+    <ul>
+      <li>Parameter vs functional of a distribution</li>
+      <li>What does it mean in context?</li>
+      <li>What is random, what is fixed?</li>
+    </ul>
+  </div>
+</div>
+
+<div class="stats-q" data-course="563">
+  <div class="stats-col-course">563</div>
+  <div class="stats-col-q">
+    <div class="stats-q-title">What makes an estimator “optimal”?</div>
+    <ul>
+      <li>Loss functions and risk</li>
+      <li>Invariance/equivariance (as appropriate)</li>
+      <li>Benchmarks and lower bounds (when assumptions hold)</li>
+    </ul>
+  </div>
+</div>
+```

@@ -1,3 +1,4 @@
+<div class="stats-qs">
 ### Filter by course {#filter}
 
 ```{=html}
@@ -55,8 +56,6 @@
 </div>
 ```
 
----
-
 ### Point Estimation {#point-estimation}
 
 ```{=html}
@@ -89,3 +88,4 @@
   </div>
 </div>
 ```
+</div>

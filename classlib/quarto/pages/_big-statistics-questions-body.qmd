@@ -15,7 +15,7 @@
   <a href="#point-estimation">Point Estimation</a>
 </nav>
 ```
-<hr class="stats-section-rule">
+
 ---
 
 ### Sampling {#sampling}

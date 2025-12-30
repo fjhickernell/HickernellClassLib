@@ -29,8 +29,8 @@
 }
 .stats-headrow {
   padding: 0.25rem 0;
-  border-bottom: 1px solid rgba(0,0,0,0.25);
-  margin-bottom: 0.5rem;
+  border-bottom: none;
+  margin-bottom: 0.25rem;
 }
 .stats-q {
   padding: 0.0rem 0;
@@ -39,6 +39,12 @@
 .stats-q-title { font-weight: 600; margin-bottom: 0 rem; }
 .stats-col-q ul { margin-top: 0; margin-bottom: 0; padding-left: 1.1rem;}
 .stats-col-q li { margin-bottom: 0.1rem;}
+
+.stats-section-rule {
+  border: none;
+  border-top: 1px solid rgba(0,0,0,0.25);
+  margin: 0.5rem 0 0.75rem 0;
+}
 
 /* Slightly smaller section headings */
 h3 { margin-top: 1.25rem; }

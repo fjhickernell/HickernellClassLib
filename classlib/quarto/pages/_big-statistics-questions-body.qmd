@@ -3,9 +3,9 @@
 ```{=html}
 <div class="stats-filter">
   <div class="stats-filter-left">
-    <label><input type="checkbox" checked data-filter="476"> MATH 476</label>
-    <label><input type="checkbox" checked data-filter="563"> MATH 563</label>
-    <label><input type="checkbox" checked data-filter="565"> MATH 565</label>
+    <label><input type="checkbox" checked data-filter="476"> MATH 476 Statistics</label>
+    <label><input type="checkbox" checked data-filter="563"> MATH 563 Mathematical Statistics</label>
+    <label><input type="checkbox" checked data-filter="565"> MATH 565 Monte Carlo Methods</label>
   </div>
   <div id="filter-note" class="stats-filter-right"></div>
 </div>

@@ -2,23 +2,19 @@
  * hickernell-website.css
  *
  * Shared website styles for HickernellClassLib
- * - Loaded via root-relative path (/classlib/...)
  * - Applied to Quarto website pages (not RevealJS slides)
- * - Designed for teaching readability on large screens & projectors
+ * - Optimized for teaching readability on large screens & projectors
  */
 
 /* --------------------------------------------------
-   Base typography (override Bootstrap/Quarto defaults)
+   Base typography (override Bootstrap / Quarto defaults)
 -------------------------------------------------- */
 
-body,
-main,
-.content,
-.quarto-container {
-  font-size: 21px !important;
+html {
+  font-size: 21px;
 }
 
-body {
+main.content {
   line-height: 1.6;
 }
 
@@ -27,35 +23,83 @@ h2 { font-size: 1.8rem; }
 h3 { font-size: 1.45rem; }
 h4 { font-size: 1.2rem; }
 
-table { font-size: 1em; }
-th, td { padding: 0.4em 0.6em; vertical-align: top; }
+table {
+  font-size: 1em;
+  line-height: 1.4;
+}
 
-a { text-decoration-thickness: 0.08em; text-underline-offset: 0.15em; }
+th,
+td {
+  padding: 0.4em 0.6em;
+  vertical-align: top;
+}
 
-/* Navbar dropdown menu items: increase readability */
+a {
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.15em;
+}
+
+/* --------------------------------------------------
+   Navbar
+-------------------------------------------------- */
+
+/* Increase dropdown readability */
 .navbar .dropdown-menu .dropdown-item {
   font-size: 1.1rem;
   padding-top: 0.45rem;
   padding-bottom: 0.45rem;
 }
 
-footer { margin-top: 2rem; }
+/* --------------------------------------------------
+   Horizontal rules
+-------------------------------------------------- */
+
+main.content hr {
+  opacity: 1;
+  background: none;
+  height: 0;
+  border: 0;
+  border-top: 2px solid #bbb;
+  margin: 1.5rem 0;
+}
+
+/* --------------------------------------------------
+   Section heading separators
+-------------------------------------------------- */
+
+main.content h2 {
+  border-bottom: 2px solid #bbb;
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+/* --------------------------------------------------
+   Footer
+-------------------------------------------------- */
+
+footer {
+  margin-top: 2rem;
+}
+
+/* --------------------------------------------------
+   Instructor photo
+-------------------------------------------------- */
 
 .instructor-photo {
   float: right;
-  margin-left: 1rem;
-  margin-bottom: 0.75rem;
   width: 300px;
   max-width: 100%;
   height: auto;
+  margin-left: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 @media (max-width: 768px) {
   .instructor-photo {
     float: none;
     display: block;
-    max-width: 300px;
     width: 80%;
+    max-width: 300px;
     margin: 0 auto 1rem auto;
   }
 }

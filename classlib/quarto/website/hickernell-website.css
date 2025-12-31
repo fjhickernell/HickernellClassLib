@@ -11,7 +11,7 @@
 -------------------------------------------------- */
 
 html {
-  font-size: 21px;
+  font-size: 21px; !important
 }
 
 main.content {
@@ -79,6 +79,26 @@ main.content h2 {
 
 footer {
   margin-top: 2rem;
+}
+
+:root {
+  --bs-body-font-size: 21px;
+}
+
+body {
+  font-size: var(--bs-body-font-size) !important;
+}
+
+main.content {
+  font-size: 21px;
+  color: #222;
+}
+
+main.content h1,
+main.content h2,
+main.content h3,
+main.content h4 {
+  color: #111;
 }
 
 /* --------------------------------------------------

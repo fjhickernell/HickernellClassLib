@@ -27,6 +27,7 @@ import pandas as pd
 __all__ = [
     "init", "configure", "savefig",
     "set_tol_color_cycle", "set_highlight_color",
+    "tol_colors",
     "fit_log_trend", "plot_log_trend_line",
     "TOL_BRIGHT", "TOL_BRIGHT_ORDER", "TINY", 
     "note",  "note_md",
@@ -261,7 +262,15 @@ def set_highlight_color(color: str = DEFAULT_HIGHLIGHT_COLOR) -> None:
     """Update the highlight color mid-notebook (replaces style block)."""
     _inject_css(color)
 
-
+def tol_colors(n: int, *, order: Iterable[int | str] | None = None) -> list[str]:
+    """Return n Tol Bright colors (hex). Repeats/cycles if n exceeds palette size."""
+    if n < 0:
+        raise ValueError("n must be nonnegative")
+    base = _tol_list(order)
+    if n <= len(base):
+        return base[:n]
+    return [base[i % len(base)] for i in range(n)]
+    
 # ---- Public: log–log trend fitting and plotting ----
 
 def fit_log_trend(

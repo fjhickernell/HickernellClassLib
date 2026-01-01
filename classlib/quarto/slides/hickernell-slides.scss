@@ -54,6 +54,12 @@ body,
   margin-right: var(--slide-margin);
 }
 
+.reveal .slides section .columns {
+  margin-left: var(--slide-margin) !important;
+  margin-right: var(--slide-margin) !important;
+  width: calc(100% - 2 * var(--slide-margin)) !important;
+}
+
 /* Solid gold/orange border on selected slides */
 html.goldborder::before,
 body.goldborder::before,

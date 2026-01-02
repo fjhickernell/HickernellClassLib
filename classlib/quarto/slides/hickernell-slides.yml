@@ -2,7 +2,8 @@ format:
   revealjs:
     navigation-mode: grid
     controls: true
-
+    reveal-options:
+      disableLayout: true
     html-math-method:
       method: mathjax
       url: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js

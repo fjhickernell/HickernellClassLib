@@ -1,10 +1,9 @@
 /*-- scss:rules --*/
 
 :root {
-  --header-blue: #004b80;   /* dark, for title bars */
-  --accent-blue: #007acc;   /* bright, for accents */
-  --slide-margin: 1.3em;    /* adjust this only if you want more/less side space */
-  --gold-border: #c9a23a;
+  --header-blue: #004b80;
+  --accent-blue: #007acc;
+  --slide-margin: 1.3em;
 }
 
 /* Remove browser + Reveal outer margins (fix fullscreen white strip) */
@@ -15,7 +14,7 @@ body,
   padding: 0 !important;
 }
 
-/* Base text color: dark gray instead of black */
+/* Base text color */
 .reveal,
 .reveal p,
 .reveal li {
@@ -38,46 +37,69 @@ body,
   padding: 0 !important;
 }
 
-/* Apply margins to real content elements, not Quarto/Reveal wrappers */
-.reveal .slides section p,
-.reveal .slides section ul,
-.reveal .slides section ol,
-.reveal .slides section pre,
-.reveal .slides section blockquote,
-.reveal .slides section table,
-.reveal .slides section h1,
-.reveal .slides section h2,
-.reveal .slides section h3,
-.reveal .slides section h4,
-.reveal .slides section figure {
+/* Apply margins to real content elements (EXCEPT the title slide) */
+.reveal .slides section:not(#title-slide) p,
+.reveal .slides section:not(#title-slide) ul,
+.reveal .slides section:not(#title-slide) ol,
+.reveal .slides section:not(#title-slide) pre,
+.reveal .slides section:not(#title-slide) blockquote,
+.reveal .slides section:not(#title-slide) table,
+.reveal .slides section:not(#title-slide) h1,
+.reveal .slides section:not(#title-slide) h2,
+.reveal .slides section:not(#title-slide) h3,
+.reveal .slides section:not(#title-slide) h4,
+.reveal .slides section:not(#title-slide) figure {
   margin-left: var(--slide-margin);
   margin-right: var(--slide-margin);
 }
 
-.reveal .slides section .columns {
+.reveal .slides section:not(#title-slide) .columns {
   margin-left: var(--slide-margin) !important;
   margin-right: var(--slide-margin) !important;
-  width: calc(100% - 2 * var(--slide-margin)) !important;
 }
 
-/* Solid gold/orange border on selected slides */
+/* Inside columns, don't double-indent: the container already has slide margins */
+.reveal .slides section:not(#title-slide) .columns p,
+.reveal .slides section:not(#title-slide) .columns ul,
+.reveal .slides section:not(#title-slide) .columns ol,
+.reveal .slides section:not(#title-slide) .columns pre,
+.reveal .slides section:not(#title-slide) .columns blockquote,
+.reveal .slides section:not(#title-slide) .columns table,
+.reveal .slides section:not(#title-slide) .columns h1,
+.reveal .slides section:not(#title-slide) .columns h2,
+.reveal .slides section:not(#title-slide) .columns h3,
+.reveal .slides section:not(#title-slide) .columns h4,
+.reveal .slides section:not(#title-slide) .columns figure {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Flex safety: let columns shrink so they don't overflow */
+.reveal .slides section:not(#title-slide) .columns > .column {
+  min-width: 0;
+}
+
+/* Gold border on selected slides (data-state="goldborder") */
 html.goldborder::before,
-body.goldborder::before,
-.reveal.goldborder::before {
+body.goldborder::before {
   content: "";
   position: fixed;
   inset: 0;
+  box-sizing: border-box;
   pointer-events: none;
-  z-index: 99999;
+  z-index: 50;
+  border: 15px solid rgb(235, 145, 0);
+}
 
-  /* Straight, solid, Keynote-like border */
-  border: 15px solid rgb(235, 145, 0); /* gold-orange */
+/* Reveal background layers should never intercept clicks */
+.reveal .backgrounds,
+.reveal .slide-backgrounds,
+.reveal .slide-background {
+  pointer-events: none !important;
 }
 
 /* ===============================
    Slide headers for stacked slides
-   #  => h1  (horizontal)
-   ## => h2  (vertical)
    =============================== */
 
 .reveal .slides section.slide {
@@ -94,7 +116,7 @@ body.goldborder::before,
   margin-left: calc(-1 * var(--slide-margin));
   margin-right: calc(-1 * var(--slide-margin));
 
-  padding: 0.25em var(--slide-margin) 0.25em var(--slide-margin);
+  padding: 0.25em var(--slide-margin);
   text-indent: 0.8em;
 
   border-radius: 0;
@@ -102,16 +124,11 @@ body.goldborder::before,
   font-weight: 700;
 }
 
-/* Size hierarchy: horizontal header a bit larger */
-.reveal section:not(.title-slide) h1 {
-  font-size: 1.60em;
-}
+/* Size hierarchy */
+.reveal section:not(.title-slide) h1 { font-size: 1.60em; }
+.reveal section:not(.title-slide) h2 { font-size: 1.40em; }
 
-.reveal section:not(.title-slide) h2 {
-  font-size: 1.40em;
-}
-
-/* Headerless slides: hide whichever header level is present */
+/* Headerless slides */
 .reveal section.headerless h1,
 .reveal section.headerless h2 {
   display: none;
@@ -135,13 +152,23 @@ body.goldborder::before,
   margin-top: 2.5em;
 }
 
-/* Alert-style text (like Beamer \alert) */
+/* Alert-style text */
 .reveal .alert {
   color: var(--accent-blue);
   font-weight: 600;
 }
 
-/* Footer: bottom-left, gray, small text */
+/* ===============================
+   Footer and slide number styling
+   =============================== */
+
+/* Don’t let fixed UI chrome block links */
+.reveal .footer,
+.reveal .slide-number {
+  pointer-events: none;
+}
+
+/* Footer: bottom-left */
 .reveal .footer {
   position: absolute !important;
   left: 3em !important;
@@ -153,7 +180,6 @@ body.goldborder::before,
   background: none !important;
   margin: 0 !important;
   padding: 0 !important;
-  pointer-events: none;
   opacity: 0.7;
 }
 
@@ -169,7 +195,6 @@ body.goldborder::before,
    Title slide styling (modern card)
    =============================== */
 
-/* The title slide section itself is the card */
 .reveal #title-slide {
   text-align: left;
   background: rgba(255, 255, 255, 0.95);
@@ -180,23 +205,19 @@ body.goldborder::before,
   margin: 2.5em 0 0 38%;
 }
 
-/* Title: main heading */
 .reveal #title-slide h1.title {
   color: var(--header-blue) !important;
   font-size: 1.7em;
   font-weight: 700;
-  margin-bottom: 0.3em;
+  margin: 0 0 0.3em 0;
 }
 
-/* Subtitle */
 .reveal #title-slide p.subtitle {
   color: var(--accent-blue) !important;
   font-size: 1.30em;
-  margin-top: 0;
-  margin-bottom: 0.8em;
+  margin: 0 0 0.8em 0;
 }
 
-/* Author and date text */
 .reveal #title-slide .quarto-title-author-name,
 .reveal #title-slide p.date {
   color: #333333 !important;
@@ -204,7 +225,6 @@ body.goldborder::before,
   margin: 0.15em 0;
 }
 
-/* Author block layout */
 .reveal #title-slide .quarto-title-authors,
 .reveal #title-slide .quarto-title-author,
 .reveal #title-slide .quarto-title-author-name {
@@ -213,7 +233,6 @@ body.goldborder::before,
   text-align: left !important;
 }
 
-/* Prevent flex centering */
 .reveal #title-slide .quarto-title-authors {
   display: block !important;
 }
@@ -226,18 +245,23 @@ body.goldborder::before,
 }
 
 /* Prevent Reveal from centering H1 slides except the real title */
-.reveal:not(.overview)
-  .slides section.title-slide.slide.level1:not(#title-slide) {
+.reveal:not(.overview) .slides section.title-slide.slide.level1:not(#title-slide) {
   margin-left: 0 !important;
   margin-right: 0 !important;
   max-width: 100% !important;
 }
 
-/* Quarto RevealJS: prevent level2 slide content from being horizontally centered */
+/* Prevent level2 slide content from being horizontally centered */
 .reveal:not(.overview) .slides section.slide.level2 .slide-content {
   margin-left: 0 !important;
   margin-right: 0 !important;
   max-width: none !important;
+}
+
+/* Ensure the current slide is clickable (fixes pointer-events:none leaking onto present slides) */
+.reveal .slides section.present,
+.reveal .slides section.present * {
+  pointer-events: auto !important;
 }
 
 /*-- end:scss --*/

@@ -1,0 +1,73 @@
+<script id="course-website-meta" type="application/json">
+{"course_website":"{{< meta course_website >}}"}
+</script>
+
+<script>
+(function () {
+  function getCourseWebsite() {
+    const el = document.getElementById("course-website-meta");
+    if (!el) return "";
+    try {
+      const obj = JSON.parse(el.textContent || "{}");
+      const v = (obj.course_website || "").trim();
+      // If meta wasn't set, Quarto may leave the shortcode text or empty
+      if (!v || v.includes("meta course_website")) return "";
+      return v;
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function insertCourseWebsite() {
+    const courseWebsite = getCourseWebsite();
+    if (!courseWebsite) return;
+
+    const titleSlide = document.querySelector(".reveal #title-slide");
+    if (!titleSlide) return;
+
+    if (titleSlide.querySelector(".course-website")) return;
+
+    const p = document.createElement("p");
+    p.className = "course-website";
+    p.innerHTML = `<a href="${courseWebsite}">${courseWebsite}</a>`;
+
+    const authorBlock =
+      titleSlide.querySelector(".quarto-title-authors") ||
+      titleSlide.querySelector(".quarto-title-author") ||
+      titleSlide.querySelector(".quarto-title-author-name");
+
+    const subtitle = titleSlide.querySelector("p.subtitle");
+
+    if (authorBlock && authorBlock.parentNode) {
+      // Insert BEFORE the author block (i.e., above your name)
+      authorBlock.parentNode.insertBefore(p, authorBlock);
+    } else if (subtitle && subtitle.parentNode) {
+      // Fallback: insert after subtitle
+      subtitle.parentNode.insertBefore(p, subtitle.nextSibling);
+    } else {
+      titleSlide.appendChild(p);
+    }
+  }
+
+  function hookReveal() {
+    if (window.Reveal && typeof window.Reveal.on === "function") {
+      window.Reveal.on("ready", insertCourseWebsite);
+      window.Reveal.on("slidechanged", insertCourseWebsite);
+      insertCourseWebsite();
+      return;
+    }
+    let tries = 0;
+    const t = setInterval(() => {
+      insertCourseWebsite();
+      tries += 1;
+      if (tries >= 20) clearInterval(t);
+    }, 250);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", hookReveal);
+  } else {
+    hookReveal();
+  }
+})();
+</script>

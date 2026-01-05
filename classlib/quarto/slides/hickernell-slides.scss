@@ -237,6 +237,11 @@ body.goldborder::before {
   display: block !important;
 }
 
+.reveal #title-slide p.course-website {
+  margin-top: 0.4em;
+  font-size: 0.85em;
+}
+
 /* Fix H1 slides in vertical stacks (stack parent positioning) */
 .reveal:not(.overview) .slides section.title-slide.slide.level1 {
   top: 0 !important;

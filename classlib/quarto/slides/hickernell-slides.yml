@@ -10,6 +10,7 @@ format:
 
     include-in-header:
       - ../classlib/classlib/quarto/slides/hickernell-latex-macros.js
+      - ../classlib/classlib/quarto/slides/title-course-website.html
 
     theme:
       - simple

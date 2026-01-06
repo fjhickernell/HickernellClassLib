@@ -6,12 +6,24 @@
   --slide-margin: 1.3em;
 }
 
-/* Remove browser + Reveal outer margins (fix fullscreen white strip) */
+/* Remove browser + Reveal outer margins */
 html,
 body,
 .reveal-viewport {
   margin: 0 !important;
   padding: 0 !important;
+}
+
+/* ============================================================
+   KEY FIX: top-align the deck WITHOUT touching Reveal transforms
+   ============================================================ */
+.reveal-viewport {
+  display: flex !important;
+  align-items: flex-start !important;
+}
+
+.reveal {
+  margin-top: 0 !important;
 }
 
 /* Base text color */
@@ -32,9 +44,27 @@ body,
   padding-top: 0 !important;
 }
 
-/* Remove all padding on slides container (fullscreen fix) */
+/* Remove all padding on slides container */
 .reveal .slides {
   padding: 0 !important;
+}
+
+/* Quarto/Reveal wrappers: remove any top inset on the current slide */
+.reveal .slides section.present {
+  padding-top: 0 !important;
+}
+
+.reveal .slides section.present .quarto-slide-content,
+.reveal .slides section.present .slide-content {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Ensure Quarto slide-content wrapper doesn't introduce top whitespace */
+.reveal .slides section.slide:not(#title-slide) .quarto-slide-content,
+.reveal .slides section.slide:not(#title-slide) .slide-content {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
 }
 
 /* Apply margins to real content elements (EXCEPT the title slide) */
@@ -58,7 +88,7 @@ body,
   margin-right: var(--slide-margin) !important;
 }
 
-/* Inside columns, don't double-indent: the container already has slide margins */
+/* Inside columns, don't double-indent */
 .reveal .slides section:not(#title-slide) .columns p,
 .reveal .slides section:not(#title-slide) .columns ul,
 .reveal .slides section:not(#title-slide) .columns ol,
@@ -74,7 +104,7 @@ body,
   margin-right: 0 !important;
 }
 
-/* Flex safety: let columns shrink so they don't overflow */
+/* Flex safety: let columns shrink */
 .reveal .slides section:not(#title-slide) .columns > .column {
   min-width: 0;
 }
@@ -106,21 +136,22 @@ body.goldborder::before {
   padding: 0 !important;
 }
 
+/* Full-bleed header bar for slide h1/h2 (non-title) */
 .reveal .slides section.slide:not(#title-slide) h1,
 .reveal .slides section.slide:not(#title-slide) h2 {
   background-color: var(--header-blue);
   color: #ffffff;
 
-  margin-top: 0 !important;
-  margin-bottom: 0.7em;
-  margin-left: calc(-1 * var(--slide-margin));
-  margin-right: calc(-1 * var(--slide-margin));
+  margin: 0 0 0.7em 0 !important;
+
+  position: relative;
+  left: calc(-1 * var(--slide-margin));
+  width: calc(100% + 2 * var(--slide-margin));
 
   padding: 0.25em var(--slide-margin);
   text-indent: 0.8em;
 
   border-radius: 0;
-  width: 100%;
   font-weight: 700;
 }
 
@@ -148,27 +179,21 @@ body.goldborder::before {
   margin-top: 0.8em;
 }
 
-.reveal .slides section h3:first-of-type {
+/* If the first visible subheader is an h3, keep it below the banner */
+.reveal .slides section.slide:not(#title-slide) .quarto-slide-content > h3:first-child,
+.reveal .slides section.slide:not(#title-slide) .slide-content > h3:first-child {
   margin-top: 2.5em;
-}
-
-/* Alert-style text */
-.reveal .alert {
-  color: var(--accent-blue);
-  font-weight: 600;
 }
 
 /* ===============================
    Footer and slide number styling
    =============================== */
 
-/* Don’t let fixed UI chrome block links */
 .reveal .footer,
 .reveal .slide-number {
   pointer-events: none;
 }
 
-/* Footer: bottom-left */
 .reveal .footer {
   position: absolute !important;
   left: 3em !important;
@@ -183,7 +208,6 @@ body.goldborder::before {
   opacity: 0.7;
 }
 
-/* Slide number */
 .reveal .slide-number {
   font-size: 0.7em;
   opacity: 0.9;
@@ -242,8 +266,8 @@ body.goldborder::before {
   font-size: 0.85em;
 }
 
-/* Fix H1 slides in vertical stacks (stack parent positioning) */
-.reveal:not(.overview) .slides section.title-slide.slide.level1 {
+/* Fix H1 slides in vertical stacks (stack parent positioning) — EXCEPT the real title slide */
+.reveal:not(.overview) .slides section.title-slide.slide.level1:not(#title-slide) {
   top: 0 !important;
   left: 0 !important;
   transform: none !important;
@@ -257,13 +281,14 @@ body.goldborder::before {
 }
 
 /* Prevent level2 slide content from being horizontally centered */
+.reveal:not(.overview) .slides section.slide.level2 .quarto-slide-content,
 .reveal:not(.overview) .slides section.slide.level2 .slide-content {
   margin-left: 0 !important;
   margin-right: 0 !important;
   max-width: none !important;
 }
 
-/* Ensure the current slide is clickable (fixes pointer-events:none leaking onto present slides) */
+/* Ensure the current slide is clickable */
 .reveal .slides section.present,
 .reveal .slides section.present * {
   pointer-events: auto !important;

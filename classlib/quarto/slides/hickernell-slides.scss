@@ -15,15 +15,62 @@ body,
 }
 
 /* ============================================================
-   KEY FIX: top-align the deck WITHOUT touching Reveal transforms
+   FULLSCREEN ONLY (Safari safe-area inset)
+   If Safari reserves a top inset in fullscreen, force it to 0.
    ============================================================ */
-.reveal-viewport {
+
+html:fullscreen .reveal-viewport,
+html:-webkit-full-screen .reveal-viewport {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+html:fullscreen body,
+html:-webkit-full-screen body {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Kill any safe-area inset padding that Safari might apply */
+html:fullscreen,
+html:-webkit-full-screen {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  --sat: env(safe-area-inset-top, 0px);
+}
+
+html:fullscreen .reveal-viewport,
+html:-webkit-full-screen .reveal-viewport {
+  padding-top: calc(0px - var(--sat)) !important;
+}
+
+/* ============================================================
+   FULLSCREEN ONLY (SAFE FIX)
+   Top-align the Reveal viewport in fullscreen WITHOUT touching
+   Reveal’s transform/scale math on .slides.
+   ============================================================ */
+
+html:fullscreen .reveal-viewport,
+body:fullscreen .reveal-viewport,
+html:-webkit-full-screen .reveal-viewport,
+body:-webkit-full-screen .reveal-viewport {
   display: flex !important;
   align-items: flex-start !important;
 }
 
-.reveal {
-  margin-top: 0 !important;
+html:fullscreen .reveal,
+body:fullscreen .reveal,
+html:-webkit-full-screen .reveal,
+body:-webkit-full-screen .reveal {
+  margin: 0 !important;
+}
+
+/* FULLSCREEN ONLY: stop vertical centering caused by .slides { margin:auto } */
+html:fullscreen .reveal .slides,
+body:fullscreen .reveal .slides,
+html:-webkit-full-screen .reveal .slides,
+body:-webkit-full-screen .reveal .slides {
+  margin: 0 auto !important; /* top/bottom = 0, left/right centered */
 }
 
 /* Base text color */

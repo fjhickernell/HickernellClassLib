@@ -66,38 +66,6 @@ body,
   padding: 0 !important;
 }
 
-/* Quarto/Reveal wrappers: remove any top inset on the current slide */
-.reveal .slides section.present {
-  padding-top: 0 !important;
-}
-
-.reveal .slides section.present .quarto-slide-content,
-.reveal .slides section.present .slide-content {
-  padding-top: 0 !important;
-  margin-top: 0 !important;
-}
-
-/* ============================================================
-   FULLSCREEN CROPPING FIX
-   ============================================================ */
-
-.reveal:fullscreen,
-.reveal:-webkit-full-screen {
-  margin: 0 !important;
-}
-
-.reveal:fullscreen .reveal,
-.reveal:-webkit-full-screen .reveal {
-  margin: 0 !important;
-  top: 0 !important;
-  left: 0 !important;
-}
-
-.reveal:fullscreen .reveal .slides,
-.reveal:-webkit-full-screen .reveal .slides {
-  transform-origin: top left !important;
-}
-
 /* ============================================================
    IMPORTANT: ONLY zero out wrapper sections (Reveal stacks),
    NOT real slides and NOT the title slide.
@@ -388,32 +356,12 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
   font-size: 0.85em;
 }
 
-/* --- Title slide: align author name with other text --- */
-.reveal section.quarto-title-block .quarto-title-authors,
-.reveal section.quarto-title-block .quarto-title-author,
-.reveal section.quarto-title-block .quarto-title-author-name {
-  margin-left: 0 !important;
-  padding-left: 0 !important;
-  text-indent: 0 !important;
-}
-
-/* If Quarto renders authors as a list-like block anywhere */
-.reveal section.quarto-title-block .quarto-title-authors ul,
-.reveal section.quarto-title-block .quarto-title-authors li {
-  margin-left: 0 !important;
-  padding-left: 0 !important;
-  list-style: none !important;
-}
-
 /* Fix H1 slides in vertical stacks (stack parent positioning) — EXCEPT the real title slide */
 .reveal:not(.overview) .slides section.title-slide.slide.level1:not(#title-slide) {
   top: 0 !important;
   left: 0 !important;
   transform: none !important;
-}
 
-/* Prevent Reveal from centering H1 slides except the real title */
-.reveal:not(.overview) .slides section.title-slide.slide.level1:not(#title-slide) {
   margin-left: 0 !important;
   margin-right: 0 !important;
   max-width: 100% !important;
@@ -440,6 +388,26 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
   font-size: 1.2em;
   margin-top: 0em;
   margin-bottom: 0em;
+}
+
+/* ============================================================
+   FINAL FIX: Title card author indentation
+   ============================================================ */
+
+.reveal #title-slide .quarto-title-authors,
+.reveal #title-slide .quarto-title-author,
+.reveal #title-slide .quarto-title-author-name {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  text-indent: 0 !important;
+}
+
+/* Quarto sometimes renders authors as a list */
+.reveal #title-slide .quarto-title-authors ul,
+.reveal #title-slide .quarto-title-authors li {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  list-style: none !important;
 }
 
 /*-- end:scss --*/

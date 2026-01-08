@@ -24,11 +24,8 @@
 
 /* ============================================================
    FULLSCREEN SAFE GUTTER
-   Some browsers/Reveal fullscreen scaling can clip 10–30px on the left.
-   Add a fullscreen-only inset to keep all content visible.
    ============================================================ */
 
-/* When the viewport is fullscreen, add gutter INSIDE the reveal box */
 .reveal-viewport:fullscreen .reveal .slides,
 .reveal-viewport:-webkit-full-screen .reveal .slides,
 html:fullscreen .reveal-viewport .reveal .slides,
@@ -64,7 +61,7 @@ body,
   padding-top: 0 !important;
 }
 
-/* Remove all padding on slides container */
+/* Remove all padding on slides container (fullscreen rule above overrides) */
 .reveal .slides {
   padding: 0 !important;
 }
@@ -81,8 +78,7 @@ body,
 }
 
 /* ============================================================
-   FULLSCREEN CROPPING FIX (minimal, targeted)
-   Force Reveal to scale from top-left to avoid negative rounding crop.
+   FULLSCREEN CROPPING FIX
    ============================================================ */
 
 .reveal:fullscreen,
@@ -103,16 +99,38 @@ body,
 }
 
 /* ============================================================
-   SINGLE CONTENT RAIL (clean fix)
-   Put the inset on the wrapper, then zero element margins.
-   This makes h1/h2, paragraphs, and lists align exactly.
+   IMPORTANT: ONLY zero out wrapper sections (Reveal stacks),
+   NOT real slides and NOT the title slide.
+   This fixes:
+   - # Statistics being “more left” than # Examples
+   - title card jumping to the far left
    ============================================================ */
 
-/* Wrapper rail: this is the ONLY left/right inset for body slides */
-.reveal .slides section.slide:not(#title-slide) .quarto-slide-content,
-.reveal .slides section.slide:not(#title-slide) .slide-content {
+.reveal .slides > section:not(.slide):not(#title-slide) {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* ============================================================
+   SINGLE CONTENT RAIL (ROBUST)
+   Put inset on the REAL slide section itself.
+   Works for:
+   - # slides (often no .quarto-slide-content)
+   - ## slides
+   - nested/stacked slides
+   ============================================================ */
+
+.reveal .slides section.slide:not(#title-slide) {
+  box-sizing: border-box !important;
   padding-left: var(--content-inset) !important;
   padding-right: var(--content-inset) !important;
+}
+
+/* Quarto wrapper should not create a second rail */
+.reveal .slides section.slide:not(#title-slide) .quarto-slide-content,
+.reveal .slides section.slide:not(#title-slide) .slide-content {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
@@ -126,7 +144,8 @@ body,
 .reveal .slides section.slide:not(#title-slide) table,
 .reveal .slides section.slide:not(#title-slide) h3,
 .reveal .slides section.slide:not(#title-slide) h4,
-.reveal .slides section.slide:not(#title-slide) figure {
+.reveal .slides section.slide:not(#title-slide) figure,
+.reveal .slides section.slide:not(#title-slide) div {
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
@@ -137,7 +156,6 @@ body,
   margin-right: 0 !important;
 }
 
-/* Inside columns, still don't double-indent */
 .reveal .slides section.slide:not(#title-slide) .columns p,
 .reveal .slides section.slide:not(#title-slide) .columns ul,
 .reveal .slides section.slide:not(#title-slide) .columns ol,
@@ -146,12 +164,12 @@ body,
 .reveal .slides section.slide:not(#title-slide) .columns table,
 .reveal .slides section.slide:not(#title-slide) .columns h3,
 .reveal .slides section.slide:not(#title-slide) .columns h4,
-.reveal .slides section.slide:not(#title-slide) .columns figure {
+.reveal .slides section.slide:not(#title-slide) .columns figure,
+.reveal .slides section.slide:not(#title-slide) .columns div {
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
 
-/* Flex safety: let columns shrink */
 .reveal .slides section.slide:not(#title-slide) .columns > .column {
   min-width: 0;
 }
@@ -162,7 +180,10 @@ body,
   padding-left: var(--list-pad) !important;
 }
 
-/* Gold border on selected slides (data-state="goldborder") */
+/* ===============================
+   Gold border on selected slides
+   =============================== */
+
 html.goldborder::before,
 body.goldborder::before {
   content: "";
@@ -182,14 +203,14 @@ body.goldborder::before {
 }
 
 /* ===============================
-   Slide headers for stacked slides
+   Banner headings
    =============================== */
 
 .reveal .slides section.slide {
-  padding: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
-/* Banner headings: text aligns to the same rail */
 .reveal .slides section.slide:not(#title-slide) h1,
 .reveal .slides section.slide:not(#title-slide) h2 {
   color: #ffffff;
@@ -198,7 +219,6 @@ body.goldborder::before {
   position: relative;
   z-index: 1;
 
-  /* IMPORTANT: 0 horizontal padding because wrapper already provides the rail */
   padding-top: 0.25em;
   padding-bottom: 0.25em;
   padding-left: 0 !important;
@@ -209,7 +229,7 @@ body.goldborder::before {
   font-weight: 700;
 }
 
-/* Default banner background (non-fullscreen): bleed within slide box */
+/* Banner background (rail is on the slide section now) */
 .reveal .slides section.slide:not(#title-slide) h1::before,
 .reveal .slides section.slide:not(#title-slide) h2::before {
   content: "";
@@ -220,14 +240,13 @@ body.goldborder::before {
   top: calc(-1 * var(--banner-bleed-y));
   bottom: calc(-1 * var(--banner-bleed-y));
 
-  left: calc(-1 * var(--content-inset) - var(--banner-bleed-x));
-  right: calc(-1 * var(--content-inset) - var(--banner-bleed-x));
+  left: calc(-1 * var(--banner-bleed-x));
+  right: calc(-1 * var(--banner-bleed-x));
 
   background-color: var(--header-blue);
 }
 
-/* OPTIONAL REFINEMENT (fullscreen):
-   make banner truly full-bleed to the screen even though .slides is padded */
+/* Fullscreen: make banner full-bleed to viewport */
 .reveal-viewport:fullscreen .reveal .slides section.slide:not(#title-slide) h1::before,
 .reveal-viewport:fullscreen .reveal .slides section.slide:not(#title-slide) h2::before,
 .reveal-viewport:-webkit-full-screen .reveal .slides section.slide:not(#title-slide) h1::before,
@@ -252,7 +271,6 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
   display: none;
 }
 
-/* Allow hiding headings by class */
 .reveal .hidden {
   display: none;
 }
@@ -264,12 +282,6 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
   font-weight: 600;
   font-size: 1.2em;
   margin-top: 0.8em;
-}
-
-/* If the first visible subheader is an h3, keep it below the banner */
-.reveal .slides section.slide:not(#title-slide) .quarto-slide-content > h3:first-child,
-.reveal .slides section.slide:not(#title-slide) .slide-content > h3:first-child {
-  margin-top: 2.5em;
 }
 
 /* ===============================
@@ -376,6 +388,23 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
   font-size: 0.85em;
 }
 
+/* --- Title slide: align author name with other text --- */
+.reveal section.quarto-title-block .quarto-title-authors,
+.reveal section.quarto-title-block .quarto-title-author,
+.reveal section.quarto-title-block .quarto-title-author-name {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  text-indent: 0 !important;
+}
+
+/* If Quarto renders authors as a list-like block anywhere */
+.reveal section.quarto-title-block .quarto-title-authors ul,
+.reveal section.quarto-title-block .quarto-title-authors li {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  list-style: none !important;
+}
+
 /* Fix H1 slides in vertical stacks (stack parent positioning) — EXCEPT the real title slide */
 .reveal:not(.overview) .slides section.title-slide.slide.level1:not(#title-slide) {
   top: 0 !important;
@@ -402,6 +431,15 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
 .reveal .slides section.present,
 .reveal .slides section.present * {
   pointer-events: auto !important;
+}
+
+/* "Fake h3" that is safe after # (doesn't change slide structure) */
+.reveal .h3 {
+  color: var(--header-blue);
+  font-weight: 600;
+  font-size: 1.2em;
+  margin-top: 0em;
+  margin-bottom: 0em;
 }
 
 /*-- end:scss --*/

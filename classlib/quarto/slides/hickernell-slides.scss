@@ -35,6 +35,37 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides {
   padding-right: max(var(--fs-safe-x), env(safe-area-inset-right)) !important;
 }
 
+/* ADD THIS (Safari-proof) */
+.reveal:fullscreen .slides,
+.reveal:-webkit-full-screen .slides {
+  box-sizing: border-box !important;
+  padding-left: max(var(--fs-safe-x), env(safe-area-inset-left)) !important;
+  padding-right: max(var(--fs-safe-x), env(safe-area-inset-right)) !important;
+}
+
+/* FULLSCREEN: put the safe gutter on the STAGE, not the slides */
+.reveal-viewport:fullscreen .reveal,
+.reveal-viewport:-webkit-full-screen .reveal,
+html:fullscreen .reveal-viewport .reveal,
+html:-webkit-full-screen .reveal-viewport .reveal,
+.reveal:fullscreen,
+.reveal:-webkit-full-screen {
+  box-sizing: border-box !important;
+  padding-left: max(var(--fs-safe-x), env(safe-area-inset-left)) !important;
+  padding-right: max(var(--fs-safe-x), env(safe-area-inset-right)) !important;
+}
+
+/* FULLSCREEN: ensure slides don't add/steal gutter */
+.reveal-viewport:fullscreen .reveal .slides,
+.reveal-viewport:-webkit-full-screen .reveal .slides,
+html:fullscreen .reveal-viewport .reveal .slides,
+html:-webkit-full-screen .reveal-viewport .reveal .slides,
+.reveal:fullscreen .slides,
+.reveal:-webkit-full-screen .slides {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 /* Remove browser + Reveal outer margins */
 html,
 body,
@@ -423,4 +454,5 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
 .reveal mjx-container [class~="alert"] {
   color: var(--accent-blue) !important;
 }
+
 /*-- end:scss --*/

@@ -410,4 +410,17 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
   list-style: none !important;
 }
 
+/* ===============================
+   Alert text (Keynote blue)
+   =============================== */
+
+.reveal .alert {
+  color: var(--accent-blue) !important;
+}
+
+/* MathJax v3 (Quarto default) */
+.reveal mjx-container .alert,
+.reveal mjx-container [class~="alert"] {
+  color: var(--accent-blue) !important;
+}
 /*-- end:scss --*/

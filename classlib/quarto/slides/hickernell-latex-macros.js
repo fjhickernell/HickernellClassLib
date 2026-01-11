@@ -95,6 +95,7 @@
         Beta:  "{\\operatorname{Beta}}",
         Weibull:"{\\operatorname{Weibull}}",
         Lognorm:"{\\operatorname{Lognormal}}",
+        GP:     "{\\operatorname{GP}}",
 
         Var: "{\\operatorname{Var}}",
         Cov: "{\\operatorname{Cov}}",
@@ -126,9 +127,17 @@
         norm: ["{\\left\\lVert #1 \\right\\rVert}", 1],
         ip:   ["{\\left\\langle #1, #2 \\right\\rangle}", 2],
 
+
         bvec: ["{\\boldsymbol{#1}}", 1],
         avec: ["{\\vec{#1}}", 1],
         vecsym: ["{\\boldsymbol{#1}}", 1],
+
+        vf:  "{\\boldsymbol{f}}",
+        vk:  "{\\boldsymbol{k}}",
+        vt:  "{\\boldsymbol{t}}",
+        vx:  "{\\boldsymbol{x}}",
+        vy:  "{\\boldsymbol{y}}",
+        vmu: "{\\boldsymbol{\\mu}}",
 
         vzero: "{\\boldsymbol{0}}",
         vone:  "{\\boldsymbol{1}}",
@@ -141,6 +150,8 @@
         me:  "{\\mathrm{e}}",
         mi:  "{\\mathrm{i}}",
         mpi: "{\\mathrm{\\pi}}",
+        mK: "{\\mathsf{K}}",
+        mSigma: "{\\mathsf{\\Sigma}}",
 
         dif: "{\\mathrm{d}}"
       }

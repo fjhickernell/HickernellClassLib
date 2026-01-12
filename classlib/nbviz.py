@@ -165,12 +165,13 @@ def init(
         "legend.fontsize": legend_fontsize,
         "legend.frameon": legend_frameon,
     }
-
+    
     if use_tex:
         rc["text.latex.preamble"] = r"\usepackage{amsmath}"
 
     if not use_tex:
         rc["mathtext.fontset"] = mathtext_fontset  # only relevant when not using TeX
+    
     mpl.rcParams.update(rc)
 
     # Friendly defaults for saving and layout

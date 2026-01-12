@@ -1,5 +1,5 @@
-<div class="stats-qs">
-### Filter by course {#filter}
+::: {.stats-qs}
+## Filter by course {#filter}
 
 ```{=html}
 <div class="stats-filter">
@@ -12,6 +12,7 @@
 </div>
 
 <nav class="stats-jump" aria-label="Jump to section">
+  <a href="#modeling">Modeling</a>
   <a href="#sampling">Sampling</a>
   <a href="#point-estimation">Point Estimation</a>
 </nav>
@@ -19,7 +20,7 @@
 
 ---
 
-### Sampling {#sampling}
+## Modeling {#modeling}
 
 ```{=html}
 <div class="stats-headrow">
@@ -27,15 +28,48 @@
   <div class="stats-col-q"><strong>Big question</strong></div>
 </div>
 
-<div class="stats-q" data-course="476 563">
+<div class="stats-q" data-course="476 563 565">
   <div class="stats-col-course">476, 563, 565</div>
   <div class="stats-col-q">
     <div class="stats-q-title">What is the population?</div>
-    All US adults? All future nits from a production line? All students with bachelor's degree?  All continuous functions on a given domain?
+    All US adults? All future units from a production line? All students with bachelor's degree?  All continuous functions on a given domain?
+  </div>
+</div>
+
+<div class="stats-q" data-course="476 563 565">
+  <div class="stats-col-course">476, 563, 565</div>
+  <div class="stats-col-q">
+    <div class="stats-q-title">What features are we interested in?</div>
+    Mean? Variance? Quantiles? Regression function? Entire distribution?
   </div>
 </div>
 
 <div class="stats-q" data-course="476 563">
+  <div class="stats-col-course">476, 563</div>
+  <div class="stats-col-q">
+    <div class="stats-q-title">What does the model fail to capture?</div>
+    Explanatory variables? Interactions? Nonlinearities?
+  </div>
+</div>
+
+<div class="stats-q" data-course="476 563">
+  <div class="stats-col-course">476, 563</div>
+  <div class="stats-col-q">
+    <div class="stats-q-title">Are the distributional assumptions correct?</div>
+    Normality? Skewness? Heavy tails? Independence?
+  </div>
+</div>
+```
+
+## Sampling {#sampling}
+
+```{=html}
+<div class="stats-headrow">
+  <div class="stats-col-course"><strong>Course(s)</strong></div>
+  <div class="stats-col-q"><strong>Big question</strong></div>
+</div>
+
+<div class="stats-q" data-course="476 563 565">
   <div class="stats-col-course">476, 563, 565</div>
   <div class="stats-col-q">
     <div class="stats-q-title">How do we sample from the population?</div>
@@ -43,20 +77,16 @@
   </div>
 </div>
 
-<div class="stats-q" data-course="476">
-  <div class="stats-col-course">476</div>
+<div class="stats-q" data-course="476 563">
+  <div class="stats-col-course">476, 563</div>
   <div class="stats-col-q">
     <div class="stats-q-title">What can go wrong between intended and actual sampling?</div>
-    <ul>
-      <li>Nonresponse and missingness (informal preview)</li>
-      <li>Measurement error</li>
-      <li>Coverage error</li>
-    </ul>
+    Nonresponse and missingness? Measurement error? Coverage error?
   </div>
 </div>
 ```
 
-### Point Estimation {#point-estimation}
+## Point Estimation {#point-estimation}
 
 ```{=html}
 <div class="stats-headrow">
@@ -88,4 +118,4 @@
   </div>
 </div>
 ```
-</div>
+:::

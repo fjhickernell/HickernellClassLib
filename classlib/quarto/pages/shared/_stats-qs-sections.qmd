@@ -1,0 +1,23 @@
+### Filter by course {#filter}
+
+::: {.stats-qs}
+{{< include ../classlib/classlib/quarto/pages/shared/_stats-qs-filter-body.qmd >}}
+:::
+
+### Modeling {#modeling}
+
+::: {.stats-qs}
+{{< include ../classlib/classlib/quarto/pages/shared/_stats-qs-modeling-body.qmd >}}
+:::
+
+### Sampling {#sampling}
+
+::: {.stats-qs}
+{{< include ../classlib/classlib/quarto/pages/shared/_stats-qs-sampling-body.qmd >}}
+:::
+
+### Point Estimation {#point-estimation}
+
+::: {.stats-qs}
+{{< include ../classlib/classlib/quarto/pages/shared/_stats-qs-point-estimation-body.qmd >}}
+:::

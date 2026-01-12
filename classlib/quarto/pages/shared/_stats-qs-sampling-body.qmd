@@ -1,0 +1,22 @@
+```{=html}
+<div class="stats-headrow">
+  <div class="stats-col-course"><strong>Course(s)</strong></div>
+  <div class="stats-col-q"><strong>Big question</strong></div>
+</div>
+
+<div class="stats-q" data-course="476 563 565">
+  <div class="stats-col-course">476, 563, 565</div>
+  <div class="stats-col-q">
+    <div class="stats-q-title">How do we sample from the population?</div>
+    Independent and identically distributed (IID)? Low discrepancy (LD)? Stratified sampling? Designed experiment?
+  </div>
+</div>
+
+<div class="stats-q" data-course="476 563">
+  <div class="stats-col-course">476, 563</div>
+  <div class="stats-col-q">
+    <div class="stats-q-title">What can go wrong between intended and actual sampling?</div>
+    Nonresponse and missingness? Measurement error? Coverage error?
+  </div>
+</div>
+```

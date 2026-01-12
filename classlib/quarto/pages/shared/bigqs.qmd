@@ -1,0 +1,33 @@
+## H2
+### H3 
+## Filter
+
+::: {.stats-qs}
+## Filter by course {#filter}
+
+
+::: {=html}
+<div class="stats-filter">
+  <div class="stats-filter-left">
+    <label><input type="checkbox" checked data-filter="476"> MATH 476 Statistics</label>
+    <label><input type="checkbox" checked data-filter="563"> MATH 563 Mathematical Statistics</label>
+    <label><input type="checkbox" checked data-filter="565"> MATH 565 Monte Carlo Methods</label>
+  </div>
+  <div id="filter-note" class="stats-filter-right"></div>
+</div>
+
+<nav class="stats-jump" aria-label="Jump to section">
+  <a href="#modeling">Modeling</a>
+  <a href="#sampling">Sampling</a>
+  <a href="#point-estimation">Point Estimation</a>
+</nav>
+:::
+
+
+---
+
+## Modeling {#modeling}
+
+
+
+:::

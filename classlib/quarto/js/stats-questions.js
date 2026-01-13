@@ -1,26 +1,41 @@
-(function () {
-  const checkboxes = document.querySelectorAll('[data-filter]');
-  const questions = document.querySelectorAll('.stats-q');
+console.log("stats-questions.js loaded");
 
-  function updateVisibility() {
-    const active = Array.from(checkboxes)
+document.addEventListener("DOMContentLoaded", () => {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"][data-filter]');
+  const rows = document.querySelectorAll('.stats-q[data-course]');
+  const headrows = document.querySelectorAll('.stats-headrow');
+  const note = document.querySelector('#filter-note');
+
+  function selectedCourses() {
+    return Array.from(checkboxes)
       .filter(cb => cb.checked)
-      .map(cb => cb.dataset.filter);
-
-    questions.forEach(q => {
-      const courses = (q.dataset.course || "").split(/\s+/).filter(Boolean);
-      const show = courses.some(c => active.includes(c));
-      q.style.display = show ? '' : 'none';
-    });
-
-    const note = document.getElementById('filter-note');
-    if (note) {
-      note.textContent = (active.length === 0)
-        ? 'No courses selected'
-        : `Showing: ${active.join(', ')}`;
-    }
+      .map(cb => cb.getAttribute('data-filter'));
   }
 
-  checkboxes.forEach(cb => cb.addEventListener('change', updateVisibility));
-  updateVisibility();
-})();
+  function applyFilter() {
+    const selected = selectedCourses();
+
+    if (note) {
+      note.textContent = selected.length
+        ? `Showing: ${selected.join(", ")}`
+        : "No courses selected";
+    }
+
+    headrows.forEach(hr => {
+      hr.style.display = selected.length ? "" : "none";
+    });
+
+    rows.forEach(row => {
+      const courses = (row.getAttribute('data-course') || "")
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+
+      const show = selected.length > 0 && courses.some(c => selected.includes(c));
+      row.style.display = show ? "" : "none";
+    });
+  }
+
+  checkboxes.forEach(cb => cb.addEventListener("change", applyFilter));
+  applyFilter();
+});

@@ -1,3 +1,9 @@
+---
+title: Policies
+format:
+  html:
+    number-sections: false
+---
 ## Accommodations for Disabilities
 
 Reasonable accommodations will be made for students with documented disabilities. In order to receive accommodations, students must obtain a letter of accommodation from the Center for Disability Resources and make an appointment to speak with me, Fred Hickernell, as soon as possible. The Center for Disability Resources (CDR) is located in 3424 S. State St., room 1C3-2 (on the first floor), telephone 312-567-5744 or disabilities@illinoistech.edu.

@@ -1,0 +1,15 @@
+---
+title: "Interesting Articles & Links"
+subtitle: "Optional reading and exploratory resources"
+toc: true
+toc-depth: 2
+page-layout: article
+---
+
+This page collects **optional articles, essays, videos, and interactive resources**
+that connect probability, statistics, and data science to real applications,
+historical context, or broader ideas.
+
+- [qmcpy.org: A Python Library for Quasi-Monte Carlo Methods](https://qmcpy.org/)
+  - A Python library for quasi-Monte Carlo methods, which are used to improve the efficiency of numerical integration and simulation
+

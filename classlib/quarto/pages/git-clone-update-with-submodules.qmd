@@ -1,3 +1,10 @@
+---
+title: "Git setup: clone the course repo and keep it updated"
+format:
+  html:
+    toc: true
+---
+
 This course uses a Git repository that includes **submodules** (shared libraries pulled in as separate Git repos).
 To get everything working, you must clone the repo **and** initialize the submodules.
 

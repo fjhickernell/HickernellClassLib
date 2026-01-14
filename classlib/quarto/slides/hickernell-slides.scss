@@ -100,9 +100,6 @@ body,
 /* ============================================================
    IMPORTANT: ONLY zero out wrapper sections (Reveal stacks),
    NOT real slides and NOT the title slide.
-   This fixes:
-   - # Statistics being “more left” than # Examples
-   - title card jumping to the far left
    ============================================================ */
 
 .reveal .slides > section:not(.slide):not(#title-slide) {
@@ -112,11 +109,6 @@ body,
 
 /* ============================================================
    SINGLE CONTENT RAIL (ROBUST)
-   Put inset on the REAL slide section itself.
-   Works for:
-   - # slides (often no .quarto-slide-content)
-   - ## slides
-   - nested/stacked slides
    ============================================================ */
 
 .reveal .slides section.slide:not(#title-slide) {
@@ -351,13 +343,27 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
   color: var(--header-blue) !important;
   font-size: 1.7em;
   font-weight: 700;
-  margin: 0 0 0.4em 0 !important;
+  margin: 0 !important;
 }
 
 .reveal #title-slide p.subtitle {
   color: var(--accent-blue) !important;
   font-size: 1.30em !important;
-  margin: 0 0 0.9em 0 !important;
+  line-height: 1.15 !important;
+  margin: 0 !important;
+}
+
+/* Multi-line subtitle: deck title + metadata */
+.reveal #title-slide .deck-title {
+  color: var(--accent-blue) !important;
+  font-weight: 500;
+  font-size: 1.40em !important;
+}
+
+.reveal #title-slide .deck-meta {
+  color: #666 !important;
+  font-weight: 400;
+  font-size: 1em !important;
 }
 
 .reveal #title-slide .quarto-title-authors,

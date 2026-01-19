@@ -461,4 +461,115 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
   color: var(--accent-blue) !important;
 }
 
+/* ===============================
+   Links inside MathJax
+   =============================== */
+
+/* Make \href links inside math match Reveal link colors */
+.reveal mjx-container a {
+  color: var(--r-link-color) !important;
+}
+
+.reveal mjx-container a:hover {
+  color: var(--r-link-color-hover) !important;
+}
+
+.reveal a.mjx-link {
+  color: var(--r-link-color) !important;
+}
+
+.reveal a.mjx-link:hover {
+  color: var(--r-link-color-hover) !important;
+}
+
+/* MathJax link glyphs are often NOT <a> tags */
+.reveal mjx-container .mjx-link {
+  color: var(--r-link-color) !important;
+}
+
+.reveal mjx-container .mjx-link:hover {
+  color: var(--r-link-color-hover) !important;
+}
+
+.reveal mjx-container a,
+.reveal mjx-container .mjx-link,
+.reveal a.mjx-link {
+  color: magenta !important;
+}
+
+.reveal mjx-container a svg,
+.reveal mjx-container .mjx-link svg {
+  fill: magenta !important;
+}
+
+/* ===============================
+   FINAL: Make MathJax \href links match normal link color
+   =============================== */
+
+/* Use the same color as Reveal links (fallback to accent-blue if undefined) */
+.reveal mjx-container a,
+.reveal a.mjx-link {
+  color: var(--r-link-color, var(--accent-blue)) !important;
+}
+
+.reveal mjx-container a:visited,
+.reveal a.mjx-link:visited {
+  color: var(--r-link-color, var(--accent-blue)) !important;
+}
+
+.reveal mjx-container a:hover,
+.reveal a.mjx-link:hover {
+  color: var(--r-link-color-hover, var(--accent-blue)) !important;
+}
+
+/* MathJax often draws glyphs with SVG fill, not CSS color */
+.reveal mjx-container a svg,
+.reveal a.mjx-link svg {
+  fill: currentColor !important;
+}
+
+.reveal mjx-container a:hover svg,
+.reveal a.mjx-link:hover svg {
+  fill: currentColor !important;
+}
+
+
+/* ===============================
+   FORCE: MathJax \href links match normal links
+   =============================== */
+
+/* Match whatever normal links are doing */
+.reveal a {
+  color: var(--r-link-color) !important;
+}
+
+/* MathJax v3: the clickable wrapper often has class mjx-link */
+.reveal mjx-container a.mjx-link,
+.reveal mjx-container .mjx-link,
+.reveal mjx-container [data-mjx-link] {
+  color: var(--r-link-color) !important;
+}
+
+/* SVG-rendered glyphs: make them inherit the same color */
+.reveal mjx-container a.mjx-link svg,
+.reveal mjx-container .mjx-link svg,
+.reveal mjx-container [data-mjx-link] svg {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* Hover */
+.reveal mjx-container a.mjx-link:hover,
+.reveal mjx-container .mjx-link:hover,
+.reveal mjx-container [data-mjx-link]:hover {
+  color: var(--r-link-color-hover) !important;
+}
+
+.reveal mjx-container a.mjx-link:hover svg,
+.reveal mjx-container .mjx-link:hover svg,
+.reveal mjx-container [data-mjx-link]:hover svg {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
 /*-- end:scss --*/

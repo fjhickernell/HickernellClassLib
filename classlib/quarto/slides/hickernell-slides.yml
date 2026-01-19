@@ -30,3 +30,24 @@ format:
       data-background-size: 55%
       data-background-position: "top left"
       data-background-color: "#f5f7fb"
+
+    mathjax:
+      options:
+        renderActions:
+          inheritLinkColor:
+            action: >
+              (doc) => {
+                const D = (doc && doc.document) ? doc.document : document;
+                D.querySelectorAll('.mjx-link, a.mjx-link, [data-mjx-link]').forEach(el => {
+                  el.style.color = 'inherit';
+                  el.style.fill = 'currentColor';
+                  el.style.stroke = 'currentColor';
+                  el.querySelectorAll('svg, svg *').forEach(s => {
+                    s.style.fill = 'currentColor';
+                    s.style.stroke = 'currentColor';
+                  });
+                });
+              }
+            priority: 10
+
+

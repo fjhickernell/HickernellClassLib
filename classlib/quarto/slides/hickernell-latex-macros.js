@@ -51,6 +51,7 @@
     tex: {
       macros: {
 
+        mathlink: ["\\href{#1}{\\text{\\color{##0f8b8d}{#2}}}", 2],
         frag: ["{\\class{fragment}{#2}}", 2],
 
         success: "{\\operatorname{succ}}",
@@ -179,3 +180,4 @@
     }
   };
 </script>
+

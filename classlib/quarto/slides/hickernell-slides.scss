@@ -310,6 +310,35 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
   bottom: 0.6em;
 }
 
+.reveal {
+  --r-navigation-color: var(--link-blue);
+  --r-navigation-color-hover: var(--link-hover);
+}
+
+.reveal .controls {
+  color: var(--link-blue);
+}
+
+.reveal .controls button:hover {
+  color: var(--link-hover);
+}
+
+/* Force navigation arrows to match theme on ALL slides (incl. title) */
+.reveal .controls,
+.reveal .controls button,
+.reveal .controls button * {
+  color: var(--link-blue) !important;
+  fill: var(--link-blue) !important;
+  stroke: var(--link-blue) !important;
+}
+
+.reveal .controls button:hover,
+.reveal .controls button:hover * {
+  color: var(--link-hover) !important;
+  fill: var(--link-hover) !important;
+  stroke: var(--link-hover) !important;
+}
+
 /* ===============================
    Title slide styling (modern card)
    =============================== */

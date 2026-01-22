@@ -137,12 +137,14 @@
         vecsym: ["{\\boldsymbol{#1}}", 1],
 
         vf:  "{\\boldsymbol{f}}",
+        tvf: "{\\widetilde{\\boldsymbol{f}}}",
         vk:  "{\\boldsymbol{k}}",
         vt:  "{\\boldsymbol{t}}",
         vT:  "{\\boldsymbol{T}}",
         vx:  "{\\boldsymbol{x}}",
         vX:  "{\\boldsymbol{X}}",
         vy:  "{\\boldsymbol{y}}",
+        tvy: "{\\widetilde{\\boldsymbol{y}}}",
         vY:  "{\\boldsymbol{Y}}",
         vz:  "{\\boldsymbol{z}}",
         vZ:  "{\\boldsymbol{Z}}",
@@ -174,6 +176,7 @@
         mi:  "{\\mathrm{i}}",
         mpi: "{\\mathrm{\\pi}}",
         mK: "{\\mathsf{K}}",
+        tmK: "{\\widetilde{\\mathsf{K}}}",
         mSigma: "{\\mathsf{\\Sigma}}",
 
         dif: "{\\mathrm{d}}"

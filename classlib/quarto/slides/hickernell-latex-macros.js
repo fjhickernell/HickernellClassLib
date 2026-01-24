@@ -54,6 +54,17 @@
         mathlink: ["\\href{#1}{\\text{\\color{##0f8b8d}{#2}}}", 2],
         frag: ["{\\class{fragment}{#2}}", 2],
         notimplies: "\\ \\mathrel{\\not\\!\\!\\!\\Longrightarrow}",
+        convas: ["\\xrightarrow{\\mathsf{a.s.}}", 0],
+        convp:  ["\\xrightarrow{\\Prob}", 0],
+        convd:  ["\\xrightarrow{\\mathsf{d}}", 0],
+
+        nconvas: ["\\mathrel{\\;\\not\\!\\!\\!\\xrightarrow{\\mathsf{a.s.}}}", 0],
+        nconvp:  ["\\mathrel{\\;\\not\\!\\xrightarrow{\\Prob}}", 0],
+        nconvd:  ["\\mathrel{\\;\\not\\!\\xrightarrow{\\mathsf{d}}}", 0],
+
+        asto: ["\\xrightarrow{\\mathsf{a.s.}}", 0],
+        pto:  ["\\xrightarrow{\\Prob}", 0],
+        dto:  ["\\xrightarrow{\\mathsf{d}}", 0],
 
         success: "{\\operatorname{succ}}",
         sinc:    "{\\operatorname{sinc}}",

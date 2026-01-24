@@ -97,6 +97,15 @@ body,
   padding-top: 0 !important;
 }
 
+/* --------------------------------------------
+   Headerless slides (---): add breathing room
+   -------------------------------------------- */
+
+/* Safari-safe: Quarto marks real slides with .slide */
+.reveal .slides section.slide:not(#title-slide):not(:has(h1, h2)) {
+  padding-top: 1.2em !important;
+}
+
 /* Remove all padding on slides container (fullscreen rule above overrides) */
 .reveal .slides {
   padding: 0 !important;

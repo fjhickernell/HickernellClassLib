@@ -136,7 +136,7 @@
         reals:     "{\\mathbb{R}}",
         complex:   "{\\mathbb{C}}",
         bbone:     "{\\mathbb{1}}",
-        indic:     "{\\mathbb{1}}",
+        indic:     "{\\mathop{\\mathbf{1}}}",
 
         abs:  ["{\\left\\lvert #1 \\right\\rvert}", 1],
         norm: ["{\\left\\lVert #1 \\right\\rVert}", 1],

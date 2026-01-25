@@ -113,8 +113,10 @@
         Var: "{\\operatorname{Var}}",
         Cov: "{\\operatorname{Cov}}",
 
-        argmax: "{\\mathop{\\operatorname{argmax}}\\limits}",
-        argmin: "{\\mathop{\\operatorname{argmin}}\\limits}",
+        argmin: ["\\operatorname*{argmin}", 0],
+        argmax: ["\\operatorname*{argmax}", 0],
+        Argmin: ["\\argmin\\limits_{#1}", 1],
+        Argmax: ["\\argmax\\limits_{#1}", 1],
 
         sign:  "{\\operatorname{sign}}",
         spann: "{\\operatorname{span}}",

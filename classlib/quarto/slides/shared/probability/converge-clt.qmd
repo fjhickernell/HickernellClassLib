@@ -1,0 +1,158 @@
+## Types of convergence{#type-conv}
+
+Let $X_1, X_2, \ldots$ be random variables and $X$ another random variable
+
+### Almost Sure Convergence
+$$
+X_n \convas X \iff \Prob \left( \lim_{n \to \infty} X_n = X \right) = 1
+$$
+For almost every outcome the sequence $X_n$ converges to $X$
+
+### Convergence in Probability
+$$
+X_n \convp X \iff \forall \varepsilon > 0, \; 
+\Prob\big( |X_n - X| > \varepsilon \big) \;\longrightarrow\; 0.
+$$
+The probability that $X_n$ differs significantly from $X$ goes to zero
+
+### Convergence in Distribution
+$$
+X_n \convd X \iff 
+\lim_{n \to \infty} F_{X_n}(x) = F_X(x)
+\quad \text{for all continuity points of } F_X
+$$
+The distributions of $X_n$ approach the distribution of $X$
+
+---
+
+### Convergence strength
+$$
+X_n \convas X
+\;\Longrightarrow\;
+X_n \convp X
+\;\Longrightarrow\;
+X_n \convd X,
+$$
+and none of the reverse implications hold in general
+
+- $X, X_1, X_2, \ldots \IIDsim \Norm(0,1)$ satisfies $X_n \convd X$, but $X_n \nconvp X$
+
+- $X=0$ and $\Prob(X_n =x ) = \begin{cases} 1/n, & x=1 \\ 1-1/n, & x=0 \end{cases} \;$  satisfies
+$$
+\Prob(\lvert X_n - X \rvert > \varepsilon ) = \Prob(X_n =1) = 1/n \to 0 \text{ as } n \to \infty \text{ so } X_n \convp X
+$$
+  But $\Prob (X_n =1 \text{ infinitely often}) = 1$ since the expected number of times $X_n=1$ is
+$$
+\sum_{n=1}^{\infty} \Prob(X_n=1) = \sum_{n=1}^{\infty} \frac 1n = \infty
+$$
+so  $X_n \ \, \nconvas X$
+
+---
+
+## Central Limit Theorem{#clt data-state="goldborder"}
+If $X_1, X_2, \ldots \IIDsim$ some distribution with finite moment generating function, $M(t) := \Ex\bigl(\exp(tX)\bigr)$, that exists for $t$ near $0$, and $\mu = \Ex(X)$ and $\sigma^2 = \var(X)$, and
+$$
+\barX_n := \frac 1n \left(X_1 + \cdots + X_n \right),
+$$
+then 
+$$
+\frac{\barX_n - \mu}{\sigma /\sqrt{n}} \convd \Norm(0,1)
+$$
+[Note that IID means independent and identically distributed]{.alert}
+
+## Proof of the Central Limit Theorem
+
+1. Define a standardized (mean $0$, variance $1$) random variable, $Y_i := (X_i - \mu)/\sigma$ and note that $Y_1, Y_2, \dots$ are IID with
+
+\begin{align*}
+Z_n: &= \frac{\barX_n - \mu}{\sigma /\sqrt{n}} = \frac{Y_1 + \cdots + Y_n}{\sqrt{n}} \\
+M_{Z_n}(t) &= \Ex[\exp(tZ_n)] = \Ex[\exp(tY_1/\sqrt{n}) \cdots \exp(tY_n/\sqrt{n})]\\
+& =  \{\Ex[\exp(tY_1/\sqrt{n})]\}^n \qquad \text{by independence} \\
+& = [M_Y(t/\sqrt{n})]^n
+\end{align*}
+
+---
+
+2. Take the limit of $M_{Z_n}(t)$ as $n \to \infty$ using [L’Hôpital’s rule]{.alert}
+\begin{align*}
+\lim_{n \to \infty} \log\bigl(M_{Z_n}(t)  \bigr) & = \lim_{n \to \infty} n  \log \bigl(M_Y(t/\sqrt{n}) \bigr) 
+=  \lim_{n \to \infty} \frac{\log \bigl(M_Y(t/\sqrt{n}) \bigr) }{n^{-1}} = \frac{0}{0} \\
+& = \lim_{n \to \infty} 
+\frac{ \dfrac{-t}{2n^{3/2}} \dfrac{M'_Y(t/\sqrt{n})}{M_Y(t/\sqrt{n})} }
+     { -n^{-2} }
+=   \frac t2  \lim_{n \to \infty} \bigg[ \frac{M'_Y(t/\sqrt{n})}{ n^{-1/2} M_Y(t/\sqrt{n}) } \bigg] 
+= \frac{0}{0} \\
+& =  \frac t2  \lim_{n \to \infty} \frac{ \dfrac{-t}{2 n^{3/2}} \dfrac{M_Y(t/\sqrt{n}) M''_Y(t/\sqrt{n}) - [M'_Y(t/\sqrt{n})]^2 }{ [M_Y(t/\sqrt{n})]^2}} { -n^{-3/2}/2 } = \frac{t^2}{2} 
+\end{align*}
+
+---
+
+3. Note that if $Z \sim \Norm(0,1)$ then 
+\begin{align*}
+M_Z(t) & = \Ex[\exp(tZ)] = \int_{-\infty}^{\infty} \frac 1{\sqrt{2 \pi}} \exp(tz - z^2/2) \, \dif z \\
+& = \int_{-\infty}^{\infty} \frac 1{\sqrt{2 \pi}} \exp\bigl(-(z - t)^2/2 \bigr) \, \exp(t^2/2) \, \dif z = \exp(t^2/2) \\
+\log\bigl(M_Z(t)  \bigr) &= \frac{t^2}{2} = \lim_{n \to \infty} \log\bigl(M_{Z_n}(t)  \bigr) 
+\end{align*}
+
+By uniqueness of moment generating functions,
+$$
+Z_n \convd N(0,1)
+$$
+$\square$
+
+## Chebyshev (Markov) Inequality
+$$
+\Prob\bigl( f(X) \ge r \bigr) \le \frac{\Ex[f(X)]}{r}
+$$
+
+
+### Proof
+\begin{align*}
+\Prob(f(X)\ge r)
+&= \Ex\bigl[\indic\bigl(f(X)\ge r\bigr)\bigr] \\
+&= \Ex\Bigl[\Ex\bigl[\indic\bigl(f(X)\ge r\bigr)\mid X\bigr]\Bigr]
+\qquad \text{(total expectation)} \\
+&\le \Ex\Bigl[\Ex\bigl[f(X)/r \mid X\bigr]\Bigr]
+\qquad \text{since } \indic\bigl(f(X)\ge r\bigr)\le f(X)/r \text{ a.s.} \\
+&= \Ex\bigl[f(X)/r\bigr] \\
+&= \Ex[f(X)]/r
+\end{align*}
+
+### Important special cases
+\begin{gather*}
+\Prob\bigl( \lvert X - \mu \rvert^2 \ge r^2 \bigr) \le \frac{\sigma^2}{r^2} \quad \text{where } \mu = \Ex(X), \ \sigma^2 = \var(X) \\
+\Prob\bigl( \lvert X - \med(X) \rvert \ge r \bigr) \le \frac{\Ex \lvert X - \med(X)\rvert}{r}
+\end{gather*}
+
+
+## Weak Law of Large Numbers (via Chebyshev)
+
+### Theorem (WLLN)
+Let $X_1,X_2,\dots$ be IID with $\Ex[X_1]=\mu$ and $\var(X_1)=\sigma^2<\infty$.
+Define the sample mean $\bar X_n := \frac1n\sum_{i=1}^n X_i$.  Then $\barX_n \convp \mu$.
+
+### Proof
+By Chebyshev's inequality,
+$$
+\Prob\bigl(|\barX_n-\mu|\ge \varepsilon\bigr)
+\le \frac{\Var(\barX_n)}{\varepsilon^2}
+$$
+Using independence,
+$$
+\var(\barX_n)
+=
+\var\!\left(\frac1n\sum_{i=1}^n X_i\right)
+=
+\frac{1}{n^2}\sum_{i=1}^n \Var(X_i)
+=
+\frac{1}{n^2}\cdot n\sigma^2
+=
+\frac{\sigma^2}{n}
+$$
+Therefore,
+$$
+\Prob\bigl(|\barX_n-\mu|\ge \varepsilon\bigr)
+\le
+\frac{\sigma^2}{n\varepsilon^2}
+\to 0 \qquad \square
+$$

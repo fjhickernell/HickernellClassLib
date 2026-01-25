@@ -13,9 +13,9 @@
 - Carefully sampled
 - Observations, surveys, experiments, or computer simulations
 
-:::{.vspace}
-See [Big Statistics Questions](/pages/stats-qs.html)
-:::
+::: {.vspace}
+See [Big Statistics Questions](/classlib/classlib/quarto/pages/stats-qs.html)
+::: 
 
 # Examples
 

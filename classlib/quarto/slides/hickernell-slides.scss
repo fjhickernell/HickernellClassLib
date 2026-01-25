@@ -534,6 +534,8 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
   background-color: #f2f2f2;
 }
 
-
+.vspace-sm { margin-top: 0.5em; }
+.vspace    { margin-top: 1em; }
+.vspace-lg { margin-top: 2em; }
 
 /*-- end:scss --*/

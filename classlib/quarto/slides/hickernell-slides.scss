@@ -312,34 +312,27 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
   opacity: 0.7;
 }
 
-/* Reveal wraps footer content in <p>; neutralize it */
+/* Reveal wraps footer HTML in <p> (sometimes with extra wrappers); neutralize */
 .reveal .footer p {
   margin: 0 !important;
+  padding: 0 !important;
 }
 
-/* Layout container */
+/* Our footer container (now single, inline footer) */
 .reveal .footer .fh-footer {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: baseline;
+  display: block !important;
   width: 100%;
-  gap: 1em;
 }
 
-/* Left chunk can truncate */
-.reveal .footer .fh-footer-left {
-  flex: 1 1 auto;
-  min-width: 0;
+/* Main footer line: keep on one line */
+.reveal .footer .fh-footer-main {
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-/* Right chunk stays tight */
-.reveal .footer .fh-footer-right {
-  flex: 0 0 auto;
-  white-space: nowrap;
-  margin-left: 1em;
+/* Optional separator styling (· or |) */
+.reveal .footer .fh-footer-sep {
+  margin: 0 1.5em;
+  opacity: 0.6;
 }
 
 /* Footer is globally pointer-events:none; re-enable for the link */

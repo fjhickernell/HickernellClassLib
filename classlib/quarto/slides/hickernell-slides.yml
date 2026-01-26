@@ -11,9 +11,7 @@ format:
     include-in-header:
       - ../classlib/classlib/quarto/slides/hickernell-latex-macros.js
       - ../classlib/classlib/quarto/slides/title-course-website.html
-
-    include-after-body:
-      - ../classlib/classlib/quarto/slides/footer-course-website.js
+      - ../classlib/classlib/quarto/slides/course-website-var.html
 
     theme:
       - simple
@@ -21,11 +19,17 @@ format:
 
     footer: |
       <div class="fh-footer">
-        <span class="fh-footer-left">
+        <span class="fh-footer-main">
           © 2026 Fred J. Hickernell · Illinois Institute of Technology
-        </span>
-        <span class="fh-footer-right">
-          <a id="fh-course-website" href="#" target="_blank" rel="noopener">Course website</a>
+          <span class="fh-footer-sep">·</span>
+          <a
+            id="fh-course-website"
+            href="#"
+            target="_blank"
+            rel="noopener"
+            onmouseenter="(function(a){var el=document.getElementById('course-website-meta'); if(!el) return; var url=(JSON.parse(el.textContent||'{}').course_website||'').trim(); if(url) a.setAttribute('href',url);})(this)"
+            onfocus="(function(a){var el=document.getElementById('course-website-meta'); if(!el) return; var url=(JSON.parse(el.textContent||'{}').course_website||'').trim(); if(url) a.setAttribute('href',url);})(this)"
+          >Course website</a>
         </span>
       </div>
 

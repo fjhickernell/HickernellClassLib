@@ -1,0 +1,17 @@
+# Estimators
+
+
+
+## Summary Statistics
+
+Given IID data, $X_1, \ldots, X_n$, we often compute summary statistics
+
+- [Sample Mean]{.alert} $\barX := \frac{1}{n} \sum_{i=1}^n X_i$ to approximate the population mean $\mu := \E[X_1]$
+
+- [Sample Variance]{.alert} $S^2 := \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX)^2$ to approximate the population variance $\sigma^2 := \var(X_1)$
+
+And given IID data, $(X_1, Y_1), \ldots, (X_n,Y_n)$, we often compute summary statistics
+
+- [Sample Covariance]{.alert} $S_{XY} := \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX)(Y_i - \barY)$ to approximate the population covariance $\cov(X_1,Y_1)$
+
+- [Sample Correlation]{.alert} $R_{XY} := \frac{S_{XY}}{S_X S_Y}$ to approximate the population correlation $\corr(X_1,Y_1)$

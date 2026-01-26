@@ -312,6 +312,41 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
   opacity: 0.7;
 }
 
+/* Reveal wraps footer content in <p>; neutralize it */
+.reveal .footer p {
+  margin: 0 !important;
+}
+
+/* Layout container */
+.reveal .footer .fh-footer {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: baseline;
+  width: 100%;
+  gap: 1em;
+}
+
+/* Left chunk can truncate */
+.reveal .footer .fh-footer-left {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Right chunk stays tight */
+.reveal .footer .fh-footer-right {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  margin-left: 1em;
+}
+
+/* Footer is globally pointer-events:none; re-enable for the link */
+.reveal .footer a {
+  pointer-events: auto;
+}
+
 .reveal .slide-number {
   font-size: 0.7em;
   opacity: 0.9;

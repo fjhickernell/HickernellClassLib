@@ -538,4 +538,32 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
 .vspace    { margin-top: 1em; }
 .vspace-lg { margin-top: 2em; }
 
+/* ------------------------------
+   Bullet style environments
+   ------------------------------ */
+
+/* Default bullets (policy) */
+.reveal ul {
+  list-style-type: "–  ";   /* change this later if desired */
+}
+
+/* Dash bullets (environment) */
+.reveal section.dash-bullets ul {
+  list-style-type: "–  ";
+}
+
+/* Filled circle bullets (environment) */
+.reveal section.circle-bullets ul {
+  list-style-type: disc;
+}
+
+/* Preserve hierarchy */
+.reveal section.dash-bullets ul ul {
+  list-style-type: disc;
+}
+
+.reveal section.circle-bullets ul ul {
+  list-style-type: circle;
+}
+
 /*-- end:scss --*/

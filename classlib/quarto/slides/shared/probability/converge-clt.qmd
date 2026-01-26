@@ -124,6 +124,32 @@ $$
 \Prob\bigl( \lvert X - \med(X) \rvert \ge r \bigr) \le \frac{\Ex \lvert X - \med(X)\rvert}{r}
 \end{gather*}
 
+## Normal tails vs Chebyshev bounds
+
+Let $X\sim \Norm(0,1)$ and cmpare $\Prob(|X|>r)$ with two bounds
+
+```{python}
+#| output: asis
+import math
+
+rs = [1, 2, 3, 10, 100]
+E_absX = math.sqrt(2/math.pi)
+
+def tail_abs_normal(r):
+    return math.erfc(r / math.sqrt(2))
+
+print("| $r$ | $\\Prob(|X|>r)$ (exact) | $\\Ex|X|/r$ (Markov) | $\\Ex|X|^2 /r^2$ (Chebyshev) |")
+print("|-:|---:|---:|----:|")
+
+for r in rs:
+    exact = tail_abs_normal(r)
+    markov = E_absX / r
+    cheb = 1.0 / (r*r)
+    print(f"| {r} | {exact:.6g} | {markov:.6f} | {cheb:.6f} |")
+```
+
+- The Markov and Chebyshev bounds are much looser, but more general
+- CLT bounds for means will resemble the exact
 
 ## Weak Law of Large Numbers (via Chebyshev)
 

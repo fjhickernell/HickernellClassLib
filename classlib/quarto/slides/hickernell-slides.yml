@@ -12,13 +12,25 @@ format:
       - ../classlib/classlib/quarto/slides/hickernell-latex-macros.js
       - ../classlib/classlib/quarto/slides/title-course-website.html
 
+    include-after-body:
+      - ../classlib/classlib/quarto/slides/footer-course-website.js
+
     theme:
       - simple
       - ../classlib/classlib/quarto/slides/hickernell-slides.scss
 
+    footer: |
+      <div class="fh-footer">
+        <span class="fh-footer-left">
+          © 2026 Fred J. Hickernell · Illinois Institute of Technology
+        </span>
+        <span class="fh-footer-right">
+          <a id="fh-course-website" href="#" target="_blank" rel="noopener">Course website</a>
+        </span>
+      </div>
+
     slide-number: c/t
     show-slide-number: all
-    footer: "© Fred J. Hickernell"
     width: 1600
     height: 1000
     margin: 0.00
@@ -30,7 +42,3 @@ format:
       data-background-size: 55%
       data-background-position: "top left"
       data-background-color: "#f5f7fb"
-
-
-
-

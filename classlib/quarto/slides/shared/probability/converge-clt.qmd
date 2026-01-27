@@ -133,23 +133,112 @@ Let $X\sim \Norm(0,1)$ and cmpare $\Prob(|X|>r)$ with two bounds
 import math
 
 rs = [1, 2, 3, 10, 100]
-E_absX = math.sqrt(2/math.pi)
+E_absX = math.sqrt(2 / math.pi)
 
 def tail_abs_normal(r):
     return math.erfc(r / math.sqrt(2))
 
-print("| $r$ | $\\Prob(|X|>r)$ (exact) | $\\Ex|X|/r$ (Markov) | $\\Ex|X|^2 /r^2$ (Chebyshev) |")
+def fmt_prob(x):
+    return f"{x:.6g}"
+
+def fmt_over(x):
+    if x == math.inf:
+        return "(∞)"
+    return f"({x:.2g}×)"
+
+print(
+    "| $r$ | $\\Prob(|X|>r)$ (exact) | "
+    "$\\Ex|X|/r$ (Markov) | "
+    "$\\Ex|X|^2 /r^2$ (Chebyshev) |"
+)
 print("|-:|---:|---:|----:|")
 
 for r in rs:
     exact = tail_abs_normal(r)
     markov = E_absX / r
     cheb = 1.0 / (r*r)
-    print(f"| {r} | {exact:.6g} | {markov:.6f} | {cheb:.6f} |")
+
+    if exact == 0.0:
+        m_over = math.inf
+        c_over = math.inf
+    else:
+        m_over = markov / exact
+        c_over = cheb / exact
+
+    print(
+        f"| {r} | {fmt_prob(exact)} | "
+        f"{fmt_prob(markov)} {fmt_over(m_over)} | "
+        f"{fmt_prob(cheb)} {fmt_over(c_over)} |"
+    )
 ```
 
 - The Markov and Chebyshev bounds are much looser, but more general
 - CLT bounds for means will resemble the exact
+
+## Student $t$ tails vs Markov/Chebyshev bounds
+
+Let $T_\nu \sim t_\nu$ and compare $\Prob(|T_\nu|>r)$ with two bounds
+
+```{python}
+#| output: asis
+import mpmath as mp
+
+mp.mp.dps = 50
+
+dfs = [2, 3, 5]
+rs  = [1, 2, 10]
+
+def t_pdf(x, nu):
+    c = mp.gamma((nu+1)/2) / (mp.sqrt(nu*mp.pi) * mp.gamma(nu/2))
+    return c * (1 + (x*x)/nu) ** (-(nu+1)/2)
+
+def tail_abs_t_exact(r, nu):
+    x = nu / (nu + r*r)
+    return mp.betainc(nu/2, mp.mpf('0.5'), 0, x, regularized=True)
+
+def E_abs_t(nu):
+    if nu <= 1:
+        return mp.inf
+    f = lambda x: x * t_pdf(x, nu)
+    return 2 * mp.quad(f, [0, mp.inf])
+
+def E_t2(nu):
+    if nu <= 2:
+        return mp.inf
+    return nu / (nu - 2)
+
+def fmt_prob(x):
+    if x == mp.inf:
+        return "inf"
+    return f"{float(x):.3g}"
+
+def fmt_over(x):
+    if x == mp.inf:
+        return "(∞)"
+    return f"({float(x):.0f}×)"
+
+print("| $\\nu$ | $r$ | $\\Prob(|T_\\nu|>r)$ (exact) | $\\Ex|T_\\nu|/r$ (Markov) | $\\Ex(T_\\nu^2)/r^2$ (Chebyshev) |")
+print("|-:|-:|---:|---:|----:|")
+
+for nu in dfs:
+    Eabs = E_abs_t(nu)
+    Et2  = E_t2(nu)
+    for r in rs:
+        exact = tail_abs_t_exact(r, nu)
+
+        markov = (Eabs / r) if mp.isfinite(Eabs) else mp.inf
+        cheb   = (Et2  / (r*r)) if mp.isfinite(Et2) else mp.inf
+
+        m_over = markov / exact if mp.isfinite(markov) else mp.inf
+        c_over = cheb   / exact if mp.isfinite(cheb)   else mp.inf
+
+        print(
+            f"| {nu} | {r} | {fmt_prob(exact)} | "
+            f"{fmt_prob(markov)} {fmt_over(m_over)} | "
+            f"{fmt_prob(cheb)} {fmt_over(c_over)} |"
+        )
+```
+
 
 ## Weak Law of Large Numbers (via Chebyshev)
 

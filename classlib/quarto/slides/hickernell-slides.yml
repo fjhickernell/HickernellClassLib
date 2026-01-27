@@ -30,6 +30,10 @@ format:
             onmouseenter="(function(a){var el=document.getElementById('course-website-meta'); if(!el) return; var url=(JSON.parse(el.textContent||'{}').course_website||'').trim(); if(url) a.setAttribute('href',url);})(this)"
             onfocus="(function(a){var el=document.getElementById('course-website-meta'); if(!el) return; var url=(JSON.parse(el.textContent||'{}').course_website||'').trim(); if(url) a.setAttribute('href',url);})(this)"
           >Course website</a>
+          <span class="fh-footer-sep">·</span>
+          <span class="fh-footer-ex">
+            $\exstar$ = exercise for the reader
+          </span>
         </span>
       </div>
 

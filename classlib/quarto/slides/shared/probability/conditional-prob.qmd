@@ -27,7 +27,7 @@ $$
 \qquad \Prob(B)>0
 $$
 
-> If you meet an introvert, is she more likely to be a librarian or a salesman?
+$\exstar$ If you meet an introvert, is she more likely to be a librarian or a salesman?
 
 ---
 

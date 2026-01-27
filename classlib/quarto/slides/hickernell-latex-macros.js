@@ -176,7 +176,7 @@
         vphi:     "{\\boldsymbol{\\phi}}",
         vPhi:     "{\\boldsymbol{\\Phi}}",
         vmu:      "{\\boldsymbol{\\mu}}",
-        vmu: "{\\boldsymbol{\\mu}}",
+        vnu:     "{\\boldsymbol{\\nu}}",
 
         htheta: "{\\widehat{\\theta}}",
         hTheta: "{\\widehat{\\Theta}}",
@@ -203,7 +203,11 @@
         dif: "{\\mathrm{d}}",
         IID: "{\\mathrm{IID}}",
         MLE: "{\\mathrm{MLE}}",
-      }
+
+        exstar: "{\\mathop{\\mathchoice{\\color{gold}{\\large\\star}}{\\color{gold}{\\large\\star}}{\\color{gold}{\\star}}{\\color{gold}{\\star}}}}",
+        exeq: "\\overset{\\exstar}{=}",
+        
+      } 
     }
   };
 </script>

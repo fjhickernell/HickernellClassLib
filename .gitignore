@@ -17,3 +17,6 @@ __pycache__/
 *.css.map
 classlib/notebooks/_figures/
 classlib/notebooks/.ipynb_checkpoints/
+
+# Quarto scratch notebooks
+*.quarto_ipynb

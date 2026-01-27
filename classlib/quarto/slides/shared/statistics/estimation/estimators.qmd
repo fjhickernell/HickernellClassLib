@@ -1,4 +1,8 @@
-# Estimators
+# Estimators/Estimates
+
+[Estimator:]{.alert} a random variable (or function of the sample) used to approximate an unknown parameter
+[Estimate:]{.alert} the realized numerical value of an estimator after observing the data
+
 - [Summary statistics](#summary-statistics)
 - [Maximum likelihood estimators (MLE)](#maximum-likelihood-estimators)
 - [Plug-in estimators](#plug-in-estimators)
@@ -8,9 +12,19 @@
 
 Given IID data, $X_1, \ldots, X_n$, we often compute
 
-- [Sample Mean]{.alert} $\displaystyle \barX := \frac{1}{n} \sum_{i=1}^n X_i$ to approximate the population mean $\mu := \Ex[X_1]$
+- [Empirical Distribution]{.alert} $F_{\{X_i\}}(x) := \frac 1n \sum_{i=1}^n \indic(X_i \ge x)$
+
+- [Sample Mean]{.alert} $\displaystyle \barX := \frac{1}{n} \sum_{i=1}^n X_i = \Ex_{F_{\{X_i\}}}(X)$ to approximate the population mean $\mu := \Ex[X_1]$
 
 - [Sample Variance]{.alert} $S^2 := \displaystyle \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX)^2$ to approximate the population variance $\sigma^2 := \var(X_1) := \Ex[(X_1-\mu)^2]$
+  - Sometimes $\hsigma^2 := \displaystyle \frac{1}{\class{alert}{n}} \sum_{i=1}^n (X_i - \barX)^2$ 
+
+- [Order Statistics]{.alert} $X_{(1)}, X_{(2)}, \ldots$, reorder the data so that 
+$$ X_{(1)} \le X_{(2)} \le \cdots \le X_{(n)}, \qquad \text{i.e., } X_{(i)} = Q_{\{X_i\}}(i/n)
+$$
+where $Q_{\{X_i\}}$ is the quantile function corresponding to the empirical distribution
+
+---
 
 And given IID data, $(X_1, Y_1), \ldots, (X_n,Y_n)$, we often compute
 
@@ -28,8 +42,9 @@ L(\vtheta | x_1, \ldots, x_n) & := \varrho_{X_1, \ldots, X_n | \vtheta}(x_1, \ld
 
 The [maximum likelihood estimator (MLE)]{.alert} of $\vtheta$ is the one that fits the observed data best in terms of
 $$
-\vtheta_{\MLE}  = \Argmax{\vtheta} L(\vtheta | x_1, \ldots, x_n) 
+\vTheta_{\MLE}  = \Argmax{\vtheta} L(\vtheta | X_1, \ldots, X_n) 
 $$
 
 ## Plug-in estimators{#plug-in-estimators}
-If $\htheta_1$ is an estimator of $\theta$ and $\theta_2 = g(\theta_1)$, then $\htheta_2 : = g(\htheta_1)$ is a [plug-in estimator]{.alert} of $\vtheta_2$
+- If $\hTheta_1$ is an estimator of $\theta$ and $\theta_2 = g(\theta_1)$, then $\hTheta_2 : = g(\htheta_1)$ is a [plug-in estimator]{.alert} of $\theta_2$
+- If $\hTheta_1$ is MLE of $\theta$ and $\theta_2 = g(\theta_1)$, then $\hTheta_2 : = g(\hTheta_1)$ is an MLE of $\theta_2$

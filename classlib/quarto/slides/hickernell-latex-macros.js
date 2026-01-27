@@ -170,6 +170,7 @@
         vlambda:  "{\\boldsymbol{\\lambda}}",
         vsigma:   "{\\boldsymbol{\\sigma}}",
         vtheta:   "{\\boldsymbol{\\theta}}",
+        vTheta:   "{\\boldsymbol{\\Theta}}",
         vomega:   "{\\boldsymbol{\\omega}}",
         vpi:      "{\\boldsymbol{\\pi}}",
         vphi:     "{\\boldsymbol{\\phi}}",
@@ -178,8 +179,10 @@
         vmu: "{\\boldsymbol{\\mu}}",
 
         htheta: "{\\widehat{\\theta}}",
+        hTheta: "{\\widehat{\\Theta}}",
         hbeta:  "{\\widehat{\\beta}}",
         hmu:    "{\\widehat{\\mu}}",
+        hsigma: "{\\widehat{\\sigma}}",
         hSigma: "{\\widehat{\\Sigma}}",
 
         vzero: "{\\boldsymbol{0}}",

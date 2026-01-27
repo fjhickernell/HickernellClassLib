@@ -26,10 +26,10 @@
 
 - [Random variable/vector/function]{.alert} — mathematical quantity representing an outcome
 
-- [Cumulative distribution function (CDF)]{.alert} $F$ of random variable $X$ 
+- [Cumulative distribution function (CDF)]{.alert} $F$ of random variable $X$ [(right-continuous)]{.alert}
   -  $F(x) : =  \Prob(X \le x)$
 
-- [Quantile function]{.alert} $Q$ of a random variable $X$ plays the role of the inverse of the CDF
+- [Quantile function]{.alert} $Q$ of a random variable $X$ plays the role of the [inverse]{.alert} of the CDF [(left-continuous)]{.alert}
   - $Q(p) : = \inf\{x \in \reals : F(x) \ge p\}$
 
 - [Probability mass function (PMF)]{.alert} $\varrho$ of discrete random variable $X$ 
@@ -42,7 +42,8 @@
 
 - [Expectation]{.alert} — average value of a random variable, weighted by its probability
   - $\displaystyle \Ex[f(X)] : = \sum_{x} f(x) \varrho(x)$  for discrete random variables
-  - $\displaystyle \Ex[f(X)] : =  \int f(x) \varrho(x) \; \dif x$  for continuous random variables
+  - $\displaystyle \Ex[f(X)] : =  \int f(x) \varrho(x) \, \dif x$  for continuous random variables
+  - $\displaystyle \Ex[f(X)] : =  \int f(x)  \, \dif F(x)$  in general (see [Lebesgue–Stieltjes integral](https://en.wikipedia.org/wiki/Lebesgue-Stieltjes_integration))
 
 - [Mean]{.alert} of $X$ is $\mu : = \Ex(X) = \Argmin{m\in\reals} \Ex[(X-m)^2]$
 

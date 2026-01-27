@@ -177,6 +177,11 @@
         vmu:      "{\\boldsymbol{\\mu}}",
         vmu: "{\\boldsymbol{\\mu}}",
 
+        htheta: "{\\widehat{\\theta}}",
+        hbeta:  "{\\widehat{\\beta}}",
+        hmu:    "{\\widehat{\\mu}}",
+        hSigma: "{\\widehat{\\Sigma}}",
+
         vzero: "{\\boldsymbol{0}}",
         vone:  "{\\boldsymbol{1}}",
         vinf:  "{\\boldsymbol{\\infty}}",
@@ -192,7 +197,9 @@
         tmK: "{\\widetilde{\\mathsf{K}}}",
         mSigma: "{\\mathsf{\\Sigma}}",
 
-        dif: "{\\mathrm{d}}"
+        dif: "{\\mathrm{d}}",
+        IID: "{\\mathrm{IID}}",
+        MLE: "{\\mathrm{MLE}}",
       }
     }
   };

@@ -1,8 +1,10 @@
 # Estimators
+- [Summary statistics](#summary-statistics)
+- [Maximum likelihood estimators (MLE)](#maximum-likelihood-estimators)
+- [Plug-in estimators](#plug-in-estimators)
 
 
-
-## Summary Statistics
+## Summary statistics{#summary-statistics}
 
 Given IID data, $X_1, \ldots, X_n$, we often compute
 
@@ -15,3 +17,19 @@ And given IID data, $(X_1, Y_1), \ldots, (X_n,Y_n)$, we often compute
 - [Sample Covariance]{.alert} $\displaystyle  S_{XY} := \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX)(Y_i - \barY)$ to approximate the population covariance $\cov(X_1,Y_1) : = \Ex[(X_1 - \mu)(Y_1 - \mu)]$
 
 - [Sample Correlation]{.alert} $\displaystyle  R_{XY} := \frac{S_{XY}}{S_X S_Y}$ to approximate the population correlation $\displaystyle \corr(X_1,Y_1) : = \frac{\cov(X_1,Y_1)}{\sigma_X \sigma_Y}$
+
+## Maximum likelihood estimators{#maximum-likelihood-estimators}
+
+The joint density of data,  $\vX = (X_1, \ldots, X_n)^\top$ given a parameter, $\vtheta$, is $\varrho_{X_1, \ldots, X_n| \vtheta}$.  The [likelihood]{.alert}, $L$ turns that around to make the parameter the variable, so 
+\begin{align*}
+L(\vtheta | x_1, \ldots, x_n) & := \varrho_{X_1, \ldots, X_n | \vtheta}(x_1, \ldots, x_n) \\
+& = \prod_{i=1}^n \varrho_{X_1 |\vtheta}(x_i) \qquad \text{if } X_1, \ldots, X_n \sim \IID
+\end{align*}
+
+The [maximum likelihood estimator (MLE)]{.alert} of $\vtheta$ is the one that fits the observed data best in terms of
+$$
+\vtheta_{\MLE}  = \Argmax{\vtheta} L(\vtheta | x_1, \ldots, x_n) 
+$$
+
+## Plug-in estimators{#plug-in-estimators}
+If $\htheta_1$ is an estimator of $\theta$ and $\theta_2 = g(\theta_1)$, then $\htheta_2 : = g(\htheta_1)$ is a [plug-in estimator]{.alert} of $\vtheta_2$

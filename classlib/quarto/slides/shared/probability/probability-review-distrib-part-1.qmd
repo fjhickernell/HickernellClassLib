@@ -51,7 +51,7 @@
   - [Standard deviation]{.alert} of $X$ is  $\std(X) := \sigma = \sqrt{\var(X)}$
 
 - [Median]{.alert} of $X$ is $\med(X) : = Q(1/2) \in 
-\Argmin{m\in\reals} \Ex \lvert X-m \rvert$
+\Argmin{m\in\reals} \Ex (\lvert X-m \rvert)$
 
 ---
 

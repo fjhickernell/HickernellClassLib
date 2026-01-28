@@ -587,7 +587,7 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
 
 /* Preserve hierarchy */
 .reveal section.dash-bullets ul ul {
-  list-style-type: disc;
+  list-style-type: "▪ ";
 }
 
 .reveal section.circle-bullets ul ul {

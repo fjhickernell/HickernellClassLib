@@ -27,7 +27,7 @@ $$
 \qquad \Prob(B)>0
 $$
 
-$\exstar$ If you meet an introvert, is she more likely to be a librarian or a salesman?
+
 
 ---
 
@@ -47,6 +47,11 @@ $$
 =
 \frac{\varrho_{Y\mid X}(y\mid x)\,\varrho_X(x)}{\varrho_Y(y)}
 $$
+
+$\exstar$ If you meet an introvert, is she more likely to be a librarian or a salesman?
+
+
+$\exstar$ What probability distributions defined on $[0,\infty)$ satisfy the [memoryless]{.alert} property, i.e. $\Prob[X > t + x | X > t] = \Prob[X > x]$?
 
 ## Bayesian statistics to approximate and integrate functions
 

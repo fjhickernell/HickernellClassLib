@@ -129,7 +129,7 @@ $$
 
 ## Normal tails vs Chebyshev bounds
 
-Let $X\sim \Norm(0,1)$ and cmpare $\Prob(|X|>r)$ with two bounds
+Let $X\sim \Norm(0,1)$ and compare $\Prob(|X|>r)$ with two bounds
 
 ```{python}
 #| output: asis
@@ -177,7 +177,7 @@ for r in rs:
 
 - The Markov and Chebyshev bounds are much looser, but more general
 - CLT bounds for means will resemble the exact; we are willing to live with approximate bounds that are tighter than absolute bounds
-- These guaranteed Markov and Cheybshev bounds still depend on knowing or approximating $\sigma^2$ or $\Ex \lvert X - \med(X)\rvert$
+- These guaranteed Markov and Chebyshev bounds still depend on knowing or approximating $\sigma^2$ or $\Ex \lvert X - \med(X)\rvert$
 
 ## Student $t$ tails vs Markov/Chebyshev bounds
 

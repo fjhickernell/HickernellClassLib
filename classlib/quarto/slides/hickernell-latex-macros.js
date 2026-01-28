@@ -204,8 +204,8 @@
         IID: "{\\mathrm{IID}}",
         MLE: "{\\mathrm{MLE}}",
 
-        exstar: "{\\mathop{\\mathchoice{\\color{gold}{\\large\\star}}{\\color{gold}{\\large\\star}}{\\color{gold}{\\star}}{\\color{gold}{\\star}}}}",
-        exeq: "\\overset{\\exstar}{=}",
+        exstar: "{\\mathop{\\mathchoice{\\color{gold}{\\Large\\star}}{\\color{gold}{\\Large\\star}}{\\color{gold}{\\large\\star}}{\\color{gold}{\\star}}}}",
+        exeq: "{\\mathrel{\\,\\overset{\\exstar}{=}\\,}}",
         
       } 
     }

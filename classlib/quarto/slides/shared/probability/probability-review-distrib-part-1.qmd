@@ -45,9 +45,9 @@
   - $\displaystyle \Ex[f(X)] : =  \int f(x) \varrho(x) \, \dif x$  for continuous random variables
   - $\displaystyle \Ex[f(X)] : =  \int f(x)  \, \dif F(x)$  in general (see [Lebesgue–Stieltjes integral](https://en.wikipedia.org/wiki/Lebesgue-Stieltjes_integration))
 
-- [Mean]{.alert} of $X$ is $\mu : = \Ex(X) = \Argmin{m\in\reals} \Ex[(X-m)^2]$
+- [Mean]{.alert} of $X$ is $\mu : = \Ex(X) \exeq \Argmin{m\in\reals} \Ex[(X-m)^2]$
 
-- [Variance]{.alert} of $X$ is $\sigma^2 : = \var(X) := \Ex[(X - \mu)^2] = E(X^2) - \mu^2$
+- [Variance]{.alert} of $X$ is $\sigma^2 : = \var(X) := \Ex[(X - \mu)^2] \exeq E(X^2) - \mu^2$
   - [Standard deviation]{.alert} of $X$ is  $\std(X) := \sigma = \sqrt{\var(X)}$
 
 - [Median]{.alert} of $X$ is $\med(X) : = Q(1/2) \in 
@@ -94,5 +94,6 @@ $$
 
 - [Multivariate Normal (Gaussian)]{.alert} (limiting distribution, continuous) $\Norm(\vmu, \mSigma)$
 $$
-\varrho(\vx): = \frac{\exp\bigl(-(\vx-\vmu)^\top \mSigma^{-1} (\vx-\vmu) /2\bigr)}{\sqrt{(2 \pi)^{d} \det(\mSigma)}};\quad \Ex(\vX) = \vmu, \quad \cov(\vX) = \mSigma
+\varrho(\vx): = \frac{\exp\bigl(-(\vx-\vmu)^\top \mSigma^{-1} (\vx-\vmu) /2\bigr)}{\sqrt{(2 \pi)^{d} \det(\mSigma)}};\; \Ex(\vX) = \vmu, \; \cov(\vX) = \mSigma
+\class{alert}{\text{ symmetric, positive definite}}
 $$

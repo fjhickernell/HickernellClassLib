@@ -14,4 +14,4 @@ Then we will try to construct $\Theta_L$ and/or $\Theta_U$ depending on that dat
 
 - $\Prob(\theta  \Theta_U) = 1 - \alpha$
 
-Here $\alpha$ is our willingness to be wrong
+Here $\alpha$ is our willingness to be wrong, typically $\alpha = 5\%$

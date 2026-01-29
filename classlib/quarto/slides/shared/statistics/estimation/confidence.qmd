@@ -12,6 +12,6 @@ Then we will try to construct $\Theta_L$ and/or $\Theta_U$ depending on that dat
 
 - $\Prob(\Theta_L \le \theta) = 1 - \alpha$, or
 
-- $\Prob(\theta  \Theta_U) = 1 - \alpha$
+- $\Prob(\theta \le \Theta_U) = 1 - \alpha$
 
 Here $\alpha$ is our willingness to be wrong, typically $\alpha = 5\%$

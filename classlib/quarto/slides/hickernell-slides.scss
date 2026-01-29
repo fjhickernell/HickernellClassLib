@@ -266,6 +266,17 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
   transform: translateX(-50%) !important;
 }
 
+//* Safari-proof fullscreen banner (matches gutter logic) */
+.reveal:fullscreen .slides section.slide:not(#title-slide) h1::before,
+.reveal:fullscreen .slides section.slide:not(#title-slide) h2::before,
+.reveal:-webkit-full-screen .slides section.slide:not(#title-slide) h1::before,
+.reveal:-webkit-full-screen .slides section.slide:not(#title-slide) h2::before {
+  left: 50% !important;
+  right: auto !important;
+  width: 100vw !important;
+  transform: translateX(-50%) !important;
+}
+
 /* Size hierarchy */
 .reveal section:not(.title-slide) h1 { font-size: 1.60em; }
 .reveal section:not(.title-slide) h2 { font-size: 1.40em; }

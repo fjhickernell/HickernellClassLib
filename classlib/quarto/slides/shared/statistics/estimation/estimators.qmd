@@ -45,6 +45,52 @@ $$
 \vTheta_{\MLE}  = \Argmax{\vtheta} L(\vtheta | X_1, \ldots, X_n) 
 $$
 
+$\exstar$ What is the MLE of $p$ for the distribution $\Bern(p)$?
+
+::: {.exitem}
+<span class="exbullet">$\exstar$</span><span>What is the MLE of $\lambda$ for $\Exp(\lambda)$? What are the MLE of $\mu=\Ex(X)$ and $\sigma=\var(X)$ for $X\sim\Exp(\lambda)$?</span>
+:::
+
+$\exstar$ What are the MLE of $\mu$ and $\sigma$ for $X \sim \Norm(\mu,\sigma^2)$?
+
+
+
 ## Plug-in estimators{#plug-in-estimators}
 - If $\hTheta_1$ is an estimator of $\theta$ and $\theta_2 = g(\theta_1)$, then $\hTheta_2 : = g(\htheta_1)$ is a [plug-in estimator]{.alert} of $\theta_2$
 - If $\hTheta_1$ is MLE of $\theta$ and $\theta_2 = g(\theta_1)$, then $\hTheta_2 : = g(\hTheta_1)$ is an MLE of $\theta_2$
+
+# Properties of Estimators
+- [Bias and variance](#biasvar)
+- [Distributions of estimators](#distribest)
+- 
+
+## Bias, variance, and mean squared error of estimators{#biasvar}
+Suppose that $\Theta$ is an estimator of a parameter, $\theta$, of a population
+
+- [Bias]{.alert} $\bias(\Theta) = \Ex(\Theta) - \theta$
+  - Asymptotic bias is $\displaystyle \lim_{n \to \infty} \bias(\Theta_n)$, where $n$ is the size of the sample on which the estimator is based
+
+- [Variance]{.alert} is defined normally
+  - $\var(\barX) \exeq \var(X)/n$
+
+- [Mean squared error (MSE)]{.alert} $\mse(\Theta) := \Ex[(\Theta - \theta)^2] \exeq [\bias(\Theta)]^2 + \var(\Theta)$
+
+$\exstar$ Show that $S^2 := \displaystyle \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX)^2$ is an unbiased estimator of $\sigma^2$
+
+$\exstar$ Is the MLE of $\sigma=\var(X)$ for $X\sim\Exp(\lambda)$ unbiased?
+
+
+## Distributions of estimators
+
+For the sample mean, $\barX_n$
+
+- $n \barX_n \sim \Bin(n,p)$ if $X \sim \Bern(p)$
+
+- $\barX_n \sim \Gam(n, n \lambda)$ if $X \sim \Exp(p)$ where $\varrho_{\Gam(\alpha, \lambda)}(x) = \frac{\lambda^{\alpha}}{\Gamma(\alpha)}\, x^{\alpha-1} \exp(-\lambda x)
+\quad x>0$ <br>(Note: $\Gamma(n) = (n-1)!$ for integer $n$)
+
+- $\barX_n \exsim \Norm(\mu,\sigma^2/n)$ if $X \sim \Norm(\mu,\sigma^2)$
+
+- $\barX_n \appxsim \Norm(\mu,\sigma^2/n)$ for arbitrary distributions and large $n$ by the [Central Limit Theorem]{.alert}
+
+

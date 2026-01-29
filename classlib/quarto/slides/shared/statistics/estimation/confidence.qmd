@@ -1,0 +1,17 @@
+# Confidence Intervals
+
+If 
+
+- $\theta$ is a parameter of interest of a distribution, and 
+
+- $X_1, \ldots, X_n$ are data that we assume are collected that follow that distribution, 
+
+Then we will try to construct $\Theta_L$ and/or $\Theta_U$ depending on that data (and not on $\theta$) to give us intervals that [capture]{.alert} $\theta$ with high probability $1 - \alpha$
+
+- $\Prob(\Theta_L \le \theta  \Theta_U) = 1 - \alpha$, or
+
+- $\Prob(\Theta_L \le \theta) = 1 - \alpha$, or
+
+- $\Prob(\theta  \Theta_U) = 1 - \alpha$
+
+Here $\alpha$ is our willingness to be wrong

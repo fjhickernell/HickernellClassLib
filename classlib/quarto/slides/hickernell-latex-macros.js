@@ -77,6 +77,7 @@
         dist:  "{\\operatorname{dist}}",
         spn:   "{\\operatorname{span}}",
         sgn:   "{\\operatorname{sgn}}",
+        mse:   "{\\operatorname{mse}}",
         rmse:  "{\\operatorname{rmse}}",
         rank:  "{\\operatorname{rank}}",
         erfc:  "{\\operatorname{erfc}}",
@@ -100,11 +101,11 @@
         Unif:  "{\\operatorname{Unif}}",
         Norm:  "{\\operatorname{N}}",
         Exp:   "{\\operatorname{Exp}}",
+        Gam:   "{\\operatorname{Gamma}}",
         Pois:  "{\\operatorname{Pois}}",
         Geom:  "{\\operatorname{Geom}}",
         Cauchy:"{\\operatorname{Cauchy}}",
         Laplace:"{\\operatorname{Laplace}}",
-        Gamma: "{\\operatorname{Gamma}}",
         Beta:  "{\\operatorname{Beta}}",
         Weibull:"{\\operatorname{Weibull}}",
         Lognorm:"{\\operatorname{Lognormal}}",
@@ -181,6 +182,7 @@
         htheta: "{\\widehat{\\theta}}",
         hTheta: "{\\widehat{\\Theta}}",
         hbeta:  "{\\widehat{\\beta}}",
+        hlambda: "{\\widehat{\\lambda}}",
         hmu:    "{\\widehat{\\mu}}",
         hsigma: "{\\widehat{\\sigma}}",
         hSigma: "{\\widehat{\\Sigma}}",
@@ -206,6 +208,7 @@
 
         exstar: "{\\mathop{\\mathchoice{\\color{gold}{\\Large\\star}}{\\color{gold}{\\Large\\star}}{\\color{gold}{\\large\\star}}{\\color{gold}{\\star}}}}",
         exeq: "{\\mathrel{\\,\\overset{\\exstar}{=}\\,}}",
+        exsim: "{\\mathrel{\\,\\overset{\\exstar}{\\sim}\\,}}",
         
       } 
     }

@@ -131,11 +131,13 @@ $$
 
 Let $X\sim \Norm(0,1)$ and compare $\Prob(|X|>r)$ with two bounds
 
+Here $\Ex\lvert X \rvert \exeq \sqrt{2/\pi} \approx 0.798$ and $\Ex(X^2)=1$
+
 ```{python}
 #| output: asis
 import math
 
-rs = [1, 2, 3, 10, 100]
+rs = [1, 2, 6, 10, 100]
 E_absX = math.sqrt(2 / math.pi)
 
 def tail_abs_normal(r):
@@ -151,10 +153,10 @@ def fmt_over(x):
 
 print(
     "| $r$ | $\\Prob(|X|>r)$ (exact) | "
-    "$\\Ex(|X|)/r$ (Markov) | "
-    "$\\Ex(X^2)/r^2$ (Chebyshev) |"
+    "$\\le \sqrt{2/\pi}\,/r$ (Markov) | "
+    "$\\le 1/r^2$ (Chebyshev) |"
 )
-print("|-:|---:|---:|----:|")
+print("|-:|---:|-----:|-----:|")
 
 for r in rs:
     exact = tail_abs_normal(r)
@@ -190,7 +192,7 @@ import mpmath as mp
 mp.mp.dps = 50
 
 dfs = [2, 3, 5]
-rs  = [1, 2, 10]
+rs  = [1, 2, 6]
 
 def t_pdf(x, nu):
     c = mp.gamma((nu+1)/2) / (mp.sqrt(nu*mp.pi) * mp.gamma(nu/2))
@@ -221,7 +223,7 @@ def fmt_over(x):
         return "(∞)"
     return f"({float(x):.0f}×)"
 
-print("| $\\nu$ | $r$ | $\\Prob(|T_\\nu|>r)$ (exact) | $\\Ex(|T_\\nu|)/r$ (Markov) | $\\Ex(T_\\nu^2)/r^2$ (Chebyshev) |")
+print("| $\\nu$ | $r$ | $\\Prob(|T_\\nu|>r)$ (exact) | $\\le \\Ex(|T_\\nu|)/r$ (Markov) | $\\le \\Ex(T_\\nu^2)/r^2$ (Chebyshev) |")
 print("|-:|-:|---:|---:|----:|")
 
 for nu in dfs:

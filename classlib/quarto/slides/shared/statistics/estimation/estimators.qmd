@@ -56,22 +56,23 @@ $\exstar$ What are the MLE of $\mu$ and $\sigma$ for $X \sim \Norm(\mu,\sigma^2)
 
 
 ## Plug-in estimators{#plug-in-estimators}
-- If $\hTheta_1$ is an estimator of $\theta$ and $\theta_2 = g(\theta_1)$, then $\hTheta_2 : = g(\htheta_1)$ is a [plug-in estimator]{.alert} of $\theta_2$
-- If $\hTheta_1$ is MLE of $\theta$ and $\theta_2 = g(\theta_1)$, then $\hTheta_2 : = g(\hTheta_1)$ is an MLE of $\theta_2$
+- If $\hTheta_1$ is an estimator of $\theta_1$ and $\theta_2 = g(\theta_1)$, then $\hTheta_2 : = g(\htheta_1)$ is a [plug-in estimator]{.alert} of $\theta_2$
+- If $\hTheta_1$ is MLE of $\theta_1$ and $\theta_2 = g(\theta_1)$, then $\hTheta_2 : = g(\hTheta_1)$ is an MLE of $\theta_2$
 
 # Properties of Estimators
 - [Bias and variance](#biasvar)
 - [Distributions of estimators](#distribest)
-- 
 
 ## Bias, variance, and mean squared error of estimators{#biasvar}
 Suppose that $\Theta$ is an estimator of a parameter, $\theta$, of a population
 
 - [Bias]{.alert} $\bias(\Theta) = \Ex(\Theta) - \theta$
   - Asymptotic bias is $\displaystyle \lim_{n \to \infty} \bias(\Theta_n)$, where $n$ is the size of the sample on which the estimator is based
+  - An estimator is [unbiased]{.alert} if $\bias(\Theta) = 0$
+  - $\barX$ is an unbiased estimator of $\mu = \Ex(X_1)$ for $X_1, \ldots, X_n$ identically distributed
 
-- [Variance]{.alert} is defined normally
-  - $\var(\barX) \exeq \var(X)/n$
+- [Variance]{.alert} we aleady know
+  - $\var(\barX) \exeq \var(X_1)/n$ for IID data
 
 - [Mean squared error (MSE)]{.alert} $\mse(\Theta) := \Ex[(\Theta - \theta)^2] \exeq [\bias(\Theta)]^2 + \var(\Theta)$
 

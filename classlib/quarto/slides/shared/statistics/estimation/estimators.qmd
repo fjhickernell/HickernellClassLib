@@ -80,6 +80,8 @@ $\exstar$ Show that $S^2 := \displaystyle \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar
 
 $\exstar$ Is the MLE of $\sigma=\var(X)$ for $X\sim\Exp(\lambda)$ unbiased?
 
+$\exstar$ What is the MLE $\theta$ of $\theta$ for $X \sim \Uniform(0,\theta)$?  Is it unbiased?  Can you modify it to be unbiased?
+
 
 ## Distributions of estimators
 
@@ -94,4 +96,4 @@ For the sample mean, $\barX_n$
 
 - $\barX_n \appxsim \Norm(\mu,\sigma^2/n)$ for arbitrary distributions and large $n$ by the [Central Limit Theorem]{.alert}
 
-
+- For order statistics, $X_{(k)}$, $F_{X_{(k)}}(x) = \sum_{j=k}^n \binom{n}{j} [F_X(x)]^j [1 - F_X(x)]^{n-j}$ for IID data from CDF $F_X$

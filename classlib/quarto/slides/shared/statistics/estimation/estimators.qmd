@@ -85,15 +85,19 @@ $\exstar$ What is the MLE $\theta$ of $\theta$ for $X \sim \Unif(0,\theta)$?  Is
 
 ## Distributions of estimators
 
-For the sample mean, $\barX_n$
+For the sample mean, $\barX_n$, for IID data
 
 - $n \barX_n \sim \Bin(n,p)$ if $X \sim \Bern(p)$
 
-- $\barX_n \sim \Gam(n, n \lambda)$ if $X \sim \Exp(p)$ where $\varrho_{\Gam(\alpha, \lambda)}(x) = \frac{\lambda^{\alpha}}{\Gamma(\alpha)}\, x^{\alpha-1} \exp(-\lambda x)
-\quad x>0$ <br>(Note: $\Gamma(n) = (n-1)!$ for integer $n$)
+- $\barX_n \exsim \Gam(n, n \lambda)$ if $X \sim \Exp(p)$ where $\displaystyle \varrho_{\Gam(\alpha, \lambda)}(x) = \frac{\lambda^{\alpha}}{\Gamma(\alpha)}\, x^{\alpha-1} \exp(-\lambda x)
+\quad x>0$ &nbsp; (Note: $\Gamma(n) = (n-1)!$ for integer $n$)
+  - $\lambda n \barX_n \sim \Gam(n, 1)$
+  - $2 \lambda n \barX_n \sim \chi^2_{2n}$, where $\displaystyle \varrho_{\chi^2_k}(x) = \frac{x^{k/2 - 1} \exp(-x/2)}{2^{k/2} \Gamma(k/2)} \quad x > 0$
 
 - $\barX_n \exsim \Norm(\mu,\sigma^2/n)$ if $X \sim \Norm(\mu,\sigma^2)$
 
 - $\barX_n \appxsim \Norm(\mu,\sigma^2/n)$ for arbitrary distributions and large $n$ by the [Central Limit Theorem]{.alert}
 
-- For order statistics, $X_{(k)}$, $F_{X_{(k)}}(x) = \sum_{j=k}^n \binom{n}{j} [F_X(x)]^j [1 - F_X(x)]^{n-j}$ for IID data from CDF $F_X$
+For order statistics, $X_{(k)}$, $\displaystyle F_{X_{(k)}}(x) = \sum_{j=k}^n \binom{n}{j} [F_X(x)]^j [1 - F_X(x)]^{n-j}$ for IID data from CDF $F_X$
+
+$\exstar$ Is the MLE $\theta$ of $\theta$ for $X \sim \Unif(0,\theta)$ unbiased?  Can you modify it to be unbiased?

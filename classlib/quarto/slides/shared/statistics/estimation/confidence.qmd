@@ -1,17 +1,89 @@
 # Confidence Intervals
 
-If 
+If
 
-- $\theta$ is a parameter of interest of a distribution, and 
+- $\theta$ is a parameter of interest of a distribution, and
 
-- $X_1, \ldots, X_n$ are data that we assume are collected that follow that distribution, 
+- $X_1, \ldots, X_n$ are data that we assume are collected from that distribution,
 
-Then we will try to construct $\Theta_L$ and/or $\Theta_U$ depending on that data (and not on $\theta$) to give us intervals that [capture]{.alert} $\theta$ with high probability $1 - \alpha$
+then we try to construct random quantities $\Theta_L$ and/or $\Theta_U$,
+depending only on the data (and not on $\theta$), that give intervals which
+[capture]{.alert} $\theta$ with high probability $1-\alpha$.  Depending on the situation, this means constructing
 
-- $\Prob(\Theta_L \le \theta  \Theta_U) = 1 - \alpha$, or
+- a two-sided interval with  $\Prob(\Theta_L \le \theta \le \Theta_U) \ge 1-\alpha$, or
 
-- $\Prob(\Theta_L \le \theta) = 1 - \alpha$, or
+- a one-sided lower interval with  $\Prob(\Theta_L \le \theta) \ge 1-\alpha$, or
 
-- $\Prob(\theta \le \Theta_U) = 1 - \alpha$
+- a one-sided upper interval with  $\Prob(\theta \le \Theta_U) \ge 1-\alpha$
 
-Here $\alpha$ is our willingness to be wrong, typically $\alpha = 5\%$
+The bounds $\Theta_L$ and $\Theta_U$ are random because they depend on random data. Here $\alpha$ is our willingness to be wrong, typically $\alpha = 5\%$.
+
+- In many continuous cases, the probability is exactly $1-\alpha$
+- For discrete distributions, the probability is often slightly larger than $1-\alpha$
+
+---
+
+- [Large sample size confidence intervals for means](#large-sample-confidence-intervals-for-means)
+- [Small sample size confidence intervals for means when the distribution is known](#small-sample-confidence-intervals-for-means-when-the-distribution-is-known)
+
+## Large sample size confidence intervals for means{#large-sample-confidence-intervals-for-means}   
+If $X_1, \ldots, X_n$ are IID with mean $\mu$ and variance $\sigma^2 < \infty$, and $\barX$ is the sample mean, then by the [Central Limit Theorem](../slides/01-intro.html#clt)
+$$
+\frac{\barX - \mu}{\sigma/\sqrt{n}} \appxsim \Norm(0,1) \quad \text{for large } n
+$$
+Letting $z_{\alpha/2}$ be the upper $\alpha/2$ quantile of $\Norm(0,1)$, i.e., $z_{\alpha/2} = Q_{\Norm(0,1)}(1 - \alpha/2)$, then
+\begin{align*}
+1 - \alpha & \approx
+\Prob \biggl( -z_{\alpha/2} \le \frac{\barX - \mu}{\sigma/\sqrt{n}} \le z_{\alpha/2} \biggr) \\
+& \approx \Prob \biggl( \barX - z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \le \mu \le \barX + z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \biggr) \\
+& \approx \Prob \biggl( \underbrace{\barX - z_{\alpha/2} \frac{S}{\sqrt{n}}}_{\Theta_L} \le \mu \le \underbrace{\barX + z_{\alpha/2} \frac{S}{\sqrt{n}}}_{\Theta_U} \biggr)
+\end{align*}
+where the sample variance $S^2$ replaces the unknown population variance $\sigma^2$
+
+## Small sample size confidence intervals for means when the distribution is known{#small-sample-confidence-intervals-for-means-when-the-distribution-is-known}
+
+```{python}
+#| echo: false
+#| output: asis
+
+n = 200
+xbar = 12
+alpha = 0.05
+```
+
+If the sample size is not large enough for the [Central Limit Theorem](../slides/01-intro.html#clt) to apply, but the sample mean has a known distribution, then exact confidence intervals can sometimes be constructed
+
+```{python}
+#| echo: false
+#| output: asis
+
+print(
+    f"Example: You observe $\\barX_n = {xbar}$ minutes for taxis to arrive "
+    f"based on $n={n}$. You construct a ${100*(1-alpha):.0f}\\%$ confidence interval for the mean arrival time, $\\mu$, assuming that the arrival times are distributed  $\\Exp(\\lambda)$:"
+)
+```
+
+\begin{align*}
+2 \lambda n \barX_n \sim \chi^2_{2n} \implies 1 - \alpha &= \Prob \biggl( \chi^2_{2n, \alpha/2} \le 2 \lambda n \barX_n \le \chi^2_{2n, 1-\alpha/2} \biggr) \\
+& = \Prob \biggl( \frac{\chi^2_{2n, \alpha/2}}{2 n \barX_n} \le \lambda \le \frac{\chi^2_{2n, 1-\alpha/2}}{2 n \barX_n} \biggr) \\
+& = \Prob \biggl( \frac{2 n \barX_n}{\chi^2_{2n, 1-\alpha/2}} \le \mu \le \frac{2 n \barX_n}{\chi^2_{2n, \alpha/2}} \biggr)
+\end{align*}
+
+```{python}
+#| echo: false
+#| output: asis
+
+import scipy.stats as st
+
+df = 2*n
+chi2_lo = st.chi2.ppf(alpha/2, df)
+chi2_hi = st.chi2.ppf(1 - alpha/2, df)
+
+mu_lo = (2*n*xbar)/chi2_hi
+mu_hi = (2*n*xbar)/chi2_lo
+
+print(
+    f"95% CI for $\\mu$ with $n={n}$ and $\\barX={xbar}$ is "
+    f"$[{mu_lo:.2f},\\,{mu_hi:.2f}]$ minutes"
+)
+```

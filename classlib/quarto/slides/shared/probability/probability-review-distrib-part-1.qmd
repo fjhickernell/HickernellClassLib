@@ -81,13 +81,25 @@
 
 - [Binomial]{.alert} (free-throw shooting, discrete) $\Bin(n,p)$
 $$
-\varrho(x) : = \Prob(X=x) = \binom{n}{x} p^x (1-p)^{n-x}, \ x =0, \ldots, n; \quad \Ex(X) = np, \quad \var(X) = np(1-p)
+\varrho(x) : = \Prob(X=x) = \binom{n}{x} p^x (1-p)^{n-x}, \ x =0, \ldots, n; \quad \Ex(X) = np, \; \var(X) = np(1-p)
 $$
 
 - [Exponential]{.alert} (taxi waiting, continuous) $\Exp(\lambda)$
 $$
 F(x): = 1 - \exp(-\lambda x),\ \varrho(x) : = \lambda \exp(-\lambda x), \ x \ge 0; \quad \Ex(X) = 1/\lambda, \quad \var(X) = 1/\lambda^2
 $$
+
+- [Uniform]{.alert} (random number generation, continuous) $\Unif(a,b)$
+\begin{gather*}
+F(x) : = \begin{cases} 0, & -\infty < x < 0, \\
+\displaystyle \frac{x - a}{b - a}, & a \le x < b, \\
+1, & b \le x < \infty,
+\end{cases} \quad 
+ \varrho(x): = \frac{1}{b-a}, \ x \in [a,b]; \\
+  \Ex(X) = \frac{a+b}{2}, \quad  \var(X) = \frac{(b-a)^2}{12}  
+\end{gather*}
+
+--- 
 
 - [Normal (Gaussian)]{.alert} (limiting distribution, continuous) $\Norm(\mu, \sigma^2)$
 $$

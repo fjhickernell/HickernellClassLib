@@ -83,7 +83,7 @@ $\exstar$ Is the MLE of $\sigma=\var(X)$ for $X\sim\Exp(\lambda)$ unbiased?
 $\exstar$ What is the MLE $\theta$ of $\theta$ for $X \sim \Unif(0,\theta)$?  Is it unbiased?  Can you modify it to be unbiased?
 
 
-## Distributions of estimators
+## Distributions of estimators (see [Important Distributions](../slides/01-intro.html#prob-distrib)) {#distribest}
 
 For the sample mean, $\barX_n$, for IID data
 

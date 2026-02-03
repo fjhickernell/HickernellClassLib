@@ -38,18 +38,68 @@ Letting $z_{\alpha/2}$ be the upper $\alpha/2$ quantile of $\Norm(0,1)$, i.e., $
 & \approx \Prob \biggl( \barX - z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \le \mu \le \barX + z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \biggr) \\
 & \approx \Prob \biggl( \underbrace{\barX - z_{\alpha/2} \frac{S}{\sqrt{n}}}_{\Theta_L} \le \mu \le \underbrace{\barX + z_{\alpha/2} \frac{S}{\sqrt{n}}}_{\Theta_U} \biggr)
 \end{align*}
-where the sample variance $S^2$ replaces the unknown population variance $\sigma^2$
+where $S^2$ is some estimate of the unknown population variance $\sigma^2$ (e.g., unbiased or MLE)
 
-## Small sample size confidence intervals for means when the distribution is known{#small-sample-confidence-intervals-for-means-when-the-distribution-is-known}
+---
+
+See the [Approval Ratings](../slides/01-intro.html#approval-ratings) example for an illustration of this construction for a Bernoulli mean
 
 ```{python}
+
 #| echo: false
 #| output: asis
 
-n = 200
-xbar = 12
+import math
+import scipy.stats as st
+
+# =========================
+# Parameters (edit HERE)
+# =========================
+n_small = 16
+n_large = 400
+
+xbar = 12.0
 alpha = 0.05
+
+# =========================
+# CI helpers
+# =========================
+
+def ci_exp_exact_mu(n, xbar, alpha=0.05):
+    """Exact CI for Exp mean via chi-square."""
+    df = 2*n
+    q_lo = st.chi2.ppf(alpha/2, df)
+    q_hi = st.chi2.ppf(1 - alpha/2, df)
+    return (2*n*xbar)/q_hi, (2*n*xbar)/q_lo
+
+def ci_clt_exp_mu(n, xbar, alpha=0.05):
+    """
+    CLT CI for Exp mean using plug-in sigma_hat = xbar.
+    """
+    z = st.norm.ppf(1 - alpha/2)
+    se = xbar / math.sqrt(n)
+    return xbar - z*se, xbar + z*se
+
+def fmt_ci(lo, hi, digits=2):
+    return f"$[{lo:.{digits}f},\\,{hi:.{digits}f}]$"
+
+print(
+    f"_Example_: You observe $\\barX_n = {xbar}$ minutes for taxis to arrive."
+    f"You construct a ${100*(1-alpha):.0f}\\%$ confidence interval for the mean arrival time, $\\mu$, assuming that the arrival times are distributed  $\\Exp(1/\\mu)$.  Recall that $\\mu = \\sigma = 1/\\lambda$.\n"
+)
+
+print("| $n$ | *CLT* CI for $\\mu$ ($S=\\barX_{n}$) | CI width |")
+print("|---:|:---:|---:|")
+for n in (n_small, n_large):
+    lo, hi = ci_clt_exp_mu(n, xbar, alpha)
+    width = hi - lo
+    print(f"| {n} | {fmt_ci(lo, hi)} | {width:.3f} |")
+
 ```
+
+---
+
+## Small sample size confidence intervals for means when the distribution is known{#small-sample-confidence-intervals-for-means-when-the-distribution-is-known}
 
 If the sample size is not large enough for the [Central Limit Theorem](../slides/01-intro.html#clt) to apply, but the sample mean has a known distribution, then exact confidence intervals can sometimes be constructed
 
@@ -58,8 +108,8 @@ If the sample size is not large enough for the [Central Limit Theorem](../slides
 #| output: asis
 
 print(
-    f"Example: You observe $\\barX_n = {xbar}$ minutes for taxis to arrive "
-    f"based on $n={n}$. You construct a ${100*(1-alpha):.0f}\\%$ confidence interval for the mean arrival time, $\\mu$, assuming that the arrival times are distributed  $\\Exp(\\lambda)$:"
+    f"_Example_: You observe $\\barX_n = {xbar}$ minutes for taxis to arrive."
+    f"based on $n$. You construct a ${100*(1-alpha):.0f}\\%$ confidence interval for the mean arrival time, $\\mu$, assuming that the arrival times are distributed  $\\Exp(1/\\mu)$.  Recall that $\\mu = \\sigma = 1/\\lambda$. \n \n But now we have the true distribution of $\\barX_n$:"
 )
 ```
 
@@ -69,21 +119,33 @@ print(
 & = \Prob \biggl( \frac{2 n \barX_n}{\chi^2_{2n, 1-\alpha/2}} \le \mu \le \frac{2 n \barX_n}{\chi^2_{2n, \alpha/2}} \biggr)
 \end{align*}
 
+---
 ```{python}
 #| echo: false
 #| output: asis
 
-import scipy.stats as st
+print("| $n$ | *Exact* $\\chi^2$ CI | *Exact* CI width | *CLT* CI | *CLT* CI width | (CLT width/<br>Exact width) |")
+print("|-:|:---:|----:|:---:|----:|-----:|")
 
-df = 2*n
-chi2_lo = st.chi2.ppf(alpha/2, df)
-chi2_hi = st.chi2.ppf(1 - alpha/2, df)
+for n in (n_small, n_large):
+    clt_lo, clt_hi = ci_clt_exp_mu(n, xbar, alpha)
+    ex_lo, ex_hi   = ci_exp_exact_mu(n, xbar, alpha)
 
-mu_lo = (2*n*xbar)/chi2_hi
-mu_hi = (2*n*xbar)/chi2_lo
+    w_clt = clt_hi - clt_lo
+    w_ex  = ex_hi - ex_lo
 
-print(
-    f"95% CI for $\\mu$ with $n={n}$ and $\\barX={xbar}$ is "
-    f"$[{mu_lo:.2f},\\,{mu_hi:.2f}]$ minutes"
-)
+    print(
+        f"| {n} | {fmt_ci(ex_lo, ex_hi)} | {w_ex:.3f} | "
+        f"{fmt_ci(clt_lo, clt_hi)} | {w_clt:.3f} | {w_clt/w_ex:.3f} |"
+    )
+
 ```
+
+- For small $n$
+  - Exact confidence interval can be substantially different from the CLT-based interval
+  - CLT is symmetric about $\barX_n$, while the exact interval is not
+- As $n$ increases, CLT-based interval approaches the exact interval
+
+::: {.exitem}
+<span class="exbullet">$\exstar$</span><span> You draw $n$ IID samples of your product to test for failure.  What is your confidence interval for $p$, the probability of a satisfactory product, if none of the samples fail?</span>
+:::

@@ -92,7 +92,7 @@ For the sample mean, $\barX_n$, for IID data
 - $\barX_n \exsim \Gam(n, n \lambda)$ if $X \sim \Exp(p)$ where $\displaystyle \varrho_{\Gam(\alpha, \lambda)}(x) = \frac{\lambda^{\alpha}}{\Gamma(\alpha)}\, x^{\alpha-1} \exp(-\lambda x)
 \quad x>0$ &nbsp; (Note: $\Gamma(n) = (n-1)!$ for integer $n$)
   - $\lambda n \barX_n \exsim \Gam(n, 1)$
-  - $2 \lambda n \barX_n \sim \chi^2_{2n}$, where $\displaystyle \varrho_{\chi^2_k}(x) = \frac{x^{k/2 - 1} \exp(-x/2)}{2^{k/2} \Gamma(k/2)} \quad x > 0$
+  - $2 \lambda n \barX_n \exsim \chi^2_{2n}$, where $\displaystyle \varrho_{\chi^2_k}(x) = \frac{x^{k/2 - 1} \exp(-x/2)}{2^{k/2} \Gamma(k/2)} \quad x > 0$
 
 - $\barX_n \exsim \Norm(\mu,\sigma^2/n)$ if $X \sim \Norm(\mu,\sigma^2)$
 

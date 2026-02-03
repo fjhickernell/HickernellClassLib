@@ -27,16 +27,16 @@ The bounds $\Theta_L$ and $\Theta_U$ are random because they depend on random da
 - [Small sample size confidence intervals for means when the distribution is known](#small-sample-confidence-intervals-for-means-when-the-distribution-is-known)
 
 ## Large sample size confidence intervals for means{#large-sample-confidence-intervals-for-means}   
-If $X_1, \ldots, X_n$ are IID with mean $\mu$ and variance $\sigma^2 < \infty$, and $\barX$ is the sample mean, then by the [Central Limit Theorem](../slides/01-intro.html#clt)
+If $X_1, \ldots, X_n$ are IID with mean $\mu$ and variance $\sigma^2 < \infty$, and $\barX_n$ is the sample mean, then by the [Central Limit Theorem](../slides/01-intro.html#clt)
 $$
-\frac{\barX - \mu}{\sigma/\sqrt{n}} \appxsim \Norm(0,1) \quad \text{for large } n
+\frac{\barX_n - \mu}{\sigma/\sqrt{n}} \appxsim \Norm(0,1) \quad \text{for large } n
 $$
 Letting $z_{\alpha/2}$ be the upper $\alpha/2$ quantile of $\Norm(0,1)$, i.e., $z_{\alpha/2} = Q_{\Norm(0,1)}(1 - \alpha/2)$, then
 \begin{align*}
 1 - \alpha & \approx
-\Prob \biggl( -z_{\alpha/2} \le \frac{\barX - \mu}{\sigma/\sqrt{n}} \le z_{\alpha/2} \biggr) \\
-& \approx \Prob \biggl( \barX - z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \le \mu \le \barX + z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \biggr) \\
-& \approx \Prob \biggl( \underbrace{\barX - z_{\alpha/2} \frac{S}{\sqrt{n}}}_{\Theta_L} \le \mu \le \underbrace{\barX + z_{\alpha/2} \frac{S}{\sqrt{n}}}_{\Theta_U} \biggr)
+\Prob \biggl( -z_{\alpha/2} \le \frac{\barX_n - \mu}{\sigma/\sqrt{n}} \le z_{\alpha/2} \biggr) \\
+& \approx \Prob \biggl( \barX_n - z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \le \mu \le \barX_n + z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \biggr) \\
+& \approx \Prob \biggl( \underbrace{\barX_n - z_{\alpha/2} \frac{S}{\sqrt{n}}}_{\Theta_L} \le \mu \le \underbrace{\barX_n + z_{\alpha/2} \frac{S}{\sqrt{n}}}_{\Theta_U} \biggr)
 \end{align*}
 where $S^2$ is some estimate of the unknown population variance $\sigma^2$ (e.g., unbiased or MLE)
 

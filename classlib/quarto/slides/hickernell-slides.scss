@@ -15,9 +15,8 @@
   /* List marker gutter (controls how far bullets sit left of text) */
   --list-pad: 1.25em;
 
-  /* Banner bleed to cover fullscreen seams + left gutter differences */
-  --banner-bleed-x: 36px; /* covers ~20–30px left gutter */
-  --banner-bleed-y: 6px;  /* covers ~1–2px top seam in fullscreen */
+  /* Banner bleed to cover ~1–2px top seam in fullscreen */
+  --banner-bleed-y: 6px;
 
   /* FULLSCREEN SAFE GUTTER */
   --fs-safe-x: 28px; /* adjust: 16px / 24px / 32px if needed */
@@ -40,7 +39,7 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides {
   padding-right: max(var(--fs-safe-x), env(safe-area-inset-right)) !important;
 }
 
-/* ADD THIS (Safari-proof) */
+/* Safari-proof */
 .reveal:fullscreen .slides,
 .reveal:-webkit-full-screen .slides {
   box-sizing: border-box !important;
@@ -234,7 +233,8 @@ body.goldborder::before {
   font-weight: 700;
 }
 
-/* Banner background (rail is on the slide section now) */
+/* Banner background: full-bleed in ALL modes (windowed + fullscreen)
+   Scale-compensated using --reveal-scale set by reveal-scale-var.html */
 .reveal .slides section.slide:not(#title-slide) h1::before,
 .reveal .slides section.slide:not(#title-slide) h2::before {
   content: "";
@@ -245,36 +245,12 @@ body.goldborder::before {
   top: calc(-1 * var(--banner-bleed-y));
   bottom: calc(-1 * var(--banner-bleed-y));
 
-  left: calc(-1 * var(--banner-bleed-x));
-  right: calc(-1 * var(--banner-bleed-x));
+  left: 50%;
+  right: auto;
+  width: calc(100vw / var(--reveal-scale, 1));
+  transform: translateX(-50%);
 
   background-color: var(--header-blue);
-}
-
-/* Fullscreen: make banner full-bleed to viewport */
-.reveal-viewport:fullscreen .reveal .slides section.slide:not(#title-slide) h1::before,
-.reveal-viewport:fullscreen .reveal .slides section.slide:not(#title-slide) h2::before,
-.reveal-viewport:-webkit-full-screen .reveal .slides section.slide:not(#title-slide) h1::before,
-.reveal-viewport:-webkit-full-screen .reveal .slides section.slide:not(#title-slide) h2::before,
-html:fullscreen .reveal-viewport .reveal .slides section.slide:not(#title-slide) h1::before,
-html:fullscreen .reveal-viewport .reveal .slides section.slide:not(#title-slide) h2::before,
-html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#title-slide) h1::before,
-html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#title-slide) h2::before {
-  left: 50% !important;
-  right: auto !important;
-  width: 100vw !important;
-  transform: translateX(-50%) !important;
-}
-
-//* Safari-proof fullscreen banner (matches gutter logic) */
-.reveal:fullscreen .slides section.slide:not(#title-slide) h1::before,
-.reveal:fullscreen .slides section.slide:not(#title-slide) h2::before,
-.reveal:-webkit-full-screen .slides section.slide:not(#title-slide) h1::before,
-.reveal:-webkit-full-screen .slides section.slide:not(#title-slide) h2::before {
-  left: 50% !important;
-  right: auto !important;
-  width: 100vw !important;
-  transform: translateX(-50%) !important;
 }
 
 /* Size hierarchy */
@@ -637,3 +613,4 @@ html:-webkit-full-screen .reveal-viewport .reveal .slides section.slide:not(#tit
 }
 
 /*-- end:scss --*/
+

@@ -13,6 +13,9 @@ format:
       - ../classlib/classlib/quarto/slides/title-course-website.html
       - ../classlib/classlib/quarto/slides/course-website-var.html
 
+    include-after-body:
+      - ../classlib/classlib/quarto/slides/reveal-scale-var.html
+
     theme:
       - simple
       - ../classlib/classlib/quarto/slides/hickernell-slides.scss
@@ -50,3 +53,4 @@ format:
       data-background-size: 55%
       data-background-position: "top left"
       data-background-color: "#f5f7fb"
+

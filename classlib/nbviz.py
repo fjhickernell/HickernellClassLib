@@ -20,7 +20,7 @@ from typing import Iterable
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from IPython.display import display, HTML
+from IPython.display import display, HTML, Latex
 from cycler import cycler
 import pandas as pd
 
@@ -30,7 +30,7 @@ __all__ = [
     "tol_colors",
     "fit_log_trend", "plot_log_trend_line",
     "TOL_BRIGHT", "TOL_BRIGHT_ORDER", "TINY", 
-    "note",  "note_md",
+    "note",  "note_md", "display_latex_df", "DEFAULT_MATH_RENAME"
 ]
 
 # ---- Defaults / constants ----
@@ -467,3 +467,31 @@ def note_md(text: str):
         # Fallback: minimal escaping, still boxed
         inner_html = text.replace("<", "&lt;").replace(">", "&gt;")
     return HTML(f'<div class="highlight-note">{inner_html}</div>')
+
+
+DEFAULT_MATH_RENAME = {
+    "n": r"$n$",
+    "p": r"$p$",
+    "alpha": r"$\alpha$",
+    "lambda": r"$\lambda$",
+    "lam": r"$\lambda$",
+    "mu": r"$\mu$",
+}
+
+def display_latex_df(
+    df: pd.DataFrame,
+    *,
+    rename: dict[str, str] | None = None,
+    index: bool = False,
+    float_format: str = "%.3f",
+) -> None:
+    out = df.copy()
+    # default symbol renames + user overrides
+    mapping = dict(DEFAULT_MATH_RENAME)
+    if rename:
+        mapping.update(rename)
+    out = out.rename(columns=mapping)
+    display(Latex(out.to_latex(escape=False, index=index, float_format=float_format)))
+
+
+

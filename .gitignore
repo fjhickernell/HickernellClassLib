@@ -16,6 +16,7 @@ __pycache__/
 .sass-cache/
 *.css.map
 classlib/notebooks/_figures/
+classlib/notebooks/figures/
 classlib/notebooks/.ipynb_checkpoints/
 
 # Quarto scratch notebooks

@@ -155,11 +155,13 @@ for n in (n_small, n_large):
 **Goal:** inference about a population mean $\mu$
 
 **Setting**
+
 - Data: $X_1,\dots,X_n$
 - Sample mean: $\barX$
 - Sample standard deviation: $s$
 
 **Assumptions**
+
 - $X_1,\dots,X_n$ are IID
 - Population distribution is **Normal**
 - Population variance $\sigma^2$ is **unknown**
@@ -170,11 +172,13 @@ $$
 $$
 
 **Properties**
+
 - Exact confidence interval
 - Valid for any sample size $n$
 - Sensitive to non-normality for small $n$
 
 **Remark**
+
 - For large $n$, this interval is close to the CLT-based interval
 
 

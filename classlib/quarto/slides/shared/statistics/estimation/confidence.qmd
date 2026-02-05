@@ -149,3 +149,12 @@ for n in (n_small, n_large):
 ::: {.exitem}
 <span class="exbullet">$\exstar$</span><span> You draw $n$ IID samples of your product to test for failure.  What is your confidence interval for $p$, the probability of a satisfactory product, if none of the samples fail?</span>
 :::
+
+## Confidence Intervals for _Means_ of Differences
+
+
+## Confidence Intervals for _Differences_ of Means
+
+## Confidence Intervals for _Proportions_
+
+## Confidence Intervals for _Variances_

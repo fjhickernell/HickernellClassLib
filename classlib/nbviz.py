@@ -469,6 +469,8 @@ def note_md(text: str):
     return HTML(f'<div class="highlight-note">{inner_html}</div>')
 
 
+# ---- DataFrame display helper (JupyterLab-friendly) ----
+
 DEFAULT_MATH_RENAME = {
     "n": r"$n$",
     "p": r"$p$",
@@ -476,22 +478,36 @@ DEFAULT_MATH_RENAME = {
     "lambda": r"$\lambda$",
     "lam": r"$\lambda$",
     "mu": r"$\mu$",
+    "nu": r"$\nu$",
 }
 
 def display_latex_df(
     df: pd.DataFrame,
     *,
     rename: dict[str, str] | None = None,
-    index: bool = False,
-    float_format: str = "%.3f",
+    float_format: str = "{:.3f}",
 ) -> None:
+    """
+    Display a DataFrame in JupyterLab as an HTML table, while allowing MathJax
+    to typeset $...$ in column headers.
+    """
     out = df.copy()
-    # default symbol renames + user overrides
+
     mapping = dict(DEFAULT_MATH_RENAME)
     if rename:
         mapping.update(rename)
-    out = out.rename(columns=mapping)
-    display(Latex(out.to_latex(escape=False, index=index, float_format=float_format)))
 
+    out = out.rename(columns=mapping)
+
+    styler = (
+        out.style
+        .format(float_format)
+        .set_table_styles([
+            {"selector": "th", "props": [("text-align", "center")]},
+            {"selector": "td", "props": [("text-align", "right")]},
+        ])
+    )
+
+    display(styler)
 
 

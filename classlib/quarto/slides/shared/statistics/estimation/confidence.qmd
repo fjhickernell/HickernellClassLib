@@ -150,11 +150,152 @@ for n in (n_small, n_large):
 <span class="exbullet">$\exstar$</span><span> You draw $n$ IID samples of your product to test for failure.  What is your confidence interval for $p$, the probability of a satisfactory product, if none of the samples fail?</span>
 :::
 
+## Student’s $t$ Confidence Interval
+
+**Goal:** inference about a population mean $\mu$
+
+**Setting**
+- Data: $X_1,\dots,X_n$
+- Sample mean: $\barX$
+- Sample standard deviation: $s$
+
+**Assumptions**
+- $X_1,\dots,X_n$ are IID
+- Population distribution is **Normal**
+- Population variance $\sigma^2$ is **unknown**
+
+**Confidence Interval**
+$$
+\barX \;\pm\; t_{1-\alpha/2,\;n-1}\;\frac{s}{\sqrt{n}}
+$$
+
+**Properties**
+- Exact confidence interval
+- Valid for any sample size $n$
+- Sensitive to non-normality for small $n$
+
+**Remark**
+- For large $n$, this interval is close to the CLT-based interval
+
+
 ## Confidence Intervals for _Means_ of Differences
 
+**Typical setting:** paired or matched data (before/after, twins, same subject measured twice)
+
+$$
+D_i = X_i - Y_i, \quad i = 1,\dots,n
+$$
+
+Inference is about the **mean difference** $\mu_D$
+
+_Not_ difference of means $\mu_X - \mu_Y$, even though $\barD = \barX - \barY$
+
+**Paired *t* interval**
+
+- Assumes $D_1,\dots,D_n$ are IID **Normal**
+- Exact for any $n$
+- Most common paired-data CI
+
+**CLT-based interval**
+
+- Assumes $D_i$ are IID with finite variance
+- Requires **large $n$**
+- Robust to non-normality
 
 ## Confidence Intervals for _Differences_ of Means
 
+**Typical setting:** two independent samples (control/treatment, two groups)
+ 
+$$
+X_1,\dots,X_{n_1} \sim \text{population 1}, \quad
+Y_1,\dots,Y_{n_2} \sim \text{population 2}
+$$
+
+Parameter of interest: $\mu_1 - \mu_2$
+
+
+**Two-sample *t* interval** (Wackerly, Variations exist, e.g., pooled *t*, Welch)
+
+- Independent samples
+- Normal populations
+- Uses unpooled standard error
+- Approximate distribution
+
+**CLT-based interval**
+
+- Assumes finite variances only
+- Requires large $n_1, n_2$
+- Often used when normality is doubtful
+
+**Important:** independence between samples is essential.
+
 ## Confidence Intervals for _Proportions_
 
+**Typical setting:** Bernoulli trials
+
+Let  
+\[
+X \sim \text{Binomial}(n,p), \quad \hat p = X/n
+\]
+
+Parameter of interest: population proportion $p$.
+
+**Common methods**
+
+- **Normal approximation interval**
+  - Requires $np$ and $n(1-p)$ large
+  - Simple but can undercover
+
+- **Wilson / Agresti–Coull interval**
+  - Improved accuracy over normal approximation
+  - Near-nominal coverage for moderate $n$
+
+- **Exact (Clopper–Pearson) interval**
+  - No sample size restriction
+  - Guaranteed coverage
+  - Conservative (wider than necessary)
+
+**Key tradeoff:** simplicity vs coverage accuracy.
+
 ## Confidence Intervals for _Variances_
+
+**Typical setting:** inference about variability
+
+Parameter of interest: population variance $\sigma^2$.
+
+**Common methods**
+
+- **Chi-squared interval**
+  - Assumes data are IID Normal
+  - Exact for any $n$
+  - Very sensitive to non-normality
+
+- **Asymptotic (CLT-based) intervals**
+  - Assume finite fourth moments
+  - Require large $n$
+  - Rarely used in introductory courses
+
+**Important:** variance inference is far less robust than mean inference.
+
+## Assumptions Behind Common Confidence Intervals
+
+Data are IID from a distribution with finite variance
+
+| Parameter | Distributional Assumptions | Sample Size | Method | Notes |
+|-------|--------------------------------|--------|-----------------------|----------------------------|
+| $\mu$ | **Any** distribution | **Large** $n$ | Central Limit Theorem (CLT) | **Approximate**, accuracy improves as $n \to \infty$ |
+| $\mu$ |  **Normal** data, <br>$\sigma$ unknown | Any $n$ | Student’s *t* | **Exact**|
+| $\mu = p$ | **Bernoulli** trials | Any $n$ | Binomial<br>(Clopper–Pearson) | **Exact**<br>Conservative |
+| $\mu = p$ | **Bernoulli** trials | Large $np$,  $n(1-p)$ | Central Limit Theorem (CLT) | **Approximate** |
+| $\mu$ | **Exponential** data | Any $n$ | Gamma/<br>Chi-squared  | **Exact** |
+
+---
+
+| Parameter | Distributional Assumptions | Sample Size | Method | Notes |
+|-------|--------------------------------|--------|-----------------------|----------------------------|
+| $\mu_D$ <br>(paired differences)| Differences are **Normal** | Any $n$ | Paired *t* |  **Exact**, sometimes confused with two-sample *t* |
+| $\mu_1-\mu_2$ | Each sample **Normal**; independent samples | Any $n_1,n_2$ | Two-sample *t* (Wackerly) | **Approximate**, uses unpooled standard error |
+| $\mu_1-\mu_2$  | Independent samples from **any** distributions with finite variances | **Large** $n_1,n_2$ | CLT (two-sample) | **Approximate**|
+| 
+| $\sigma^2$ | **Normal** data | Any $n$ | Chi-squared | **Exact**, sensitive to non-normality |
+| $\med(X)$ | Continuous distribution | $n$ not too small | Order-statistics |**Approximate**, Distribution-free |  

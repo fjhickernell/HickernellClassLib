@@ -190,7 +190,8 @@
         vzero: "{\\boldsymbol{0}}",
         vone:  "{\\boldsymbol{1}}",
         vinf:  "{\\boldsymbol{\\infty}}",
-
+        
+        barD: "{\\overline{D}}",
         barX: "{\\overline{X}}",
         barY: "{\\overline{Y}}",
         barZ: "{\\overline{Z}}",

@@ -85,7 +85,7 @@ $\exstar$ What is the MLE $\theta$ of $\theta$ for $X \sim \Unif(0,\theta)$?  Is
 
 ## Distributions of estimators (see [Important Distributions](../slides/01-intro.html#prob-distrib)) {#distribest}
 
-For the sample mean, $\barX_n$, for IID data
+For the sample mean $\barX_n$, based on IID data
 
 - $n \barX_n \sim \Bin(n,p)$ if $X \sim \Bern(p)$
 
@@ -94,10 +94,36 @@ For the sample mean, $\barX_n$, for IID data
   - $\lambda n \barX_n \exsim \Gam(n, 1)$
   - $2 \lambda n \barX_n \exsim \chi^2_{2n}$, where $\displaystyle \varrho_{\chi^2_k}(x) = \frac{x^{k/2 - 1} \exp(-x/2)}{2^{k/2} \Gamma(k/2)} \quad x > 0$
 
+---
+
+For the sample mean $\barX_n$, based on IID data (cont'd)
+
 - $\barX_n \exsim \Norm(\mu,\sigma^2/n)$ if $X \sim \Norm(\mu,\sigma^2)$
 
 - $\barX_n \appxsim \Norm(\mu,\sigma^2/n)$ for arbitrary distributions and large $n$ by the [Central Limit Theorem]{.alert}
 
+- $\displaystyle \frac{\barX_n - \mu}{S/\sqrt{n}} \sim t_{n-1}$ if $X \sim \Norm(\mu,\sigma^2)$ where 
+
+  - $\displaystyle S^2 := \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX_n)^2$
+  - $t_k$ is the [Student's t distribution]{.alert} with $k$ degrees of freedom
+  
+    - $\varrho_{t_k}(x) = \frac{\Gamma\!\left(\frac{\nu+1}{2}\right)} {\sqrt{\nu\pi}\,\Gamma\!\left(\frac{\nu}{2}\right)} \left(1+\frac{x^2}{\nu}\right)^{-(\nu+1)/2}, \quad -\infty < x < \infty$
+    - Symmetric about $0$
+    - Heavier tails than the standard normal
+    - Converges to $N(0,1)$ as $\nu \to \infty$
+
+---
+
+For the unbiased sample variance, $S^2$, for [$\Norm(\mu,\sigma^2)$]{.alert} based on IID data
+
+- $\displaystyle \frac{(n-1) S^2}{\sigma^2} \sim \chi^2_{n-1}$
+
+&nbsp;
+
 For order statistics, $X_{(k)}$, $\displaystyle F_{X_{(k)}}(x) = \sum_{j=k}^n \binom{n}{j} [F_X(x)]^j [1 - F_X(x)]^{n-j}$ for IID data from CDF $F_X$
+
+&nbsp;
+
+&nbsp;
 
 $\exstar$ Is the MLE $\theta$ of $\theta$ for $X \sim \Unif(0,\theta)$ unbiased?  Can you modify it to be unbiased?

@@ -25,6 +25,8 @@ The bounds $\Theta_L$ and $\Theta_U$ are random because they depend on random da
 
 - [Large sample size confidence intervals for means](#large-sample-confidence-intervals-for-means)
 - [Small sample size confidence intervals for means when the distribution is known](#small-sample-confidence-intervals-for-means-when-the-distribution-is-known)
+- [Confidence intervals for means of differences](#confidence-intervals-for-means-of-differences)
+- [Confidence intervals for variances](#confidence-intervals-for-variances)
 
 ## Large sample size confidence intervals for means{#large-sample-confidence-intervals-for-means}   
 If $X_1, \ldots, X_n$ are IID with mean $\mu$ and variance $\sigma^2 < \infty$, and $\barX_n$ is the sample mean, then by the [Central Limit Theorem](../slides/01-intro.html#clt)
@@ -146,46 +148,38 @@ for n in (n_small, n_large):
   - CLT is symmetric about $\barX_n$, while the exact interval is not
 - As $n$ increases, CLT-based interval approaches the exact interval
 
+&nbsp;
+
+<a class="button" style="margin-left:0em;" href="../classlib/classlib/notebooks/coverage_exact_vs_clt.ipynb" download>
+⬇ Exact vs CLT Confidence Interval Coverage 📓
+</a>
+
+&nbsp;
+
 ::: {.exitem}
 <span class="exbullet">$\exstar$</span><span> You draw $n$ IID samples of your product to test for failure.  What is your confidence interval for $p$, the probability of a satisfactory product, if none of the samples fail?</span>
 :::
 
-## Student’s $t$ Confidence Interval
 
-**Goal:** inference about a population mean $\mu$
+## Student’s $t$ Confidence Interval for *Normal* Data with Unknown Variance
 
-**Setting**
+For $X_1,\dots,X_n \IIDsim \Norm(\mu, \sigma^2)$
 
-- Data: $X_1,\dots,X_n$
 - Sample mean: $\barX$
-- Sample standard deviation: $s$
+- Sample standard deviation: $S$
 
-**Assumptions**
-
-- $X_1,\dots,X_n$ are IID
-- Population distribution is **Normal**
-- Population variance $\sigma^2$ is **unknown**
-
-**Confidence Interval**
+We have an [exact]{.alert} confidence interval for all $n$:
 $$
-\barX \;\pm\; t_{1-\alpha/2,\;n-1}\;\frac{s}{\sqrt{n}}
+\Prob\left[ \barX - t_{1-\alpha/2,n-1}\frac{S}{\sqrt{n}} \le \mu \le \barX + t_{1-\alpha/2,n-1}\frac{S}{\sqrt{n}} \right] = 1 - \alpha
 $$
-
-**Properties**
-
-- Exact confidence interval
-- Valid for any sample size $n$
-- Sensitive to non-normality for small $n$
-
-**Remark**
+where $t_{1-\alpha/2,n-1}$ is the upper $\alpha/2$ quantile of the [Student's t distribution]{.alert} with $n-1$ degrees of freedom
 
 - For large $n$, this interval is close to the CLT-based interval
 
 
 ## Confidence Intervals for _Means_ of Differences
 
-**Typical setting:** paired or matched data (before/after, twins, same subject measured twice)
-
+For paired or matched data (before/after, twins, same subject measured twice)
 $$
 D_i = X_i - Y_i, \quad i = 1,\dots,n
 $$
@@ -194,17 +188,16 @@ Inference is about the **mean difference** $\mu_D$
 
 _Not_ difference of means $\mu_X - \mu_Y$, even though $\barD = \barX - \barY$
 
-**Paired *t* interval**
+If $D_1,\dots,D_n \IIDsim \Norm(\mu_D, \sigma_D^2)$
+$$
+\Prob\left[ \barD - t_{1-\alpha/2,n-1}\frac{S_D}{\sqrt{n}} \le \mu_D \le \barD + t_{1-\alpha/2,n-1}\frac{S_D}{\sqrt{n}} \right] = 1 - \alpha
+$$
 
-- Assumes $D_1,\dots,D_n$ are IID **Normal**
-- Exact for any $n$
-- Most common paired-data CI
+If $D_1,\dots,D_n$ are IID with finite variance, and $n$ is large
+$$
+\Prob\left[ \barD - z_{1-\alpha/2}\frac{S_D}{\sqrt{n}} \le \mu_D \le \barD + z_{1-\alpha/2}\frac{S_D}{\sqrt{n}} \right] \approx 1 - \alpha
+$$
 
-**CLT-based interval**
-
-- Assumes $D_i$ are IID with finite variance
-- Requires **large $n$**
-- Robust to non-normality
 
 ## Confidence Intervals for _Differences_ of Means
 

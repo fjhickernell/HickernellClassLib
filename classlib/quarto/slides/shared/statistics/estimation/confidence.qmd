@@ -201,30 +201,49 @@ $$
 
 ## Confidence Intervals for _Differences_ of Means
 
-**Typical setting:** two independent samples (control/treatment, two groups)
+For two _independent_ samples (control/treatment, two groups)
  
 $$
-X_1,\dots,X_{n_1} \sim \text{population 1}, \quad
-Y_1,\dots,Y_{n_2} \sim \text{population 2}
+X_1,\dots,X_{n_X} \sim \text{population 1}, \quad
+Y_1,\dots,Y_{n_Y} \sim \text{population 2}
+$$
+with sample means $\barX,\barY$ and sample variances $s_X^2,s_Y^2$
+
+If the $X$ and $Y$ are [Normal]{.alert}, we have an [approximate]{.alert} confidence interval for $\mu_X - \mu_Y$ 
+
+$$
+\Prob\left[
+(\barX-\barY)
+ - 
+t_{1-\alpha/2,\nu}
+\sqrt{\frac{S_X^2}{n_X}+\frac{S_Y^2}{n_Y}} \le \mu_X - \mu_Y \le
+(\barX-\barY)
+ + 
+t_{1-\alpha/2,\nu}
+\sqrt{\frac{S_X^2}{n_X}+\frac{S_Y^2}{n_Y}}  
+\right] = 1 - \alpha
 $$
 
-Parameter of interest: $\mu_1 - \mu_2$
+where $\nu$ is an approximate degrees of freedom (value not critical here)
 
 
-**Two-sample *t* interval** (Wackerly, Variations exist, e.g., pooled *t*, Welch)
+Other variations exist, e.g., pooled *t*, Welch
 
-- Independent samples
-- Normal populations
-- Uses unpooled standard error
-- Approximate distribution
+--- 
 
-**CLT-based interval**
+If $n_X, n_Y$ are large, we have a **CLT-based interval**
 
-- Assumes finite variances only
-- Requires large $n_1, n_2$
-- Often used when normality is doubtful
+$$
+\Prob\left[
+(\barX-\barY)
+ - z_{1-\alpha/2}
+\sqrt{\frac{S_X^2}{n_X}+\frac{S_Y^2}{n_Y}} \le \mu_X - \mu_Y \le
+(\barX-\barY)
+ + z_{1-\alpha/2}
+\sqrt{\frac{S_X^2}{n_X}+\frac{S_Y^2}{n_Y}}  
+\right] \approx 1 - \alpha
+$$
 
-**Important:** independence between samples is essential.
 
 ## Confidence Intervals for _Proportions_
 
@@ -296,3 +315,12 @@ Data are IID from a distribution with finite variance
 | 
 | $\sigma^2$ | **Normal** data | Any $n$ | Chi-squared | **Exact**, sensitive to non-normality |
 | $\med(X)$ | Continuous distribution | $n$ not too small | Order-statistics |**Approximate**, Distribution-free |  
+
+---
+
+### Summary
+
+- Confidence intervals provide a range of plausible values for parameters based on data
+- The validity of confidence intervals depends on assumptions about the [data distribution]{.alert} and [sample size(s)]{.alert}
+  - With fewer data we need stronger distributional assumptions
+  - With more data we can rely on asymptotic results like the CLT

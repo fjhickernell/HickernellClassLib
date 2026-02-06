@@ -26,13 +26,13 @@ Note: $F$ has a jump of size $p$ at $x=0$, corresponding to $\Prob(X=0)=p$
 \sigma^2 & = \var(X) = \Ex(X^2) - \mu^2 \exeq \frac{1-p^2}{\lambda^2}
 \end{align*} 
 
-## Lebesgue–Stieltjes Integral = Integral + Jumps
+## Lebesgue–Stieltjes integral = integral + jumps
 
 Let the CDF $F$
 
 - Be a nondecreasing, right-continuous function on $\mathbb{R}$
-- Have (possible) discontinuities at $-\infty <  x_1 < \ldots < x_N < \infty$, 
-- Be differentiable between its jump points, with $\varrho(x)=F'(x)$ there, 
+- Have (possible) discontinuities at $-\infty <  x_1 < \ldots < x_N < \infty$
+- Be differentiable between its jump points, with $\varrho(x)=F'(x)$ there
 
 and let  $f$ be a suitable function
 

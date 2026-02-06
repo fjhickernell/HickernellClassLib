@@ -91,7 +91,7 @@ $$
 F(x) : = \begin{cases} 0, & -\infty < x < a, \\
 \displaystyle \frac{x - a}{b - a}, & a \le x < b, \\
 1, & b \le x < \infty,
-\end{cases} \quad 
+\end{cases} \qquad \qquad
  \varrho(x): = \frac{1}{b-a}, \ x \in [a,b]; \\
   \Ex(X) = \frac{a+b}{2}, \quad  \var(X) = \frac{(b-a)^2}{12}  
 \end{gather*}

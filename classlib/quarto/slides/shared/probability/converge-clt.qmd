@@ -250,14 +250,13 @@ for nu in dfs:
 
 ### Theorem (WLLN)
 Let $X_1,X_2,\dots$ be IID with $\Ex[X_1]=\mu$ and $\var(X_1)=\sigma^2<\infty$.
-Define the sample mean $\barX_n := \frac1n\sum_{i=1}^n X_i$.  Then $\barX_n \convp \mu$.
+Define the sample mean as $\displaystyle\barX_n := \frac1n\sum_{i=1}^n X_i$.  Then $\barX_n \convp \mu$.
 
 ### Proof
 By Chebyshev's inequality,
-$$
-\Prob\bigl(|\barX_n-\mu|\ge \varepsilon\bigr)
-\le \frac{\var(\barX_n)}{\varepsilon^2}
-$$
+$\displaystyle \Prob\bigl(|\barX_n-\mu|\ge \varepsilon\bigr)
+\le \frac{\var(\barX_n)}{\varepsilon^2}$
+
 Using independence,
 $$
 \var(\barX_n)
@@ -275,5 +274,5 @@ $$
 \Prob\bigl(|\barX_n-\mu|\ge \varepsilon\bigr)
 \le
 \frac{\sigma^2}{n\varepsilon^2}
-\to 0 \qquad \square
+\to 0 \quad \text{as } n \to 0 \qquad \square
 $$

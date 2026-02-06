@@ -12,31 +12,27 @@
 
 - [Sample space]{.alert} – set of all possible outcomes, e.g., $\{\text{yes}, \text{no} \}$, $\reals$
 
-- [Event]{.alert} – set of outcomes (subset of the sample space), e.g., $[0,\infty)$
-
-- [Event space]{.alert} – collection of all possible events 
+- [Event space]{.alert} – collection of all possible events we can assign probabilities to, e.g., intervals like $[0,\infty)$ or regions such as $\{(x,y) : x^2 + y^2 \le 1\}$
 
 - [Probability]{.alert} – function  $\Prob:\text{event space}\to[0,1]$ satisfying
   - $0 \le \Prob(\text{event}) \le 1$
-  - $\mathbb{P}(\text{sample space})=1$
+  - $\Prob(\text{sample space})=1$
   - If $A \cap B=\varnothing$, then $\Prob(A\cup B)=\Prob(A)+\Prob(B)$
 
 
 ---
 
-- [Random variable/vector/function]{.alert} — mathematical quantity representing an outcome
+- [Random variable/vector/function]{.alert} — rule that assigns a number (or vector) to each outcome, e.g., $Y = 1$ if approve, $0$ if not; $X = \text{time to wait for taxi}$; $\vX = (\text{height}, \text{weight})$
 
 - [Cumulative distribution function (CDF)]{.alert} $F$ of random variable $X$ [(right-continuous)]{.alert}
   -  $F(x) : =  \Prob(X \le x)$
+  - [Survival function]{.alert} $S(x) := \Prob(X > x) = 1 - F(x)$
 
 - [Quantile function]{.alert} $Q$ of a random variable $X$ plays the role of the [inverse]{.alert} of the CDF [(left-continuous)]{.alert}
   - $Q(p) : = \inf\{x \in \reals : F(x) \ge p\}$
 
-- [Probability mass function (PMF)]{.alert} $\varrho$ of discrete random variable $X$ 
-  - $\varrho(x):= \Prob(X = x)$
-
-- [Probability density function (PDF)]{.alert} $\varrho$ of continuous random variable $X$ 
-  - $\varrho(x):= F'(x)$
+- [Probability density function (PDF)]{.alert} $\varrho$ of an absolutely continuous random variable $X$
+  - $\varrho(x) := F'(x)$
 
 ---
 
@@ -48,7 +44,7 @@
 - [Mean]{.alert} of $X$ is $\mu : = \Ex(X) \exeq \Argmin{m\in\reals} \Ex[(X-m)^2]$
   - $\Ex(a X + Y) \exeq a \Ex(X) + \Ex(Y)
 
-- [Variance]{.alert} of $X$ is $\sigma^2 : = \var(X) := \Ex[(X - \mu)^2] \exeq E(X^2) - \mu^2$
+- [Variance]{.alert} of $X$ is $\sigma^2 : = \var(X) := \Ex[(X - \mu)^2] \exeq \Ex(X^2) - \mu^2$
   - [Standard deviation]{.alert} of $X$ is  $\std(X) := \sigma = \sqrt{\var(X)}$
 
 - [Median]{.alert} of $X$ is $\med(X) : = Q(1/2) \in 
@@ -56,7 +52,8 @@
 
 ---
 
-- $(X,Y)$ are [independent]{.alert} iff $F_{X,Y}(x,y) = F_X(x) F_Y(y)$ or equivalently $\varrho_{X,Y}(x,y) = \varrho_X(x) \varrho_Y(y)$
+- $(X,Y)$ are [independent]{.alert} iff $F_{X,Y}(x,y) = F_X(x) F_Y(y)$ for all $x,y$ 
+  - or equivalently $\varrho_{X,Y}(x,y) = \varrho_X(x) \varrho_Y(y)$ for all $x,y$ 
 
 - [Covariance]{.alert} $\cov(X,Y) : = \Ex[(X- \mu_X)(Y - \mu_Y)]$
   - $\var(aX + Y) \exeq a^2 \var(X) + \var(Y)$ if $\cov(X,Y) = 0$
@@ -91,7 +88,7 @@ $$
 
 - [Uniform]{.alert} (random number generation, continuous) $\Unif(a,b)$
 \begin{gather*}
-F(x) : = \begin{cases} 0, & -\infty < x < 0, \\
+F(x) : = \begin{cases} 0, & -\infty < x < a, \\
 \displaystyle \frac{x - a}{b - a}, & a \le x < b, \\
 1, & b \le x < \infty,
 \end{cases} \quad 
@@ -107,7 +104,8 @@ $$
 $$
 
 - [Multivariate Normal (Gaussian)]{.alert} (limiting distribution, continuous) $\Norm(\vmu, \mSigma)$
-$$
-\varrho(\vx): = \frac{\exp\bigl(-(\vx-\vmu)^\top \mSigma^{-1} (\vx-\vmu) /2\bigr)}{\sqrt{(2 \pi)^{d} \det(\mSigma)}};\; \Ex(\vX) = \vmu, \; \cov(\vX) = \mSigma
-\class{alert}{\text{ symmetric, positive definite}}
-$$
+\begin{gather*}
+\varrho(\vx): = \frac{\exp\bigl(-(\vx-\vmu)^\top \mSigma^{-1} (\vx-\vmu) /2\bigr)}{\sqrt{(2 \pi)^{d} \det(\mSigma)}};\; \Ex(\vX) = \vmu, \\ 
+\cov(\vX) = \mSigma
+\class{alert}{\text{ symmetric, positive definite covariance matrix}}
+\end{gather*}

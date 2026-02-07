@@ -13,7 +13,7 @@ measuring how often $A$ occurs within that restricted universe.
 - [Multiplication rule]{.alert}:
 $\Prob(A \cap B)
 =
-\Prob(A \mid B),\Prob(B)$
+\Prob(A \mid B) \Prob(B)$
 
 - $A$ and $B$ are [independent]{.alert} if
 $\Prob(A \mid B) = \Prob(A)$ or equivalently 
@@ -26,8 +26,6 @@ $$
 \frac{\Prob(B \mid A) \, \Prob(A)}{\Prob(B)},
 \qquad \Prob(B)>0
 $$
-
-
 
 ---
 
@@ -71,7 +69,7 @@ We assume that $f$, the function to approximate or integrate, is an instance of 
 \end{gather*}
 and so the conditional density of $f(x)$ given $\vf = \vy$, where $\vy$ is the observed data, is  
 \begin{align*}
-\varrho_{f(x) | \vf}(z,\vy) = \frac{\varrho_{\tvf}(\tvy)}{\varrho_{\vf}(\vy)} = \frac{\frac{\exp(-\tvy^\top \tmK^{-1} \tvy/2)}{\sqrt{(2 \pi)^{n+1} \det(\tmK)}}}{\frac{\exp(-\vy^\top \mK^{-1} \vy/2)}{\sqrt{(2 \pi)^{n} \det(\mK)}}}
+\varrho_{f(x) | \vf}(z | \vy) = \frac{\varrho_{\tvf}(\tvy)}{\varrho_{\vf}(\vy)} = \frac{\frac{\exp(-\tvy^\top \tmK^{-1} \tvy/2)}{\sqrt{(2 \pi)^{n+1} \det(\tmK)}}}{\frac{\exp(-\vy^\top \mK^{-1} \vy/2)}{\sqrt{(2 \pi)^{n} \det(\mK)}}}
 = \frac{\exp([-\tvy^\top \tmK^{-1} \tvy + \vy^\top \mK^{-1} \vy]/2)}{\sqrt{(2 \pi) \det(\tmK)/\det(\mK)}}
 \end{align*}
 where $\tvy = (\vy^\top, z)^\top$

@@ -12,32 +12,36 @@
 
 Given IID data, $X_1, \ldots, X_n$, we often compute
 
-- [Empirical Distribution]{.alert} $F_{\{X_i\}}(x) := \frac 1n \sum_{i=1}^n \indic(X_i \ge x)$
+- [Empirical Distribution]{.alert} $F_{\{X_i\}}(x) := \frac 1n \sum_{i=1}^n \indic(X_i \le x)$
 
-- [Sample Mean]{.alert} $\displaystyle \barX := \frac{1}{n} \sum_{i=1}^n X_i = \Ex_{F_{\{X_i\}}}(X)$ to approximate the population mean $\mu := \Ex[X_1]$
+- [Sample Mean]{.alert} $\displaystyle \barX_n := \frac{1}{n} \sum_{i=1}^n X_i = \int x \, \dif F_{\{X_i\}}(x)$ to approximate the population mean $\mu := \Ex[X_1]$
 
-- [Sample Variance]{.alert} $S^2 := \displaystyle \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX)^2$ to approximate the population variance $\sigma^2 := \var(X_1) := \Ex[(X_1-\mu)^2]$
-  - Sometimes $\hsigma^2 := \displaystyle \frac{1}{\class{alert}{n}} \sum_{i=1}^n (X_i - \barX)^2$ 
+- [Sample Variance]{.alert} $S^2 := \displaystyle \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX_n)^2$ to approximate the population variance $\sigma^2 := \var(X_1) := \Ex[(X_1-\mu)^2]$
+  - Sometimes $\hsigma^2 := \displaystyle \frac{1}{\class{alert}{n}} \sum_{i=1}^n (X_i - \barX_n)^2$ 
+
+---
 
 - [Order Statistics]{.alert} $X_{(1)}, X_{(2)}, \ldots$, reorder the data so that 
 $$ X_{(1)} \le X_{(2)} \le \cdots \le X_{(n)}, \qquad \text{i.e., } X_{(i)} = Q_{\{X_i\}}(i/n)
 $$
-where $Q_{\{X_i\}}$ is the quantile function corresponding to the empirical distribution
+where $Q_{\{X_i\}}$ is the [quantile function](../slides/01-intro.html#quantile-function) corresponding to the empirical distribution
+  - $X_{(1)}$ is the minimum and $X_{(n)}$ is the maximum of the data
+  - $X_{(i)}$ is often an estimator of the population quantile $Q_X(p)$ for $p \approx i/(n+1)$ or $(i-1/2)/n$
 
----
 
-And given IID data, $(X_1, Y_1), \ldots, (X_n,Y_n)$, we often compute
 
-- [Sample Covariance]{.alert} $\displaystyle  S_{XY} := \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX)(Y_i - \barY)$ to approximate the population covariance $\cov(X_1,Y_1) : = \Ex[(X_1 - \mu)(Y_1 - \mu)]$
+Given IID data, $(X_1, Y_1), \ldots, (X_n,Y_n)$, with sample mean $(\barX_n, \barY_n)$, we often compute
 
-- [Sample Correlation]{.alert} $\displaystyle  R_{XY} := \frac{S_{XY}}{S_X S_Y}$ to approximate the population correlation $\displaystyle \corr(X_1,Y_1) : = \frac{\cov(X_1,Y_1)}{\sigma_X \sigma_Y}$
+- [Sample Covariance]{.alert} $\displaystyle  S_{XY} := \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX_n)(Y_i - \barY_n)$ to approximate the population covariance $\cov(X_1,Y_1) := \Ex[(X_1 - \mu_X)(Y_1 - \mu_Y)]$
+
+- [Sample Correlation]{.alert} $\displaystyle  R_{XY} := \frac{S_{XY}}{\sqrt{S^2_X S^2_Y}}$ to approximate the population correlation $\displaystyle \corr(X_1,Y_1) := \frac{\cov(X_1,Y_1)}{\sigma_X \sigma_Y}$
 
 ## Maximum likelihood estimators{#maximum-likelihood-estimators}
 
 The joint density of data,  $\vX = (X_1, \ldots, X_n)^\top$ given a parameter, $\vtheta$, is $\varrho_{X_1, \ldots, X_n| \vtheta}$.  The [likelihood]{.alert}, $L$ turns that around to make the parameter the variable, so 
 \begin{align*}
 L(\vtheta | x_1, \ldots, x_n) & := \varrho_{X_1, \ldots, X_n | \vtheta}(x_1, \ldots, x_n) \\
-& = \prod_{i=1}^n \varrho_{X_1 |\vtheta}(x_i) \qquad \text{if } X_1, \ldots, X_n \sim \IID
+& = \prod_{i=1}^n \varrho_{X_1 |\vtheta}(x_i) \qquad \text{if } X_1, \ldots, X_n \text{ are } \IID
 \end{align*}
 
 The [maximum likelihood estimator (MLE)]{.alert} of $\vtheta$ is the one that fits the observed data best in terms of
@@ -48,7 +52,7 @@ $$
 $\exstar$ What is the MLE of $p$ for the distribution $\Bern(p)$?
 
 ::: {.exitem}
-<span class="exbullet">$\exstar$</span><span>What is the MLE of $\lambda$ for $\Exp(\lambda)$? What are the MLE of $\mu=\Ex(X)$ and $\sigma=\var(X)$ for $X\sim\Exp(\lambda)$?</span>
+<span class="exbullet">$\exstar$</span><span>What is the MLE of $\lambda$ for $\Exp(\lambda)$? What are the MLE of $\mu=\Ex(X)$ and $\sigma^2=\var(X)$ for $X\sim\Exp(\lambda)$?</span>
 :::
 
 $\exstar$ What are the MLE of $\mu$ and $\sigma$ for $X \sim \Norm(\mu,\sigma^2)$?
@@ -56,7 +60,7 @@ $\exstar$ What are the MLE of $\mu$ and $\sigma$ for $X \sim \Norm(\mu,\sigma^2)
 
 
 ## Plug-in estimators{#plug-in-estimators}
-- If $\hTheta_1$ is an estimator of $\theta_1$ and $\theta_2 = g(\theta_1)$, then $\hTheta_2 : = g(\htheta_1)$ is a [plug-in estimator]{.alert} of $\theta_2$
+- If $\hTheta_1$ is an estimator of $\theta_1$ and $\theta_2 = g(\theta_1)$, then $\hTheta_2 : = g(\hTheta_1)$ is a [plug-in estimator]{.alert} of $\theta_2$
 - If $\hTheta_1$ is MLE of $\theta_1$ and $\theta_2 = g(\theta_1)$, then $\hTheta_2 : = g(\hTheta_1)$ is an MLE of $\theta_2$
 
 # Properties of Estimators
@@ -69,16 +73,20 @@ Suppose that $\Theta$ is an estimator of a parameter, $\theta$, of a population
 - [Bias]{.alert} $\bias(\Theta) = \Ex(\Theta) - \theta$
   - Asymptotic bias is $\displaystyle \lim_{n \to \infty} \bias(\Theta_n)$, where $n$ is the size of the sample on which the estimator is based
   - An estimator is [unbiased]{.alert} if $\bias(\Theta) = 0$
-  - $\barX$ is an unbiased estimator of $\mu = \Ex(X_1)$ for $X_1, \ldots, X_n$ identically distributed
+  - $\barX_n$ is an unbiased estimator of $\mu = \Ex(X_1)$ for identically distributed data
 
-- [Variance]{.alert} we aleady know
-  - $\var(\barX) \exeq \var(X_1)/n$ for IID data
+- [Variance]{.alert} we already know this definition
+  - $\var(\barX_n) \exeq \var(X_1)/n$ for uncorrelated, identically distributed data
 
 - [Mean squared error (MSE)]{.alert} $\mse(\Theta) := \Ex[(\Theta - \theta)^2] \exeq [\bias(\Theta)]^2 + \var(\Theta)$
 
-$\exstar$ Show that $S^2 := \displaystyle \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX)^2$ is an unbiased estimator of $\sigma^2$
+---
 
-$\exstar$ Is the MLE of $\sigma=\var(X)$ for $X\sim\Exp(\lambda)$ unbiased?
+$\exstar$ Show that $S^2 := \displaystyle \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX_n)^2$ is an unbiased estimator of $\sigma^2$
+
+$\exstar$ Show that $S = \sqrt{S^2}$ as an estimator of $\sigma$ has negative bias (see Jensen's inequality)
+
+$\exstar$ Is the MLE of $\sigma=\std(X)$ for $X\sim\Exp(\lambda)$ unbiased?
 
 $\exstar$ What is the MLE $\theta$ of $\theta$ for $X \sim \Unif(0,\theta)$?  Is it unbiased?  Can you modify it to be unbiased?
 
@@ -89,10 +97,12 @@ For the sample mean $\barX_n$, based on IID data
 
 - $n \barX_n \sim \Bin(n,p)$ if $X \sim \Bern(p)$
 
-- $\barX_n \exsim \Gam(n, n \lambda)$ if $X \sim \Exp(\lambda)$ where $\displaystyle \varrho_{\Gam(\alpha, \lambda)}(x) = \frac{\lambda^{\alpha}}{\Gamma(\alpha)}\, x^{\alpha-1} \exp(-\lambda x)
-\quad x>0$ &nbsp; (Note: $\Gamma(n) = (n-1)!$ for integer $n$)
+- $\barX_n \exsim \Gam(n, n \lambda)$ if $X \sim \Exp(\lambda)$ where $\displaystyle \varrho_{\Gam(\alpha, \beta)}(x) = \frac{\beta^{\alpha}}{\Gamma(\alpha)}\, x^{\alpha-1} \exp(-\beta x)
+\quad x>0$
+  - Note: $\Gamma(n) = (n-1)!$ for integer $n$
+  - $\Gam(\alpha, \beta)$ is the generic gamma distribution with shape $\alpha$ and rate $\beta$
   - $\lambda n \barX_n \exsim \Gam(n, 1)$
-  - $2 \lambda n \barX_n \exsim \chi^2_{2n}$, where $\displaystyle \varrho_{\chi^2_k}(x) = \frac{x^{k/2 - 1} \exp(-x/2)}{2^{k/2} \Gamma(k/2)} \quad x > 0$
+  - $2 \lambda n \barX_n \exsim \chi^2_{2n}$, where $\displaystyle \varrho_{\chi^2_\nu}(x) = \frac{x^{\nu/2 - 1} \exp(-x/2)}{2^{\nu/2} \Gamma(\nu/2)} \quad x > 0$
 
 ---
 
@@ -105,12 +115,13 @@ For the sample mean $\barX_n$, based on IID data (cont'd)
 - $\displaystyle \frac{\barX_n - \mu}{S/\sqrt{n}} \sim t_{n-1}$ if $X \sim \Norm(\mu,\sigma^2)$ where 
 
   - $\displaystyle S^2 := \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX_n)^2$
-  - $t_k$ is the [Student's t distribution]{.alert} with $k$ degrees of freedom
-  
-    - $\varrho_{t_k}(x) = \frac{\Gamma\!\left(\frac{\nu+1}{2}\right)} {\sqrt{\nu\pi}\,\Gamma\!\left(\frac{\nu}{2}\right)} \left(1+\frac{x^2}{\nu}\right)^{-(\nu+1)/2}, \quad -\infty < x < \infty$
+  - $t_\nu$ is the [Student's t distribution]{.alert} with $\nu$ degrees of freedom
+
+    - $\displaystyle \varrho_{t_\nu}(x) = \frac{\Gamma\!\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\,\Gamma\!\left(\frac{\nu}{2}\right)}\left(1+\frac{x^2}{\nu}\right)^{-(\nu+1)/2}, \quad \infty < x < \infty$
     - Symmetric about $0$
     - Heavier tails than the standard normal
-    - Converges to $N(0,1)$ as $\nu \to \infty$
+    - $\exstar$ Converges to $N(0,1)$ as $\nu \to \infty$
+  
 
 ---
 

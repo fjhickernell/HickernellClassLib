@@ -28,8 +28,8 @@
   -  $F(x) : =  \Prob(X \le x)$
   - [Survival function]{.alert} $S(x) := \Prob(X > x) = 1 - F(x)$
 
-- [Quantile function]{.alert} $Q$ of a random variable $X$ plays the role of the [inverse]{.alert} of the CDF [(left-continuous)]{.alert}
-  - $Q(p) : = \inf\{x \in \reals : F(x) \ge p\}$
+- [Quantile function]{#quantile-function .alert} $Q$ of a random variable $X$ plays the role of the [inverse]{.alert} of the CDF (in a [left-continuous]{.alert} sense)
+  - $Q(p) : = \inf\{x \in \reals : F(x) \ge p\}, \quad 0 < p < 1$
 
 - [Probability density function (PDF)]{.alert} $\varrho$ of an absolutely continuous random variable $X$
   - $\varrho(x) := F'(x)$

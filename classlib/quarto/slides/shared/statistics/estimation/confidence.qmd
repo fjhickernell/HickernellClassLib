@@ -23,10 +23,97 @@ The bounds $\Theta_L$ and $\Theta_U$ are random because they depend on random da
 
 ---
 
+- [Critical value notation](#critical-value-notation-important)
 - [Large sample size confidence intervals for means](#large-sample-confidence-intervals-for-means)
 - [Small sample size confidence intervals for means when the distribution is known](#small-sample-confidence-intervals-for-means-when-the-distribution-is-known)
 - [Confidence intervals for means of differences](#confidence-intervals-for-means-of-differences)
 - [Confidence intervals for variances](#confidence-intervals-for-variances)
+
+
+## Critical value notation{#critical-value-notation-important}
+
+For a distribution with CDF $F$ and quantile function $Q$, define the **upper critical value**
+$$
+c_{\alpha} := Q(1-\alpha),  \quad \text{i.e., } F(c_{\alpha}) \ge 1-\alpha \text{ and } F(c_{\alpha} - \epsilon) < 1-\alpha \; \forall \epsilon > 0
+$$
+
+:::: {.columns}
+::: {.column width="50%"}
+
+Examples 
+
+- $z_{\alpha} = Q_{\Norm(0,1)}(1-\alpha)$  
+- $t_{\nu,\alpha} = Q_{t_\nu}(1-\alpha)$  
+- $\chi^2_{\nu,\alpha} = Q_{\chi^2_\nu}(1-\alpha)$  
+
+These are [upper critical values]{.alert}, not $\alpha$-quantiles.
+
+:::
+
+::: {.column width="40%"}
+
+```{python}
+#| echo: false
+#| fig-width: 4.8
+#| fig-height: 3.6
+
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats as st
+
+alpha = 0.025
+z = st.norm.ppf(1 - alpha)
+
+x = np.linspace(-4, 4, 800)
+y = st.norm.pdf(x)
+
+plt.rcParams["mathtext.fontset"] = "cm"
+
+fig, ax = plt.subplots()
+
+# Density
+ax.plot(x, y, linewidth=4)
+
+# Critical value line
+ax.axvline(z, linestyle="--", linewidth=4)
+
+# Upper tail shading
+xtail = x[x >= z]
+ytail = st.norm.pdf(xtail)
+ax.fill_between(xtail, 0, ytail, alpha=0.3)
+
+# Title (larger font)
+ax.set_title(rf"Upper tail area $\alpha = {alpha} = {100*alpha}\%$", fontsize=24)
+
+# Clean y-axis
+ax.set_yticks([])
+
+# Emphasize x-axis ticks
+ax.tick_params(axis="x", labelsize=18)
+
+# Mark z_alpha under the x-axis
+ax.annotate(
+    r"$z_{0.025}$",
+    xy=(z, 0),
+    xycoords=("data", "axes fraction"),
+    xytext=(0, -18),
+    textcoords="offset points",
+    ha="center",
+    va="top",
+    fontsize=24
+)
+
+# Small tick at z_alpha
+ax.plot([z, z], [0, -0.02], transform=ax.get_xaxis_transform(), color="black")
+
+plt.tight_layout()
+plt.show()
+```
+
+:::
+
+::::
+
 
 ## Large sample size confidence intervals for means{#large-sample-confidence-intervals-for-means}   
 If $X_1, \ldots, X_n$ are IID with mean $\mu$ and variance $\sigma^2 < \infty$, and $\barX_n$ is the sample mean, then by the [Central Limit Theorem](../slides/01-intro.html#clt)

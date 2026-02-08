@@ -14,7 +14,7 @@ Given IID data, $X_1, \ldots, X_n$, we often compute
 
 - [Empirical Distribution]{.alert} $F_{\{X_i\}}(x) := \frac 1n \sum_{i=1}^n \indic(X_i \le x)$
 
-- [Sample Mean]{.alert} $\displaystyle \barX_n := \frac{1}{n} \sum_{i=1}^n X_i = \int x \, \dif F_{\{X_i\}}(x)$ to approximate the population mean $\mu := \Ex[X_1]$
+- [Sample Mean]{.alert} $\displaystyle \barX_n := \frac{1}{n} \sum_{i=1}^n X_i = \int x \, \dif F_{\{X_i\}}(x) = \Ex_{F_{\{X_i\}}}(X)$ to approximate the population mean $\mu := \Ex[X_1]$
 
 - [Sample Variance]{.alert} $S^2 := \displaystyle \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX_n)^2$ to approximate the population variance $\sigma^2 := \var(X_1) := \Ex[(X_1-\mu)^2]$
   - Sometimes $\hsigma^2 := \displaystyle \frac{1}{\class{alert}{n}} \sum_{i=1}^n (X_i - \barX_n)^2$ 
@@ -88,7 +88,7 @@ $\exstar$ Show that $S = \sqrt{S^2}$ as an estimator of $\sigma$ has negative bi
 
 $\exstar$ Is the MLE of $\sigma=\std(X)$ for $X\sim\Exp(\lambda)$ unbiased?
 
-$\exstar$ What is the MLE $\theta$ of $\theta$ for $X \sim \Unif(0,\theta)$?  Is it unbiased?  Can you modify it to be unbiased?
+$\exstar$ What is the MLE $\theta$ of $\theta$ for $X \sim \Unif(0,\theta)$?
 
 
 ## Distributions of estimators (see [Important Distributions](../slides/01-intro.html#prob-distrib)) {#distribest}

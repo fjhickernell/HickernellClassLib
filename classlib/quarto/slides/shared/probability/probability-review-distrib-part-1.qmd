@@ -8,18 +8,23 @@
 
 ## Key probability concepts{#prob-concepts}
 
-- [Outcome]{.alert} — single possible result of a random process, e.g., yes, $0.5$, $(1,-2)$
+- [Outcome]{.alert} — a single possible result of a random process, e.g., `yes`, $0.5$, $(1,-2)$.
 
-- [Sample space]{.alert} – set of all possible outcomes, e.g., $\{\text{yes}, \text{no} \}$, $\reals$
+- [Sample space]{.alert} — the set of all possible outcomes, e.g., $\{\text{yes},\text{no}\}$, $\reals$.
 
-- [Event space]{.alert} – collection of all possible events we can assign probabilities to, e.g., intervals like $[0,\infty)$ or regions such as $\{(x,y) : x^2 + y^2 \le 1\}$
+- [Event]{.alert} — a *subset of the sample space* to which we may assign a probability, e.g., intervals like $[0,\infty)$ or regions such as $\{(x,y) : x^2 + y^2 \le 1\}$.
 
-- [Probability]{.alert} – function  $\Prob:\text{event space}\to[0,1]$ satisfying
-  - $0 \le \Prob(\text{event}) \le 1$
-  - $\Prob(\text{sample space})=1$
-  - If $A \cap B=\varnothing$, then $\Prob(A\cup B)=\Prob(A)+\Prob(B)$
+- [Event space]{.alert} — a collection of events (subsets of the sample space) that we are allowed to assign probabilities to.
 
-
+- [Probability]{.alert} — a function  
+  \[
+  \Prob:\text{event space}\to[0,1]
+  \]
+  satisfying:
+  - $0 \le \Prob(A) \le 1$ for every event $A$
+  - $\Prob(\text{sample space}) = 1$
+  - If $A \cap B = \varnothing$, then $\Prob(A \cup B) = \Prob(A) + \Prob(B)$
+  
 ---
 
 - [Random variable/vector/function]{.alert} — rule that assigns a number (or vector) to each outcome, e.g., $Y = 1$ if approve, $0$ if not; $X = \text{time to wait for taxi}$; $\vX = (\text{height}, \text{weight})$

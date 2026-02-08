@@ -60,14 +60,13 @@ These are [upper critical values]{.alert}, not $\alpha$-quantiles.
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as st
+plt.rcParams["mathtext.fontset"] = "cm"
 
 alpha = 0.025
 z = st.norm.ppf(1 - alpha)
 
 x = np.linspace(-4, 4, 800)
 y = st.norm.pdf(x)
-
-plt.rcParams["mathtext.fontset"] = "cm"
 
 fig, ax = plt.subplots()
 

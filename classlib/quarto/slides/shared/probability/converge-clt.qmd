@@ -41,7 +41,8 @@ and none of the reverse implications hold in general
 $$
 \Prob(\lvert X_n - X \rvert > \varepsilon ) = \Prob(X_n =1) = 1/n \to 0 \text{ as } n \to \infty \text{ so } X_n \convp X
 $$
-  But $\Prob (X_n =1 \text{ infinitely often}) = 1$ since the expected number of times $X_n=1$ is
+Assuming the $X_n$ are independent,
+$\Prob (X_n =1 \text{ infinitely often}) = 1$ since
 $$
 \sum_{n=1}^{\infty} \Prob(X_n=1) = \sum_{n=1}^{\infty} \frac 1n = \infty
 $$
@@ -66,18 +67,21 @@ $$
 
 \begin{align*}
 Z_n: &= \frac{\barX_n - \mu}{\sigma /\sqrt{n}} = \frac{Y_1 + \cdots + Y_n}{\sqrt{n}} \\
-M_{Z_n}(t) &= \Ex[\exp(tZ_n)] = \Ex[\exp(tY_1/\sqrt{n}+ \cdots+ tY_n/\sqrt{n})]\\
+M_{Z_n}(t) &= \Ex[\exp(tZ_n)] = \Ex[\exp(tY_1/\sqrt{n} + \cdots + tY_n/\sqrt{n})]\\
 & = \Ex[\exp(tY_1/\sqrt{n}) \cdots \exp(tY_n/\sqrt{n})] \\
 & =  \{\Ex[\exp(tY_1/\sqrt{n})]\}^n \qquad \text{by independence} \\
-& = [M_Y(t/\sqrt{n})]^n
-\lim_{n \to \infty}M_{Z_n}(t) = [M(0)]^\infty = 1^\infty \quad \class{alert}{\text{(undetermined)}}
+& = [M_Y(t/\sqrt{n})]^n \\
+\lim_{n \to \infty}M_{Z_n}(t) &= [M_Y(0)]^\infty = 1^\infty \quad \class{alert}{\text{(undetermined)}}
 \end{align*}
 
 ---
 
 2. Take the limit of $M_{Z_n}(t)$ as $n \to \infty$ using [L’Hôpital’s rule]{.alert}
 \begin{align*}
-\lim_{n \to \infty} \log\bigl(M_{Z_n}(t)  \bigr) & = \lim_{n \to \infty} n  \log \bigl(M_Y(t/\sqrt{n}) \bigr) 
+\text{Note that } M_Y(0) & = 1 \\
+M'_Y(0) & = \Ex(Y_1) = 0 \\
+M''_Y(0) & = \Ex(Y_1^2) = 1 \\
+\text{Then }\lim_{n \to \infty} \log\bigl(M_{Z_n}(t)  \bigr) & = \lim_{n \to \infty} n  \log \bigl(M_Y(t/\sqrt{n}) \bigr) 
 =  \lim_{n \to \infty} \frac{\log \bigl(M_Y(t/\sqrt{n}) \bigr) }{n^{-1}} = \frac{0}{0} \quad \class{alert}{\text{(undetermined)}}\\
 & = \lim_{n \to \infty} 
 \frac{ \dfrac{-t}{2n^{3/2}} \dfrac{M'_Y(t/\sqrt{n})}{M_Y(t/\sqrt{n})} }
@@ -99,7 +103,7 @@ M_Z(t) & = \Ex[\exp(tZ)] = \int_{-\infty}^{\infty} \frac 1{\sqrt{2 \pi}} \exp(tz
 
 By uniqueness of moment generating functions,
 $$
-Z_n \convd N(0,1)
+Z_n \convd \Norm(0,1)
 $$
 $\square$
 
@@ -274,5 +278,20 @@ $$
 \Prob\bigl(|\barX_n-\mu|\ge \varepsilon\bigr)
 \le
 \frac{\sigma^2}{n\varepsilon^2}
-\to 0 \quad \text{as } n \to 0 \qquad \square
+\to 0 \quad \text{as } n \to \infty \qquad \square
 $$
+
+## Slutsky's Theorem
+If
+\begin{align*}
+X_n &\convd X  \quad \text{and} \\
+Y_n &\convp c \quad \text{for some constant } c
+\end{align*}
+Then
+\begin{align*}
+X_n + Y_n &\convd X + c \\
+X_n Y_n &\convd cX \\
+\frac{X_n}{Y_n} &\convd \frac{X}{c} \quad \text{if } c \neq 0
+\end{align*}
+
+> Random quantities converging to constants behave like constants asymptotically

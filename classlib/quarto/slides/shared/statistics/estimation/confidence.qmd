@@ -468,7 +468,7 @@ T := \sum_{i=1}^n X_i \quad \text{(\# satisfactory)} \sim \Bin(n,p).
 - Want a one-sided confidence interval for $p$ of the form $[P_L,1]$; confidence in our product quality
 
 - $P_L$ is *a random variable*, defined as a function of $T$
-  - If true success probability $< P_L$, then observing $\ge T$ successes is very unlikely
+  - If true success probability $< P_L$, then observing $\ge T$ successes is quite unlikely
 
 - We define a function $p_{L,\alpha} : \{0,1,\ldots,n\} \to [0,1]$ implicitly by requiring that 
 $$

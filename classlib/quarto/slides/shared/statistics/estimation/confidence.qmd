@@ -30,9 +30,9 @@ The bounds $\Theta_L$ and $\Theta_U$ are random because they depend on random da
 - [Confidence intervals for variances](#confidence-intervals-for-variances)
 
 
-## Critical value notation{#critical-value-notation-important}
+## Upper critical values{#critical-value-notation-important}
 
-For a distribution with CDF $F$ and quantile function $Q$, define the **upper critical value**
+For a distribution with CDF $F$ and quantile function $Q$, define the upper critical value
 $$
 c_{\alpha} := Q(1-\alpha),  \quad \text{i.e., } F(c_{\alpha}) \ge 1-\alpha \text{ and } F(c_{\alpha} - \epsilon) < 1-\alpha \; \forall \epsilon > 0
 $$
@@ -46,7 +46,7 @@ Examples
 - $t_{\nu,\alpha} = Q_{t_\nu}(1-\alpha)$  
 - $\chi^2_{\nu,\alpha} = Q_{\chi^2_\nu}(1-\alpha)$  
 
-These are [upper critical values]{.alert}, not $\alpha$-quantiles.
+These [upper critical values]{.alert} are *not* $\alpha$-quantiles.
 
 :::
 
@@ -126,9 +126,9 @@ Letting $z_{\alpha/2}$ be the upper $\alpha/2$ quantile of $\Norm(0,1)$, i.e., $
 1 - \alpha & \approx
 \Prob \biggl( -z_{\alpha/2} \le \frac{\barX_n - \mu}{\sigma/\sqrt{n}} \le z_{\alpha/2} \biggr) \\
 & \approx \Prob \biggl( \barX_n - z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \le \mu \le \barX_n + z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \biggr) \\
-& \approx \Prob \biggl( \underbrace{\barX_n - z_{\alpha/2} \frac{S}{\sqrt{n}}}_{\Theta_L} \le \mu \le \underbrace{\barX_n + z_{\alpha/2} \frac{S}{\sqrt{n}}}_{\Theta_U} \biggr)
+& \approx \Prob \biggl( \underbrace{\barX_n - z_{\alpha/2} \frac{S_n}{\sqrt{n}}}_{\Theta_L} \le \mu \le \underbrace{\barX_n + z_{\alpha/2} \frac{S_n}{\sqrt{n}}}_{\Theta_U} \biggr)
 \end{align*}
-where $S^2$ is some estimate of the unknown population variance $\sigma^2$ (e.g., unbiased or MLE)
+where $S_n^2$ is some estimate of the unknown population variance $\sigma^2$ (e.g., unbiased or MLE)
 
 ---
 
@@ -445,18 +445,12 @@ plt.show()
 ⬇ Exact vs CLT Confidence Interval Coverage 📓
 </a>
 
-&nbsp;
-
-::: {.exitem}
-<span class="exbullet">$\exstar$</span><span> You draw $n$ IID samples of your product to test for failure.  What is your confidence interval for $p$, the probability of a satisfactory product, if none of the samples fail?</span>
-:::
-
 ---
 
 ## Example: CI for a binomial proportion when no failures are observed{#ci-binomial-zero-failures}
 
-You draw $n$ IID samples of your product to test for failure.
-What is your confidence interval for $p$, the probability that a product is satisfactory, if none of the samples fail?
+You draw $n$ IID samples of your product to test for _failure_, and none of the samples fail.
+What is your confidence interval for $p$, the probability that a product is satisfactory?
 
 Let $X_i = 1$ if the $i$th product is satisfactory and $0$ otherwise. Note that
 \begin{gather*}

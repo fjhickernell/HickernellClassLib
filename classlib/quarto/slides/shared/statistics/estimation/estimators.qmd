@@ -14,10 +14,10 @@ Given IID data, $X_1, \ldots, X_n$, we often compute
 
 - [Empirical Distribution]{.alert} $F_{\{X_i\}}(x) := \frac 1n \sum_{i=1}^n \indic(X_i \le x)$
 
-- [Sample Mean]{.alert} $\displaystyle \barX_n := \frac{1}{n} \sum_{i=1}^n X_i = \int x \, \dif F_{\{X_i\}}(x) = \Ex_{F_{\{X_i\}}}(X)$ to approximate the population mean $\mu := \Ex[X_1]$
+- [Sample Mean]{.alert} $\displaystyle \barX = \barX_n := \frac{1}{n} \sum_{i=1}^n X_i = \int x \, \dif F_{\{X_i\}}(x) = \Ex_{F_{\{X_i\}}}(X)$ to approximate the population mean $\mu := \Ex[X_1]$
 
-- [Sample Variance]{.alert} $S^2 := \displaystyle \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX_n)^2$ to approximate the population variance $\sigma^2 := \var(X_1) := \Ex[(X_1-\mu)^2]$
-  - Sometimes $\hsigma^2 := \displaystyle \frac{1}{\class{alert}{n}} \sum_{i=1}^n (X_i - \barX_n)^2$ 
+- [Sample Variance]{.alert} $S^2 =S^2_n := \displaystyle \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX_n)^2$ to approximate the population variance $\sigma^2 := \var(X_1) := \Ex[(X_1-\mu)^2]$
+  - Sometimes $\hsigma^2 = \hsigma^2_n := \displaystyle \frac{1}{\class{alert}{n}} \sum_{i=1}^n (X_i - \barX_n)^2$ 
 
 ---
 
@@ -112,9 +112,9 @@ For the sample mean $\barX_n$, based on IID data (cont'd)
 
 - $\barX_n \appxsim \Norm(\mu,\sigma^2/n)$ for arbitrary distributions and large $n$ by the [Central Limit Theorem]{.alert}
 
-- $\displaystyle \frac{\barX_n - \mu}{S/\sqrt{n}} \sim t_{n-1}$ if $X \sim \Norm(\mu,\sigma^2)$ where 
+- $\displaystyle \frac{\barX_n - \mu}{S_n/\sqrt{n}} \sim t_{n-1}$ if $X \sim \Norm(\mu,\sigma^2)$ where 
 
-  - $\displaystyle S^2 := \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX_n)^2$
+  - $\displaystyle S_n^2 := \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX_n)^2$
   - $t_\nu$ is the [Student's t distribution]{.alert} with $\nu$ degrees of freedom
 
     - $\displaystyle \varrho_{t_\nu}(x) = \frac{\Gamma\!\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\,\Gamma\!\left(\frac{\nu}{2}\right)}\left(1+\frac{x^2}{\nu}\right)^{-(\nu+1)/2}, \quad \infty < x < \infty$
@@ -125,9 +125,9 @@ For the sample mean $\barX_n$, based on IID data (cont'd)
 
 ---
 
-For the unbiased sample variance, $S^2$, for [$\Norm(\mu,\sigma^2)$]{.alert} based on IID data
+For the unbiased sample variance, $S_n^2$, for [$\Norm(\mu,\sigma^2)$]{.alert} based on IID data
 
-- $\displaystyle \frac{(n-1) S^2}{\sigma^2} \sim \chi^2_{n-1}$
+- $\displaystyle \frac{(n-1) S_n^2}{\sigma^2} \sim \chi^2_{n-1}$
 
 &nbsp;
 

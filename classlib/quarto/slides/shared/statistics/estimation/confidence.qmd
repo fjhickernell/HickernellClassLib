@@ -38,7 +38,7 @@ c_{\alpha} := Q(1-\alpha),  \quad \text{i.e., } F(c_{\alpha}) \ge 1-\alpha \text
 $$
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="60%"}
 
 Examples 
 
@@ -67,21 +67,22 @@ z = st.norm.ppf(1 - alpha)
 
 x = np.linspace(-4, 4, 800)
 y = st.norm.pdf(x)
+y_z = st.norm.pdf(z)
 
 fig, ax = plt.subplots()
 
 # Density
 ax.plot(x, y, linewidth=4)
 
-# Critical value line
-ax.axvline(z, linestyle="--", linewidth=4)
+# Critical value line: ONLY up to the pdf
+ax.vlines(z, 0, y_z, linestyle="-", linewidth=4, color="tab:orange")
 
 # Upper tail shading
 xtail = x[x >= z]
 ytail = st.norm.pdf(xtail)
-ax.fill_between(xtail, 0, ytail, alpha=0.3)
+ax.fill_between(xtail, 0, ytail, alpha=0.3, color="tab:orange")
 
-# Title (larger font)
+# Title
 ax.set_title(rf"Upper tail area $\alpha = {alpha} = {100*alpha}\%$", fontsize=24)
 
 # Clean y-axis
@@ -103,7 +104,8 @@ ax.annotate(
 )
 
 # Small tick at z_alpha
-ax.plot([z, z], [0, -0.02], transform=ax.get_xaxis_transform(), color="black")
+ax.plot([z, z], [0, -0.1],  linewidth=3, transform=ax.get_xaxis_transform(), color="tab:orange", 
+        clip_on=False, solid_capstyle="butt")
 
 plt.tight_layout()
 plt.show()
@@ -197,15 +199,102 @@ If the sample size is not large enough for the [Central Limit Theorem](../slides
 
 print(
     f"_Example_: You observe $\\barX_n = {xbar}$ minutes for taxis to arrive."
-    f"based on $n$. You construct a ${100*(1-alpha):.0f}\\%$ confidence interval for the mean arrival time, $\\mu$, assuming that the arrival times are distributed  $\\Exp(1/\\mu)$.  Recall that $\\mu = \\sigma = 1/\\lambda$. \n \n But now we have the true distribution of $\\barX_n$:"
+    f"based on $n$ observations. You construct a ${100*(1-alpha):.0f}\\%$ confidence interval for the mean arrival time, $\\mu$, assuming that the arrival times are distributed  $\\Exp(1/\\mu)$.  Recall that $\\mu = \\sigma = 1/\\lambda$. \n \n But now we have the true distribution of $\\barX_n$:"
 )
 ```
 
+::: {.columns}
+
+::: {.column width="60%"}
+
 \begin{align*}
-2 \lambda n \barX_n \sim \chi^2_{2n} \implies 1 - \alpha &= \Prob \biggl( \chi^2_{2n, \alpha/2} \le 2 \lambda n \barX_n \le \chi^2_{2n, 1-\alpha/2} \biggr) \\
-& = \Prob \biggl( \frac{\chi^2_{2n, \alpha/2}}{2 n \barX_n} \le \lambda \le \frac{\chi^2_{2n, 1-\alpha/2}}{2 n \barX_n} \biggr) \\
-& = \Prob \biggl( \frac{2 n \barX_n}{\chi^2_{2n, 1-\alpha/2}} \le \mu \le \frac{2 n \barX_n}{\chi^2_{2n, \alpha/2}} \biggr)
+2 \lambda n \barX_n &\sim \chi^2_{2n}  \\
+\implies 1 - \alpha
+&= \Prob \biggl( \chi^2_{2n, \alpha/2} \le 2 \lambda n \barX_n \le \chi^2_{2n, 1-\alpha/2} \biggr) \\
+&= \Prob \biggl( \frac{\chi^2_{2n, \alpha/2}}{2 n \barX_n} \le \lambda \le \frac{\chi^2_{2n, 1-\alpha/2}}{2 n \barX_n} \biggr) \\
+&= \Prob \biggl( \frac{2 n \barX_n}{\chi^2_{2n, 1-\alpha/2}} \le \mu \le \frac{2 n \barX_n}{\chi^2_{2n, \alpha/2}} \biggr).
 \end{align*}
+
+:::
+
+::: {.column width="40%"}
+
+```{python}
+#| echo: false
+#| fig-width: 4.8
+#| fig-height: 3.4
+
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats as st
+plt.rcParams["mathtext.fontset"] = "cm"
+
+n_plot = n_small
+df = 2*n_plot
+a2 = alpha/2
+
+q_lo = st.chi2.ppf(a2, df)
+q_hi = st.chi2.ppf(1 - a2, df)
+
+c = 2*n_plot*xbar
+mu_lo = c / q_hi
+mu_hi = c / q_lo
+
+# Change of variables: if Y ~ chi2_df and M = c/Y,
+# then f_M(m) = f_Y(c/m) * (c/m^2)
+def f_mu(mu):
+    y = c/mu
+    return st.chi2.pdf(y, df) * (c/(mu**2))
+
+mu = np.linspace(0.6*mu_lo, 1.4*mu_hi, 900)
+pdf = f_mu(mu)
+
+fig, ax = plt.subplots()
+
+# Density on mu-scale
+ax.plot(mu, pdf, linewidth=4)
+
+# Shade the CI region (blue)
+mu_mid = mu[(mu >= mu_lo) & (mu <= mu_hi)]
+ax.fill_between(mu_mid, 0, f_mu(mu_mid), alpha=0.3, color="tab:blue")
+
+# Solid vertical lines at CI endpoints (blue) up to the curve
+ax.vlines([mu_lo, mu_hi],
+          0,
+          [f_mu(mu_lo), f_mu(mu_hi)],
+          linewidth=4,
+          color="tab:blue")
+
+# Label xbar under the axis
+ax.annotate(
+    rf"$\overline{{X}} = {xbar}$",
+    xy=(xbar, 0),
+    xycoords=("data", "axes fraction"),
+    xytext=(0, -20),
+    textcoords="offset points",
+    ha="center",
+    va="top",
+    fontsize=18
+)
+
+ax.plot([xbar, xbar],
+        [0, -0.05],
+        transform=ax.get_xaxis_transform(),
+        color="black",
+        linewidth=2,
+        clip_on=False)
+
+ax.set_title(rf"Exact CI for $\mu$ via $\chi^2_{{{df}}}$ (central {100*(1-alpha):.0f}\%)", fontsize=24)
+ax.set_yticks([])
+ax.tick_params(axis="x", labelsize=18)
+
+plt.tight_layout()
+plt.show()
+```
+
+:::
+
+:::
 
 ---
 ```{python}
@@ -226,13 +315,129 @@ for n in (n_small, n_large):
         f"| {n} | {fmt_ci(ex_lo, ex_hi)} | {w_ex:.3f} | "
         f"{fmt_ci(clt_lo, clt_hi)} | {w_clt:.3f} | {w_clt/w_ex:.3f} |"
     )
-
 ```
+::: {.columns}
+
+::: {.column width="45%"}
 
 - For small $n$
   - Exact confidence interval can be substantially different from the CLT-based interval
-  - CLT is symmetric about $\barX_n$, while the exact interval is not
-- As $n$ increases, CLT-based interval approaches the exact interval
+  - CLT interval is symmetric about $\bar X_n$, while the exact interval is not
+- As $n$ increases
+  - CLT-based interval approaches the exact interval
+
+:::
+
+::: {.column width="55%"}
+
+```{python}
+#| echo: false
+#| fig-width: 6.8
+#| fig-height: 3.4
+
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats as st
+plt.rcParams["mathtext.fontset"] = "cm"
+
+n = 16
+df = 2*n
+
+mu_hat = xbar
+sigma_hat = mu_hat
+se_hat = sigma_hat/np.sqrt(n)
+
+# exact pdf of Xbar from chi-square transform:
+# if Y ~ chi2_{2n} and Xbar = (mu/(2n)) Y, then
+# f_Xbar(x) = f_Y( (2n/mu) x ) * (2n/mu)
+def pdf_xbar_exact(x):
+    y = (2*n/mu_hat)*x
+    return st.chi2.pdf(y, df) * (2*n/mu_hat)
+
+def pdf_xbar_clt(x):
+    return st.norm.pdf(x, loc=mu_hat, scale=se_hat)
+
+x_lo = max(0.0, mu_hat - 4*se_hat)
+x_hi = mu_hat + 4*se_hat
+x = np.linspace(x_lo, x_hi, 900)
+# Central 95% regions
+a2 = alpha/2
+
+# Exact quantiles via chi-square inversion
+q_lo = st.chi2.ppf(a2, df)
+q_hi = st.chi2.ppf(1 - a2, df)
+x_ex_lo = (mu_hat/(2*n)) * q_lo
+x_ex_hi = (mu_hat/(2*n)) * q_hi
+
+# CLT quantiles
+x_clt_lo = mu_hat - st.norm.ppf(1 - a2)*se_hat
+x_clt_hi = mu_hat + st.norm.ppf(1 - a2)*se_hat
+
+fig, ax = plt.subplots()
+
+# Exact (blue) and CLT normal (orange)
+ax.plot(x, pdf_xbar_exact(x), linewidth=4, color="tab:blue")
+ax.plot(x, pdf_xbar_clt(x),   linewidth=4, color="tab:orange")
+
+# Shade exact 95% region (blue)
+x_mid_ex = x[(x >= x_ex_lo) & (x <= x_ex_hi)]
+ax.fill_between(x_mid_ex, 0, pdf_xbar_exact(x_mid_ex),
+                color="tab:blue", alpha=0.25)
+
+# Shade CLT 95% region (orange)
+x_mid_clt = x[(x >= x_clt_lo) & (x <= x_clt_hi)]
+ax.fill_between(x_mid_clt, 0, pdf_xbar_clt(x_mid_clt),
+                color="tab:orange", alpha=0.25)
+
+# Exact CI endpoints (blue)
+ax.vlines([x_ex_lo, x_ex_hi],
+          0,
+          [pdf_xbar_exact(x_ex_lo), pdf_xbar_exact(x_ex_hi)],
+          linewidth=3,
+          color="tab:blue")
+
+# CLT CI endpoints (orange)
+ax.vlines([x_clt_lo, x_clt_hi],
+          0,
+          [pdf_xbar_clt(x_clt_lo), pdf_xbar_clt(x_clt_hi)],
+          linewidth=3,
+          color="tab:orange")
+          
+# Label xbar under the axis
+ax.annotate(
+    rf"$\overline{{X}} = {xbar}$",
+    xy=(xbar, 0),
+    xycoords=("data", "axes fraction"),
+    xytext=(0, -20),
+    textcoords="offset points",
+    ha="center",
+    va="top",
+    fontsize=18
+)
+
+ax.plot([xbar, xbar],
+        [0, -0.05],
+        transform=ax.get_xaxis_transform(),
+        color="black",
+        linewidth=2,
+        clip_on=False)
+
+ax.set_title(rf"Exact vs CLT CI for $\mu$ ($n=16$, central {100*(1-alpha):.0f}\%)", fontsize=24)
+ax.set_yticks([])
+ax.tick_params(axis="x", labelsize=18)
+
+# Simple legend
+ax.plot([], [], linewidth=4, color="tab:blue", label="Exact (via $\\chi^2$)")
+ax.plot([], [], linewidth=4, color="tab:orange",   label="CLT Normal")
+ax.legend(frameon=False, fontsize=16, loc="upper right")
+
+plt.tight_layout()
+plt.show()
+```
+
+:::
+
+::: 
 
 &nbsp;
 
@@ -246,21 +451,63 @@ for n in (n_small, n_large):
 <span class="exbullet">$\exstar$</span><span> You draw $n$ IID samples of your product to test for failure.  What is your confidence interval for $p$, the probability of a satisfactory product, if none of the samples fail?</span>
 :::
 
+---
 
-## Student’s $t$ Confidence Interval for *Normal* Data with Unknown Variance
+## Example: CI for a binomial proportion when no failures are observed{#ci-binomial-zero-failures}
 
-For $X_1,\dots,X_n \IIDsim \Norm(\mu, \sigma^2)$
+You draw $n$ IID samples of your product to test for failure.
+What is your confidence interval for $p$, the probability that a product is satisfactory, if none of the samples fail?
 
-- Sample mean: $\barX$
-- Sample standard deviation: $S$
+Let $X_i = 1$ if the $i$th product is satisfactory and $0$ otherwise. Note that
+\begin{gather*}
+X_i =
+\begin{cases}
+1, & \text{satisfactory},\\
+0, & \text{failure},
+\end{cases}
+\qquad
+X_i \sim \Bern(p), \quad p=\Prob(\text{satisfactory}),
+\\
+T := \sum_{i=1}^n X_i \quad \text{(\# satisfactory)} \sim \Bin(n,p).
+\end{gather*}
 
-We have an [exact]{.alert} confidence interval for all $n$:
+- Want a one-sided confidence interval for $p$ of the form $[P_L,1]$; confidence in our product quality
+
+- $P_L$ is *a random variable*, defined as a function of $T$
+  - If true success probability $< P_L$, then observing $\ge T$ successes is very unlikely
+
+- We define a function $p_{L,\alpha} : \{0,1,\ldots,n\} \to [0,1]$ implicitly by requiring that 
 $$
-\Prob\left[ \barX - t_{1-\alpha/2,n-1}\frac{S}{\sqrt{n}} \le \mu \le \barX + t_{1-\alpha/2,n-1}\frac{S}{\sqrt{n}} \right] = 1 - \alpha
+\Prob_{\Bin(n,p_{L,\alpha}(t))}\bigl(T \ge t\bigr) = \alpha \qquad \forall t \in \{0,1,\ldots,n\}
 $$
-where $t_{1-\alpha/2,n-1}$ is the upper $\alpha/2$ quantile of the [Student's t distribution]{.alert} with $n-1$ degrees of freedom
+The random lower confidence limit is then $P_L := p_{L,\alpha}(T)$
 
-- For large $n$, this interval is close to the CLT-based interval
+---
+
+$[P_L,1]$ takes the form $P_L := p_{L,\alpha}(T)$, with
+$$
+\Prob_{\Bin(n,p_{L,\alpha}(t))}\bigl(T \ge t\bigr) = \alpha \qquad \forall t \in \{0,1,\ldots,n\}.
+$$
+In our case the realized confidence interval based on $n$ successes is $[p_{L,\alpha}(n),1]$, so 
+$$
+[p_{L,\alpha}(n)]^n = \Prob_{\Bin(n,p_{L,\alpha}(n))}\bigl(T \ge n\bigr) = \alpha \iff p_{L,\alpha}(n) = \alpha^{1/n}
+$$
+
+&nbsp;
+
+```{python}
+#| echo: false
+#| output: asis
+
+alpha = 0.05
+ns = [5, 10,20, 100]
+vals = [alpha**(1/n) for n in ns]
+
+print("| $n$ | " + " | ".join(str(n) for n in ns) + " |")
+print("|:-:|" + "|".join(["---"]*len(ns)) + "|")
+print("| $p_L = \\alpha^{1/n}$ | " + " | ".join(f"{v:.4f}" for v in vals) + " |")
+
+```
 
 
 ## Confidence Intervals for _Means_ of Differences
@@ -270,18 +517,19 @@ $$
 D_i = X_i - Y_i, \quad i = 1,\dots,n
 $$
 
-Inference is about the **mean difference** $\mu_D$
+Inference is about the **mean difference** $\mu_D$ (paired setting)
 
-_Not_ difference of means $\mu_X - \mu_Y$, even though $\barD = \barX - \barY$
+_Not_ difference of means $\mu_X - \mu_Y$ (unpaired), even though $\barD_n= \barX_n - \barY_n$
 
 If $D_1,\dots,D_n \IIDsim \Norm(\mu_D, \sigma_D^2)$
 $$
-\Prob\left[ \barD - t_{1-\alpha/2,n-1}\frac{S_D}{\sqrt{n}} \le \mu_D \le \barD + t_{1-\alpha/2,n-1}\frac{S_D}{\sqrt{n}} \right] = 1 - \alpha
+\Prob\left[ \barD_n - t_{n-1,\alpha/2}\frac{S_{D,n}}{\sqrt{n}} \le \mu_D \le \barD_n  + t_{n-1,\alpha/2}\frac{S_{D,n}}{\sqrt{n}} \right] = 1 - \alpha
 $$
+where $\displaystyle S_{D,n}^2 = \frac 1{n-1} \sum_{i=1}^n (D_i - \barD_n)^2$
 
 If $D_1,\dots,D_n$ are IID with finite variance, and $n$ is large
 $$
-\Prob\left[ \barD - z_{1-\alpha/2}\frac{S_D}{\sqrt{n}} \le \mu_D \le \barD + z_{1-\alpha/2}\frac{S_D}{\sqrt{n}} \right] \approx 1 - \alpha
+\Prob\left[ \barD_n - z_{\alpha/2}\frac{S_{D,n}}{\sqrt{n}} \le \mu_D \le \barD_n + z_{\alpha/2}\frac{S_{D,n}}{\sqrt{n}} \right] \approx 1 - \alpha
 $$
 
 

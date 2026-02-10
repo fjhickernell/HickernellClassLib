@@ -29,6 +29,8 @@ The bounds $\Theta_L$ and $\Theta_U$ are random because they depend on random da
 - [Confidence intervals for means of differences](#confidence-intervals-for-means-of-differences)
 - [Confidence intervals for proportions](#confidence-intervals-for-proportions)
 - [Confidence intervals for variances](#confidence-intervals-for-variances)
+- [Bootstrap confidence intervals](#bootstrap-confidence-intervals)
+- [Summary of common confidence intervals and their assumptions](#ci-assumptions)
 
 
 ## Upper critical values{#critical-value-notation-important}
@@ -742,7 +744,7 @@ Construct the appropriate 95% confidence intervals for the following scenarios:
 
 2. $X_1,\dots,X_{100}$ and  $Y_1,\dots,Y_{100}$ are two independent IID samples of test scores from two different populations of medical students. The first group was given a practice test beforehand, and the second group was not. Construct a  95% confidence interval for the difference in mean test scores between the two populations and interpret the interval in context.
 
-3. $X_1,\dots,X_{100}$ and  $Y_1,\dots,Y_{100}$ are two IID samples of test scores from the same population of medical students. The $X_i$'s are the students' scores on a practice test, and the $Y_i$'s are the students' scores on the real test. Construct a 95% confidence interval for the mean difference in test scores between the practice and real tests.
+3. $X_1,\dots,X_{100}$ and  $Y_1,\dots,Y_{100}$ are two IID samples of test scores from the same population of medical students. The $X_i$'s are the students' scores on the real test, and the $Y_i$'s are the students' scores on the practice test taken earlier. Construct a 95% confidence interval for the mean difference in test scores between the practice and real tests.
 
 ## Confidence Interval for _Proportions_ (CLT) {#confidence-intervals-for-proportions}
 
@@ -1002,7 +1004,7 @@ print_md_table(header, md_rows)
 ⬇ Exact vs CLT vs Bootstrap Confidence Interval Coverage 📓
 </a>
 
-## Assumptions behind common confidence intervals
+## Assumptions behind common confidence intervals{#ci-assumptions}
 
 Data are IID from a distribution with finite variance
 

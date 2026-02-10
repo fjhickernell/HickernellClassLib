@@ -442,8 +442,8 @@ plt.show()
 
 &nbsp;
 
-<a class="button" style="margin-left:0em;" href="../classlib/classlib/notebooks/coverage_exact_vs_clt.ipynb" download>
-⬇ Exact vs CLT Confidence Interval Coverage 📓
+<a class="button" style="margin-left:0em;" href="../classlib/classlib/notebooks/confidence_interval_exact_vs_clt_vs_bootstrap.ipynb" download>
+⬇ Exact vs CLT vs Bootstrap Confidence Interval Coverage 📓
 </a>
 
 ---
@@ -768,7 +768,11 @@ $$
 $$
 
 > No normality · No variance formula · Works when classical assumptions fail
+---
 
+<a class="button" style="margin-left:0em;" href="../classlib/classlib/notebooks/confidence_interval_exact_vs_clt_vs_bootstrap.ipynb" download>
+⬇ Exact vs CLT vs Bootstrap Confidence Interval Coverage 📓
+</a>
 
 
 

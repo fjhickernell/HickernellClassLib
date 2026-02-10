@@ -768,15 +768,107 @@ $$
 $$
 
 > No normality · No variance formula · Works when classical assumptions fail
+
 ---
 
 <a class="button" style="margin-left:0em;" href="../classlib/classlib/notebooks/confidence_interval_exact_vs_clt_vs_bootstrap.ipynb" download>
 ⬇ Exact vs CLT vs Bootstrap Confidence Interval Coverage 📓
 </a>
 
+## Example of vanilla bootstrap
 
+```{python}
+#| echo: false
+#| output: asis
 
-## Assumptions Behind Common Confidence Intervals
+import numpy as np
+import pandas as pd
+
+# population generator (same as notebook)
+def generate_population(N):
+    return np.random.exponential(scale=2.0, size=N)
+
+# draw original sample
+n = 8 # sample size
+
+print(f"""
+We draw a _single IID random sample of size_ $n={n}$ from a population:
+$$
+X_1,\\dots,X_{{{n}}}, \\qquad 
+\\barX = \\frac{{1}}{{{n}}}\\sum_{{i=1}}^{{{n}}} X_i
+$$
+A *vanilla bootstrap sample* is obtained by sampling **with replacement**
+from the observed data $\\{{X_1,\\dots,X_{{{n}}}\\}}$.  We repeat this independently to obtain _bootstrap_ samples.
+""")
+
+# population generator (same as notebook)
+def generate_population(N):
+    return np.random.exponential(scale=2.0, size=N)
+
+# draw original sample
+N = 10_000 #population size
+population = generate_population(N)
+sample = np.random.choice(population, size=n, replace=False)
+
+# bootstrap samples
+B = 4
+boot_samples = np.random.choice(sample, size=(B, n), replace=True)
+
+# ---------- helpers ----------
+
+def fmt_sample(x):
+    return ", ".join(f"{xi:.2f}" for xi in x)
+
+def print_md_table(header, rows):
+    print('<table style="width:100%; table-layout:fixed;">')
+    print("<thead><tr>")
+    print(f'<th style="width:20%;">{header[0]}</th>')
+    print(f'<th style="width:55%;">{header[1]}</th>')
+    print(f'<th style="width:25%;">{header[2]}</th>')
+    print("</tr></thead>")
+    print("<tbody>")
+    for c1, c2, c3 in rows:
+        print("<tr>")
+        print(f"<td>{c1}</td>")
+        print(f"<td>{c2}</td>")
+        print(f"<td>{c3}</td>")
+        print("</tr>")
+    print("</tbody></table>")
+
+# ---------- build rows ----------
+
+rows = []
+rows.append(("**Original**", fmt_sample(sample), sample.mean()))
+
+for b in range(B):
+    rows.append(
+        (f"Bootstrap {b+1}", fmt_sample(boot_samples[b]), boot_samples[b].mean())
+    )
+
+# add vdots row
+rows.append((
+    r"$\vdots$",
+    r"$\vdots$",
+    r"$\vdots$"
+))
+
+# ---------- print markdown table ----------
+
+header = ["Sample", "Observations", "Sample mean"]
+
+md_rows = []
+for name, obs, m in rows:
+    md_rows.append([
+        name,
+        obs,
+        f"{m:.2f}" if isinstance(m, (int, float)) else m
+    ])
+
+print_md_table(header, md_rows)
+
+```
+
+## Assumptions behind common confidence intervals
 
 Data are IID from a distribution with finite variance
 

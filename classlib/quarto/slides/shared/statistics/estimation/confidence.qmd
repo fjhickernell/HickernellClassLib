@@ -194,12 +194,14 @@ for n in (n_small, n_large):
 
 If the sample size is not large enough for the [Central Limit Theorem](../slides/01-intro.html#clt) to apply, but the sample mean has a known distribution, then exact confidence intervals can sometimes be constructed
 
+### Confidence interval for the mean of an exponential distribution
+
 ```{python}
 #| echo: false
 #| output: asis
 
 print(
-    f"_Example_: You observe $\\barX_n = {xbar}$ minutes for taxis to arrive."
+    f"You observe $\\barX_n = {xbar}$ minutes for taxis to arrive."
     f"based on $n$ observations. You construct a ${100*(1-alpha):.0f}\\%$ confidence interval for the mean arrival time, $\\mu$, assuming that the arrival times are distributed  $\\Exp(1/\\mu)$.  Recall that $\\mu = \\sigma = 1/\\lambda$. \n \n But now we have the true distribution of $\\barX_n$:"
 )
 ```
@@ -448,7 +450,126 @@ plt.show()
 
 ---
 
-## Example: CI for a binomial proportion when no failures are observed{#ci-binomial-zero-failures}
+### CI for the mean of Normal data with unknown variance
+If $X_1, \ldots, X_n$ are IID $\Norm(\mu, \sigma^2)$, then $\displaystyle\frac{\barX_n - \mu}{S_n/\sqrt{n}} \sim t_{n-1}$ for all $n \ge 2$, 
+where $S_n^2$ is the unbiased sample variance estimator.  Letting $t_{n-1,\alpha/2}$ be the upper $\alpha/2$ quantile of $t_{n-1}$, then    
+$$
+\Prob \biggl( \barX_n - t_{n-1,\alpha/2} \frac{S_n}{\sqrt{n}} \le \mu \le \barX_n + t_{n-1,\alpha/2} \frac{S_n}{\sqrt{n}} \biggr) = 1 - \alpha
+$$
+
+::: {.columns}
+::: {.column width="30%"}
+Student's $t$ CIs are [wider]{.alert} than CLT Normal CIs for small $n$ because $t_{n-1,\alpha/2} > z_{\alpha/2}$
+
+But they are [exact]{.alert} and thus more accurate for all $n \ge 2$ when the data are Normal
+:::
+
+::: {.column width="70%"}
+```{python}
+#| echo: false
+#| fig-width: 6.8
+#| fig-height: 3.4
+
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats as st
+plt.rcParams["mathtext.fontset"] = "cm"
+
+n = 10
+df = n - 1
+
+mu_hat = xbar
+sigma_hat = 3.
+se_hat = sigma_hat / np.sqrt(n)
+
+def pdf_xbar(x):
+    return st.norm.pdf(x, loc=mu_hat, scale=se_hat)
+
+x_lo = mu_hat - 4*se_hat
+x_hi = mu_hat + 4*se_hat
+x = np.linspace(x_lo, x_hi, 900)
+
+a2 = alpha/2
+
+# Student-t CI endpoints
+tcrit = st.t.ppf(1 - a2, df)
+x_t_lo = mu_hat - tcrit * se_hat
+x_t_hi = mu_hat + tcrit * se_hat
+
+# CLT (z) CI endpoints
+zcrit = st.norm.ppf(1 - a2)
+x_clt_lo = mu_hat - zcrit * se_hat
+x_clt_hi = mu_hat + zcrit * se_hat
+
+fig, ax = plt.subplots()
+
+# Same exact sampling pdf for Xbar (Normal), plot it once (black)
+ax.plot(x, pdf_xbar(x), linewidth=4, color="tab:blue")
+
+# Shade Student-t CI region (blue)
+x_mid_t = x[(x >= x_t_lo) & (x <= x_t_hi)]
+ax.fill_between(x_mid_t, 0, pdf_xbar(x_mid_t),
+                color="tab:blue", alpha=0.25)
+
+# Shade CLT (z) CI region (orange)
+x_mid_clt = x[(x >= x_clt_lo) & (x <= x_clt_hi)]
+ax.fill_between(x_mid_clt, 0, pdf_xbar(x_mid_clt),
+                color="tab:orange", alpha=0.25)
+
+# Student-t CI endpoints (blue)
+ax.vlines([x_t_lo, x_t_hi],
+          0,
+          [pdf_xbar(x_t_lo), pdf_xbar(x_t_hi)],
+          linewidth=3,
+          color="tab:blue")
+
+# CLT CI endpoints (orange)
+ax.vlines([x_clt_lo, x_clt_hi],
+          0,
+          [pdf_xbar(x_clt_lo), pdf_xbar(x_clt_hi)],
+          linewidth=3,
+          color="tab:orange")
+
+# Label xbar under the axis
+ax.annotate(
+    rf"$\overline{{X}} = {xbar}$",
+    xy=(xbar, 0),
+    xycoords=("data", "axes fraction"),
+    xytext=(0, -20),
+    textcoords="offset points",
+    ha="center",
+    va="top",
+    fontsize=18
+)
+
+ax.plot([xbar, xbar],
+        [0, -0.05],
+        transform=ax.get_xaxis_transform(),
+        color="black",
+        linewidth=2,
+        clip_on=False)
+
+ax.set_title(
+    rf"Student's $t$ vs CLT CI for $\mu$ ($n={n}$, central {100*(1-alpha):.0f}%)",
+    fontsize=24
+)
+ax.set_yticks([])
+ax.tick_params(axis="x", labelsize=18)
+
+# Legend (proxy lines)
+ax.plot([], [], linewidth=4, color="tab:blue", label=rf"Student's $t$ (df={df})")
+ax.plot([], [], linewidth=4, color="tab:orange", label="CLT Normal ($z$)")
+ax.legend(frameon=False, fontsize=16, loc="upper right")
+
+plt.tight_layout()
+plt.show()
+```
+:::
+
+:::
+---
+
+### CI for a binomial proportion when no failures are observed{#ci-binomial-zero-failures}
 
 You draw $n$ IID samples of your product to test for _failure_, and none of the samples fail.
 What is your confidence interval for $p$, the probability that a product is satisfactory?
@@ -607,6 +728,21 @@ z_{\alpha/2}
 \approx
 1 - \alpha.
 \end{multline*}
+
+---
+
+### $\exstar$ Exercises
+- Let $X_1,\dots,X_{100}$ and  $Y_1,\dots,Y_{100}$ be two samples with sample means $\barX, \barY$ and sample standard deviations $S_X, S_Y$, respectively
+- Let $D_i = X_i - Y_i$ and $S_D$ be the sample standard deviation of the $D_i$
+- You observe $\barX = 85, \barY = 75, S_X = 10, S_Y = 12, S_D = 4$
+
+Construct the appropriate 95% confidence intervals for the following scenarios:
+
+1. $X_1,\dots,X_{100}$ are IID test scores from a population of medical students.   Construct a 95% confidence interval for the mean test score of the whole population and interpret the interval in context.
+
+2. $X_1,\dots,X_{100}$ and  $Y_1,\dots,Y_{100}$ are two independent IID samples of test scores from two different populations of medical students. The first group was given a practice test beforehand, and the second group was not. Construct a  95% confidence interval for the difference in mean test scores between the two populations and interpret the interval in context.
+
+3. $X_1,\dots,X_{100}$ and  $Y_1,\dots,Y_{100}$ are two IID samples of test scores from the same population of medical students. The $X_i$'s are the students' scores on a practice test, and the $Y_i$'s are the students' scores on the real test. Construct a 95% confidence interval for the mean difference in test scores between the practice and real tests.
 
 ## Confidence Interval for _Proportions_ (CLT) {#confidence-intervals-for-proportions}
 
@@ -769,12 +905,6 @@ $$
 
 > No normality · No variance formula · Works when classical assumptions fail
 
----
-
-<a class="button" style="margin-left:0em;" href="../classlib/classlib/notebooks/confidence_interval_exact_vs_clt_vs_bootstrap.ipynb" download>
-⬇ Exact vs CLT vs Bootstrap Confidence Interval Coverage 📓
-</a>
-
 ## Example of vanilla bootstrap
 
 ```{python}
@@ -867,6 +997,10 @@ for name, obs, m in rows:
 print_md_table(header, md_rows)
 
 ```
+
+<a class="button" style="margin-left:0em;" href="../classlib/classlib/notebooks/confidence_interval_exact_vs_clt_vs_bootstrap.ipynb" download>
+⬇ Exact vs CLT vs Bootstrap Confidence Interval Coverage 📓
+</a>
 
 ## Assumptions behind common confidence intervals
 

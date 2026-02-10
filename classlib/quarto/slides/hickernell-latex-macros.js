@@ -194,8 +194,10 @@
         vinf:  "{\\boldsymbol{\\infty}}",
         
         barD: "{\\overline{D}}",
+        barx: "{\\overline{x}}",
         barX: "{\\overline{X}}",
         barY: "{\\overline{Y}}",
+        bary: "{\\overline{y}}",
         barZ: "{\\overline{Z}}",
 
         me:  "{\\mathrm{e}}",

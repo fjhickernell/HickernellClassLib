@@ -733,10 +733,10 @@ z_{\alpha/2}
 
 ---
 
-### $\exstar$ Exercises
-- Let $X_1,\dots,X_{100}$ and  $Y_1,\dots,Y_{100}$ be two samples with sample means $\barX, \barY$ and sample standard deviations $S_X, S_Y$, respectively
-- Let $D_i = X_i - Y_i$ and $S_D$ be the sample standard deviation of the $D_i$
-- You observe $\barX = 85, \barY = 75, S_X = 10, S_Y = 12, S_D = 4$
+### $\exstar$ Exercises regarding confidence intervals for different kinds of means
+- $X_1,\dots,X_{100}$ and  $Y_1,\dots,Y_{100}$ are two samples with sample means $\barX, \barY$ and sample standard deviations $S_X, S_Y$, respectively
+- $D_i = X_i - Y_i$ and $S_D$ be the sample standard deviation of the $D_i$
+- You observe $\barx = 85, \bary = 75, s_X = 10, s_Y = 12, s_D = 4$
 
 Construct the appropriate 95% confidence intervals for the following scenarios:
 

@@ -91,6 +91,7 @@
         opt:   "{\\operatorname{opt}}",
         brandnew: "{\\operatorname{new}}",
         std:   "{\\operatorname{std}}",
+        se:    "{\\operatorname{se}}",
         kurt:  "{\\operatorname{kurt}}",
         med:   "{\\operatorname{med}}",
         vol:   "{\\operatorname{vol}}",
@@ -110,9 +111,6 @@
         Weibull:"{\\operatorname{Weibull}}",
         Lognorm:"{\\operatorname{Lognormal}}",
         GP:     "{\\operatorname{GP}}",
-
-        Var: "{\\operatorname{Var}}",
-        Cov: "{\\operatorname{Cov}}",
 
         argmin: ["\\operatorname*{argmin}", 0],
         argmax: ["\\operatorname*{argmax}", 0],
@@ -186,6 +184,10 @@
         hmu:    "{\\widehat{\\mu}}",
         hsigma: "{\\widehat{\\sigma}}",
         hSigma: "{\\widehat{\\Sigma}}",
+        hP:     "{\\widehat{P}}",
+        hX:     "{\\widehat{X}}",
+        hY:     "{\\widehat{Y}}",
+        hZ:     "{\\widehat{Z}}",
 
         vzero: "{\\boldsymbol{0}}",
         vone:  "{\\boldsymbol{1}}",

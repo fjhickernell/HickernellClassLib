@@ -27,6 +27,7 @@ The bounds $\Theta_L$ and $\Theta_U$ are random because they depend on random da
 - [Large sample size confidence intervals for means](#large-sample-confidence-intervals-for-means)
 - [Small sample size confidence intervals for means when the distribution is known](#small-sample-confidence-intervals-for-means-when-the-distribution-is-known)
 - [Confidence intervals for means of differences](#confidence-intervals-for-means-of-differences)
+- [Confidence intervals for proportions](#confidence-intervals-for-proportions)
 - [Confidence intervals for variances](#confidence-intervals-for-variances)
 
 
@@ -530,96 +531,246 @@ $$
 ## Confidence Intervals for _Differences_ of Means
 
 For two _independent_ samples (control/treatment, two groups)
- 
+
 $$
 X_1,\dots,X_{n_X} \sim \text{population 1}, \quad
 Y_1,\dots,Y_{n_Y} \sim \text{population 2}
 $$
-with sample means $\barX,\barY$ and sample variances $s_X^2,s_Y^2$
 
-If the $X$ and $Y$ are [Normal]{.alert}, we have an [approximate]{.alert} confidence interval for $\mu_X - \mu_Y$ 
+with sample means $\barX_{n_X}, \barY_{n_Y}$ and sample variances
+$S_{X,n_X}^2, S_{Y,n_Y}^2$
 
+---
+
+### Pooled-$t$ confidence interval (Wackerly)
+
+Assume that the two populations:
+
+- Are sampled [independently]{.alert}
+- Are [Normal]{.alert} 
+- Have a [common variance]{.alert} $\sigma^2$
+
+Define the _pooled variance_ estimator of $\sigma^2$ as
 $$
+S_p^2
+=
+\frac{(n_X-1)S_{X,n_X}^2 + (n_Y-1)S_{Y,n_Y}^2}{n_X + n_Y - 2}.
+$$
+
+Then a $t$-based confidence interval for $\mu_X - \mu_Y$ is
+
+\begin{multline*}
 \Prob\left[
-(\barX-\barY)
- - 
-t_{1-\alpha/2,\nu}
-\sqrt{\frac{S_X^2}{n_X}+\frac{S_Y^2}{n_Y}} \le \mu_X - \mu_Y \le
-(\barX-\barY)
- + 
-t_{1-\alpha/2,\nu}
-\sqrt{\frac{S_X^2}{n_X}+\frac{S_Y^2}{n_Y}}  
-\right] = 1 - \alpha
-$$
+(\barX_{n_X}-\barY_{n_Y})
+-
+t_{n_X+n_Y-2,\alpha/2}
+\, S_p
+\sqrt{\frac{1}{n_X} + \frac{1}{n_Y}}
+\le \mu_X - \mu_Y \right .  \\ \left .
+\le
+(\barX_{n_X}-\barY_{n_Y})
++
+t_{n_X+n_Y-2,\alpha/2}
+\, S_p
+\sqrt{\frac{1}{n_X} + \frac{1}{n_Y}}
+\right]
+=
+1 - \alpha.
+\end{multline*}
 
-where $\nu$ is an approximate degrees of freedom (value not critical here)
+---
+
+Other variations exist (Welch two-sample $t$, unequal variances).
 
 
-Other variations exist, e.g., pooled *t*, Welch
+### CLT-based interval (large samples)
 
---- 
+If $n_X$ and $n_Y$ are large and the samples are independent, then a
+_CLT-based confidence interval_ applies even if the two populations:
 
-If $n_X, n_Y$ are large, we have a **CLT-based interval**
+- need _not_ be Normal
+- need _not_ have a common variance
 
-$$
+\begin{multline*}
 \Prob\left[
-(\barX-\barY)
- - z_{1-\alpha/2}
-\sqrt{\frac{S_X^2}{n_X}+\frac{S_Y^2}{n_Y}} \le \mu_X - \mu_Y \le
-(\barX-\barY)
- + z_{1-\alpha/2}
-\sqrt{\frac{S_X^2}{n_X}+\frac{S_Y^2}{n_Y}}  
-\right] \approx 1 - \alpha
+(\barX_{n_X}-\barY_{n_Y})
+-
+z_{\alpha/2}
+\sqrt{\frac{S_{X,n_X}^2}{n_X}+\frac{S_{Y,n_Y}^2}{n_Y}}
+\le \mu_X - \mu_Y \right . \\ \left .
+\le
+(\barX_{n_X}-\barY_{n_Y})
++
+z_{\alpha/2}
+\sqrt{\frac{S_{X,n_X}^2}{n_X}+\frac{S_{Y,n_Y}^2}{n_Y}}
+\right]
+\approx
+1 - \alpha.
+\end{multline*}
+
+## Confidence Interval for _Proportions_ (CLT) {#confidence-intervals-for-proportions}
+
+### One proportion
+- $X_1,\dots,X_n \IIDsim \Bern(p)$  ($p =$ probability of success shooting free throws, product quality control, etc.)
+- $\hP_n = \frac{1}{n}\sum_{i=1}^n X_i =$ sample proportion of successes
+- $\Ex[\hP_n] = p$ and $\var(\hP_n) = p(1-p)/n$
+
+If $n$ is large, an [approximate CLT-based]{.alert} interval for $p$ is
+
+\begin{equation*}
+\Prob\left[
+\hP_n
+-
+z_{\alpha/2}\sqrt{\frac{\hP_n(1-\hP_n)}{n}}
+\le p 
+\le
+\hP_n
++
+z_{\alpha/2}\sqrt{\frac{\hP_n(1-\hP_n)}{n}}
+\right]
+\approx
+1-\alpha
+\end{equation*}
+
+---
+
+### Difference of two proportions
+
+[Independent]{.alert} samples 
+\begin{gather*}
+X_1,\dots,X_{n_X} \IIDsim \Bern(p_X), \qquad
+Y_1,\dots,Y_{n_Y} \IIDsim \Bern(p_Y)
+\\
+\hP_X = \frac{1}{n_X}\sum X_i,
+\qquad
+\hP_Y = \frac{1}{n_Y}\sum Y_j
+\end{gather*}
+
+If $n_X$ and $n_Y$ are large, an [approximate CLT-based]{.alert} confidence interval for $p_X - p_Y$ is
+
+\begin{multline*}
+\Prob\left[
+(\hP_X-\hP_Y)
+-
+z_{\alpha/2}
+\sqrt{\frac{\hP_X(1-\hP_X)}{n_X}
++
+\frac{\hP_Y(1-\hP_Y)}{n_Y}}
+\right . \\ \left .
+\le p_X - p_Y \le
+(\hP_X-\hP_Y)
++
+z_{\alpha/2}
+\sqrt{\frac{\hP_X(1-\hP_X)}{n_X}
++
+\frac{\hP_Y(1-\hP_Y)}{n_Y}}
+\right]
+\approx
+1-\alpha
+\end{multline*}
+
+## Confidence Interval for a _Variance_
+
+Let $X_1,\dots,X_n \IIDsim \Norm(\mu,\sigma^2)$  with sample variance $S_n^2$
+
+Then
+$$
+\frac{(n-1)S_n^2}{\sigma^2} \sim \chi^2_{n-1}
 $$
 
+and a $(1-\alpha)$ confidence interval for $\sigma^2$ is
 
-## Confidence Intervals for _Proportions_
+\begin{equation*}
+\Prob\left[
+\frac{(n-1)S_n^2}{\chi^2_{n-1,\,1-\alpha/2}}
+\le \sigma^2 \le
+\frac{(n-1)S_n^2}{\chi^2_{n-1,\,\alpha/2}}
+\right]
+=
+1-\alpha
+\end{equation*}
 
-**Typical setting:** Bernoulli trials
+## Confidence Interval for _Ratio_ of Variances
 
-Let  
-\[
-X \sim \text{Binomial}(n,p), \quad \hat p = X/n
-\]
+Let
+$$
+X_1,\dots,X_{n_X} \IIDsim \Norm(\mu_X,\sigma_X^2), \quad
+Y_1,\dots,Y_{n_Y} \IIDsim \Norm(\mu_Y,\sigma_Y^2)
+$$
 
-Parameter of interest: population proportion $p$.
+be  independent samples with sample variances
+$S_{X,n_X}^2, S_{Y,n_Y}^2$, respectively
 
-**Common methods**
+Then
+$$
+\frac{S_{X,n_X}^2 / \sigma_X^2}{S_{Y,n_Y}^2 / \sigma_Y^2}
+\sim
+F_{\,n_X-1,n_Y-1}
+$$
 
-- **Normal approximation interval**
-  - Requires $np$ and $n(1-p)$ large
-  - Simple but can undercover
+and a $(1-\alpha)$ confidence interval for
+$\displaystyle \frac{\sigma_X^2}{\sigma_Y^2}$ is
 
-- **Wilson / Agresti–Coull interval**
-  - Improved accuracy over normal approximation
-  - Near-nominal coverage for moderate $n$
+\begin{equation*}
+\Prob\left[
+\frac{S_{X,n_X}^2}{S_{Y,n_Y}^2}
+\frac{1}{F_{n_X-1,n_Y-1;\,1-\alpha/2}}
+\le
+\frac{\sigma_X^2}{\sigma_Y^2}
+\le
+\frac{S_{X,n_X}^2}{S_{Y,n_Y}^2}
+\frac{1}{F_{n_X-1,n_Y-1;\,\alpha/2}}
+\right]
+=
+1-\alpha
+\end{equation*}
 
-- **Exact (Clopper–Pearson) interval**
-  - No sample size restriction
-  - Guaranteed coverage
-  - Conservative (wider than necessary)
+## Bootstrap Confidence Intervals{#bootstrap-confidence-intervals}
 
-**Key tradeoff:** simplicity vs coverage accuracy.
+Classical confidence intervals rely on assumptions such as:
 
-## Confidence Intervals for _Variances_
+- Known or estimable variance
+- Normality of the sampling distribution
+- Large sample sizes (via CLT)
 
-**Typical setting:** inference about variability
+But in practice we often have:
 
-Parameter of interest: population variance $\sigma^2$.
+- Small samples
+- Skewed or heavy-tailed data
+- Complicated estimators (medians, quantiles, ratios)
 
-**Common methods**
+*Bootstrap confidence intervals* replace distributional assumptions with
+[resampling from the observed data]{.alert} to approximate the sampling distribution of an estimator
 
-- **Chi-squared interval**
-  - Assumes data are IID Normal
-  - Exact for any $n$
-  - Very sensitive to non-normality
 
-- **Asymptotic (CLT-based) intervals**
-  - Assume finite fourth moments
-  - Require large $n$
-  - Rarely used in introductory courses
+## The Bootstrap Idea
 
-**Important:** variance inference is far less robust than mean inference.
+Given data $X_1,\dots,X_n$ and an estimator $\Theta$:
+
+1. Resample _with replacement_ from the data to form $B$ bootstrap samples  
+   Each bootstrap sample has size $n$ and consists of draws from the original data
+   $$
+   X_1^{(b)},\dots,X_n^{(b)} \IIDsim \text{Uniform}\{X_1,\dots,X_n\}, \quad b=1,\dots,B
+   $$
+2. Compute the bootstrap estimators $\Theta^{(b)}$
+    $$
+    \Theta^{(b)} = \Theta(X_1^{(b)},\dots,X_n^{(b)}), \quad b=1,\dots,B
+    $$
+
+3. Use the empirical distribution of $\Theta^{(1)},\dots,\Theta^{(B)}$ to construct confidence intervals
+
+A simple *bootstrap percentile CI* uses the _order statistics_ of the bootstrap estimators:
+$$
+\left[
+\Theta_{(\alpha/2)},
+\Theta_{(1-\alpha/2)}
+\right]
+$$
+
+> No normality · No variance formula · Works when classical assumptions fail
+
+
+
 
 ## Assumptions Behind Common Confidence Intervals
 
@@ -627,10 +778,10 @@ Data are IID from a distribution with finite variance
 
 | Parameter | Distributional Assumptions | Sample Size | Method | Notes |
 |-------|--------------------------------|--------|-----------------------|----------------------------|
-| $\mu$ | **Any** distribution | **Large** $n$ | Central Limit Theorem (CLT) | **Approximate**, accuracy improves as $n \to \infty$ |
+| $\mu$ | **Any** distribution | **Large** $n$ | **CLT** | **Approximate**, accuracy improves as $n \to \infty$ |
 | $\mu$ |  **Normal** data, <br>$\sigma$ unknown | Any $n$ | Student’s *t* | **Exact**|
 | $\mu = p$ | **Bernoulli** trials | Any $n$ | Binomial<br>(Clopper–Pearson) | **Exact**<br>Conservative |
-| $\mu = p$ | **Bernoulli** trials | Large $np$,  $n(1-p)$ | Central Limit Theorem (CLT) | **Approximate** |
+| $\mu = p$ | **Bernoulli** trials | Large $np$,  $n(1-p)$ | **CLT** | **Approximate** |
 | $\mu$ | **Exponential** data | Any $n$ | Gamma/<br>Chi-squared  | **Exact** |
 
 ---
@@ -638,17 +789,32 @@ Data are IID from a distribution with finite variance
 | Parameter | Distributional Assumptions | Sample Size | Method | Notes |
 |-------|--------------------------------|--------|-----------------------|----------------------------|
 | $\mu_D$ <br>(paired differences)| Differences are **Normal** | Any $n$ | Paired *t* |  **Exact**, sometimes confused with two-sample *t* |
-| $\mu_1-\mu_2$ | Each sample **Normal**; independent samples | Any $n_1,n_2$ | Two-sample *t* (Wackerly) | **Approximate**, uses unpooled standard error |
-| $\mu_1-\mu_2$  | Independent samples from **any** distributions with finite variances | **Large** $n_1,n_2$ | CLT (two-sample) | **Approximate**|
-| 
+| $\mu_X-\mu_Y$ | Each sample **Normal**; independent samples; **common variance** | Any $n_X,n_Y$ | Two-sample *t* (pooled) | **Exact** |
+| $\mu_X-\mu_Y$  | Independent samples from **any** distributions with finite variances | **Large** $n_X,n_Y$ | **CLT** (two-sample) | **Approximate**|
+| $p_X-p_Y$ | Independent samples of **Bernoulli** trials | Large $n_Xp_X$, $n_X(1-p_X)$, $n_Yp_Y$, $n_Y(1-p_Y)$ | **CLT** (two-sample) | **Approximate** |
+
+
+---
+
+| Parameter | Distributional Assumptions | Sample Size | Method | Notes |
+|-------|--------------------------------|--------|-----------------------|----------------------------|
 | $\sigma^2$ | **Normal** data | Any $n$ | Chi-squared | **Exact**, sensitive to non-normality |
-| $\med(X)$ | Continuous distribution | $n$ not too small | Order-statistics |**Approximate**, Distribution-free |  
+| $\sigma_X^2/\sigma_Y^2$ | **Normal** data; independent samples | Any $n_X,n_Y$ | F-distribution | **Exact**, sensitive to non-normality |
+| $\med(F)$ | Continuous distribution | $n$ not too small | Order-statistics |**Approximate**, Distribution-free |  
+| $\theta(F)$ | **None** (empirical distribution) | Moderate $n$ | Bootstrap resampling | **Approximate**, works when classical theory breaks |
 
 ---
 
 ### Summary
 
-- Confidence intervals provide a range of plausible values for parameters based on data
-- The validity of confidence intervals depends on assumptions about the [data distribution]{.alert} and [sample size(s)]{.alert}
+- Confidence intervals provide a [range of plausible values]{.alert} for parameters based on data
+  - They go beyond point estimation by quantifying uncertainty
+- Expressed in terms of random variables, confidence intervals are [probabilistic]{.alert} statements about the data-generating process
+- Realized by plugging in the observed data, confidence intervals are _not_ probabilistic statements
+- Validity of confidence intervals depends on assumptions about the [data distribution]{.alert} and [sample size(s)]{.alert}
   - With fewer data we need stronger distributional assumptions
   - With more data we can rely on asymptotic results like the CLT
+- Two-sided CLT confidence intervals take the form 
+$$\text{estimator} \pm z_{\alpha/2} \times \text{standard error}$$
+
+

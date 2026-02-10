@@ -8,6 +8,7 @@
 - [Plug-in estimators](#plug-in-estimators)
 
 
+
 ## Summary statistics{#summary-statistics}
 
 Given IID data, $X_1, \ldots, X_n$, we often compute
@@ -78,7 +79,10 @@ Suppose that $\Theta$ is an estimator of a parameter, $\theta$, of a population
 - [Variance]{.alert} we already know this definition
   - $\var(\barX_n) \exeq \var(X_1)/n$ for uncorrelated, identically distributed data
 
-- [Mean squared error (MSE)]{.alert} $\mse(\Theta) := \Ex[(\Theta - \theta)^2] \exeq [\bias(\Theta)]^2 + \var(\Theta)$
+- [Mean squared error]{.alert} $\mse(\Theta) := \Ex[(\Theta - \theta)^2] \exeq [\bias(\Theta)]^2 + \var(\Theta)$
+
+- [Standard Error]{.alert} $\se(\Theta) := \sqrt{\var(\Theta)}$ is the standard deviation of the sampling distribution of $\Theta$
+  -  $\se(\barX_n) = \sqrt{\var(\barX_n)}$
 
 ---
 

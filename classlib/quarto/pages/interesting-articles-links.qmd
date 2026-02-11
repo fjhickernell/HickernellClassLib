@@ -13,3 +13,6 @@ historical context, or broader ideas.
 - [qmcpy.org: A Python Library for Quasi-Monte Carlo Methods](https://qmcpy.org/)
   - A Python library for quasi-Monte Carlo methods, which are used to improve the efficiency of numerical integration and simulation
 
+- [Rankings of Computer Languages](https://www.tiobe.com/tiobe-index/)
+  - A ranking of programming languages based on their popularity and usage in the industry
+  - Statistical questions include: What are the errors in the percentages? What is the significance of a change in rank?

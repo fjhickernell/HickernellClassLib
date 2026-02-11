@@ -1,7 +1,7 @@
 # Statistics{data-state="goldborder"}
 
 <div class="h3">Principled</div>
-- Clear assumptions
+- Clear assumptions 
 - Probability as a basis
 - Efficient and accurate computation
 

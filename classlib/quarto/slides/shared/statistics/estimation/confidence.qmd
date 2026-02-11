@@ -158,20 +158,21 @@ alpha = 0.05
 # CI helpers
 # =========================
 
-def ci_exp_exact_mu(n, xbar, alpha=0.05):
-    """Exact CI for Exp mean via chi-square."""
-    df = 2*n
-    q_lo = st.chi2.ppf(alpha/2, df)
-    q_hi = st.chi2.ppf(1 - alpha/2, df)
-    return (2*n*xbar)/q_hi, (2*n*xbar)/q_lo
-
 def ci_clt_exp_mu(n, xbar, alpha=0.05):
-    """
-    CLT CI for Exp mean using plug-in sigma_hat = xbar.
-    """
-    z = st.norm.ppf(1 - alpha/2)
-    se = xbar / math.sqrt(n)
+    """CLT CI for Exp mean mu, using sigma≈mu and plug-in mu_hat=xbar."""
+    a2 = alpha/2
+    z = st.norm.isf(a2)          # upper alpha/2 quantile
+    se = xbar / math.sqrt(n)     # since sigma = mu, plug in mu_hat=xbar
     return xbar - z*se, xbar + z*se
+
+def ci_exp_exact_mu(n, xbar, alpha=0.05):
+    """Exact CI for Exp mean mu via chi-square (upper-tail/Wackerly convention)."""
+    df = 2*n
+    a2 = alpha/2
+    q_big   = st.chi2.isf(a2, df)        # chi^2_{df, alpha/2} (large)
+    q_small = st.chi2.isf(1 - a2, df)    # chi^2_{df, 1-alpha/2} (small)
+    c = 2*n*xbar
+    return c/q_big, c/q_small
 
 def fmt_ci(lo, hi, digits=2):
     return f"$[{lo:.{digits}f},\\,{hi:.{digits}f}]$"
@@ -204,7 +205,7 @@ If the sample size is not large enough for the [Central Limit Theorem](../slides
 
 print(
     f"You observe $\\barX_n = {xbar}$ minutes for taxis to arrive."
-    f"based on $n$ observations. You construct a ${100*(1-alpha):.0f}\\%$ confidence interval for the mean arrival time, $\\mu$, assuming that the arrival times are distributed  $\\Exp(1/\\mu)$.  Recall that $\\mu = \\sigma = 1/\\lambda$. \n \n But now we have the true distribution of $\\barX_n$:"
+    f"based on $n$ observations. You construct a ${100*(1-alpha):.0f}\\%$ confidence interval for the mean arrival time, $\\mu$, assuming that the arrival times are distributed  $\\Exp(1/\\mu)$.  Recall that $\\mu = \\sigma = 1/\\lambda$. Since we have the true distribution of $\\barX_n$:"
 )
 ```
 
@@ -213,11 +214,11 @@ print(
 ::: {.column width="60%"}
 
 \begin{align*}
-2 \lambda n \barX_n &\sim \chi^2_{2n}  \\
-\implies 1 - \alpha
-&= \Prob \biggl( \chi^2_{2n, \alpha/2} \le 2 \lambda n \barX_n \le \chi^2_{2n, 1-\alpha/2} \biggr) \\
-&= \Prob \biggl( \frac{\chi^2_{2n, \alpha/2}}{2 n \barX_n} \le \lambda \le \frac{\chi^2_{2n, 1-\alpha/2}}{2 n \barX_n} \biggr) \\
-&= \Prob \biggl( \frac{2 n \barX_n}{\chi^2_{2n, 1-\alpha/2}} \le \mu \le \frac{2 n \barX_n}{\chi^2_{2n, \alpha/2}} \biggr).
+2\lambda n \barX_n &\sim \chi^2_{2n} \\
+\implies 1-\alpha
+&= \Prob \bigl( \chi^2_{2n,\,1-\alpha/2} \le 2\lambda n \barX_n \le \chi^2_{2n,\,\alpha/2} \bigr) \\[6pt]
+&= \Prob \biggl( \frac{\chi^2_{2n,\,1-\alpha/2}}{2 n \barX_n} \le \lambda \le \frac{\chi^2_{2n,\,\alpha/2}}{2 n \barX_n} \biggr) \\[10pt]
+&= \Prob \biggl( \frac{2 n \barX_n}{\chi^2_{2n,\,\alpha/2}} \le \mu \le \frac{2 n \barX_n}{\chi^2_{2n,\,1-\alpha/2}} \biggr),
 \end{align*}
 
 :::
@@ -226,7 +227,7 @@ print(
 
 ```{python}
 #| echo: false
-#| fig-width: 4.8
+#| fig-width: 6.8 
 #| fig-height: 3.4
 
 import numpy as np
@@ -234,41 +235,40 @@ import matplotlib.pyplot as plt
 import scipy.stats as st
 plt.rcParams["mathtext.fontset"] = "cm"
 
-n_plot = n_small
-df = 2*n_plot
+n = n_small
+df = 2*n
 a2 = alpha/2
 
-q_lo = st.chi2.ppf(a2, df)
-q_hi = st.chi2.ppf(1 - a2, df)
+mu_hat = xbar
+c = 2*n*mu_hat
 
-c = 2*n_plot*xbar
-mu_lo = c / q_hi
-mu_hi = c / q_lo
+# Upper-tail chi-square critical values (Wackerly convention)
+q_big   = st.chi2.isf(a2, df)        # chi^2_{df, alpha/2} (large)
+q_small = st.chi2.isf(1 - a2, df)    # chi^2_{df, 1-alpha/2} (small)
 
-# Change of variables: if Y ~ chi2_df and M = c/Y,
-# then f_M(m) = f_Y(c/m) * (c/m^2)
-def f_mu(mu):
+# Exact CI for mu
+mu_lo = c / q_big
+mu_hi = c / q_small
+
+def pdf_mu_exact(mu):
     y = c/mu
     return st.chi2.pdf(y, df) * (c/(mu**2))
 
-mu = np.linspace(0.6*mu_lo, 1.4*mu_hi, 900)
-pdf = f_mu(mu)
+mu_grid = np.linspace(max(0.0, 0.6*mu_lo), 1.4*mu_hi, 900)
 
 fig, ax = plt.subplots()
 
-# Density on mu-scale
-ax.plot(mu, pdf, linewidth=4)
+ax.plot(mu_grid, pdf_mu_exact(mu_grid), linewidth=4)
 
-# Shade the CI region (blue)
-mu_mid = mu[(mu >= mu_lo) & (mu <= mu_hi)]
-ax.fill_between(mu_mid, 0, f_mu(mu_mid), alpha=0.3, color="tab:blue")
+# Shade exact CI region
+mu_mid = mu_grid[(mu_grid >= mu_lo) & (mu_grid <= mu_hi)]
+ax.fill_between(mu_mid, 0, pdf_mu_exact(mu_mid), alpha=0.25)
 
-# Solid vertical lines at CI endpoints (blue) up to the curve
+# Endpoints
 ax.vlines([mu_lo, mu_hi],
           0,
-          [f_mu(mu_lo), f_mu(mu_hi)],
-          linewidth=4,
-          color="tab:blue")
+          [pdf_mu_exact(mu_lo), pdf_mu_exact(mu_hi)],
+          linewidth=3)
 
 # Label xbar under the axis
 ax.annotate(
@@ -289,7 +289,7 @@ ax.plot([xbar, xbar],
         linewidth=2,
         clip_on=False)
 
-ax.set_title(rf"Exact CI for $\mu$ via $\chi^2_{{{df}}}$ (central {100*(1-alpha):.0f}\%)", fontsize=24)
+ax.set_title(rf"Exact CI for $\mu$ via $\chi^2_{{{df}}}$ (central {100*(1-alpha):.0f}%)", fontsize=24)
 ax.set_yticks([])
 ax.tick_params(axis="x", labelsize=18)
 
@@ -345,70 +345,60 @@ import matplotlib.pyplot as plt
 import scipy.stats as st
 plt.rcParams["mathtext.fontset"] = "cm"
 
-n = 16
+n = n_small
 df = 2*n
-
-mu_hat = xbar
-sigma_hat = mu_hat
-se_hat = sigma_hat/np.sqrt(n)
-
-# exact pdf of Xbar from chi-square transform:
-# if Y ~ chi2_{2n} and Xbar = (mu/(2n)) Y, then
-# f_Xbar(x) = f_Y( (2n/mu) x ) * (2n/mu)
-def pdf_xbar_exact(x):
-    y = (2*n/mu_hat)*x
-    return st.chi2.pdf(y, df) * (2*n/mu_hat)
-
-def pdf_xbar_clt(x):
-    return st.norm.pdf(x, loc=mu_hat, scale=se_hat)
-
-x_lo = max(0.0, mu_hat - 4*se_hat)
-x_hi = mu_hat + 4*se_hat
-x = np.linspace(x_lo, x_hi, 900)
-# Central 95% regions
 a2 = alpha/2
 
-# Exact quantiles via chi-square inversion
-q_lo = st.chi2.ppf(a2, df)
-q_hi = st.chi2.ppf(1 - a2, df)
-x_ex_lo = (mu_hat/(2*n)) * q_lo
-x_ex_hi = (mu_hat/(2*n)) * q_hi
+mu_hat = xbar
+se_hat = mu_hat/np.sqrt(n)
 
-# CLT quantiles
-x_clt_lo = mu_hat - st.norm.ppf(1 - a2)*se_hat
-x_clt_hi = mu_hat + st.norm.ppf(1 - a2)*se_hat
+# --- endpoints that MATCH the table ---
+mu_ex_lo, mu_ex_hi = ci_exp_exact_mu(n, xbar, alpha)
+mu_clt_lo, mu_clt_hi = ci_clt_exp_mu(n, xbar, alpha)
+
+# exact mu-density induced by Y~chi2_df and mu = c/Y with c = 2n*mu_hat
+c = 2*n*mu_hat
+
+def pdf_mu_exact(mu):
+    y = c/mu
+    return st.chi2.pdf(y, df) * (c/(mu**2))
+
+def pdf_mu_clt(mu):
+    return st.norm.pdf(mu, loc=mu_hat, scale=se_hat)
+
+mu_lo = max(0.0, 0.6*min(mu_ex_lo, mu_clt_lo))
+mu_hi = 1.4*max(mu_ex_hi, mu_clt_hi)
+mu = np.linspace(mu_lo, mu_hi, 900)
 
 fig, ax = plt.subplots()
 
-# Exact (blue) and CLT normal (orange)
-ax.plot(x, pdf_xbar_exact(x), linewidth=4, color="tab:blue")
-ax.plot(x, pdf_xbar_clt(x),   linewidth=4, color="tab:orange")
+ax.plot(mu, pdf_mu_exact(mu), linewidth=4, color="tab:blue")
+ax.plot(mu, pdf_mu_clt(mu),   linewidth=4, color="tab:orange")
 
-# Shade exact 95% region (blue)
-x_mid_ex = x[(x >= x_ex_lo) & (x <= x_ex_hi)]
-ax.fill_between(x_mid_ex, 0, pdf_xbar_exact(x_mid_ex),
+# Shade exact CI region (blue)
+mu_mid_ex = mu[(mu >= mu_ex_lo) & (mu <= mu_ex_hi)]
+ax.fill_between(mu_mid_ex, 0, pdf_mu_exact(mu_mid_ex),
                 color="tab:blue", alpha=0.25)
 
-# Shade CLT 95% region (orange)
-x_mid_clt = x[(x >= x_clt_lo) & (x <= x_clt_hi)]
-ax.fill_between(x_mid_clt, 0, pdf_xbar_clt(x_mid_clt),
+# Shade CLT CI region (orange)
+mu_mid_clt = mu[(mu >= mu_clt_lo) & (mu <= mu_clt_hi)]
+ax.fill_between(mu_mid_clt, 0, pdf_mu_clt(mu_mid_clt),
                 color="tab:orange", alpha=0.25)
 
-# Exact CI endpoints (blue)
-ax.vlines([x_ex_lo, x_ex_hi],
+# Endpoints
+ax.vlines([mu_ex_lo, mu_ex_hi],
           0,
-          [pdf_xbar_exact(x_ex_lo), pdf_xbar_exact(x_ex_hi)],
+          [pdf_mu_exact(mu_ex_lo), pdf_mu_exact(mu_ex_hi)],
           linewidth=3,
           color="tab:blue")
 
-# CLT CI endpoints (orange)
-ax.vlines([x_clt_lo, x_clt_hi],
+ax.vlines([mu_clt_lo, mu_clt_hi],
           0,
-          [pdf_xbar_clt(x_clt_lo), pdf_xbar_clt(x_clt_hi)],
+          [pdf_mu_clt(mu_clt_lo), pdf_mu_clt(mu_clt_hi)],
           linewidth=3,
           color="tab:orange")
-          
-# Label xbar under the axis
+
+# Label xbar under the axis (as point estimate of mu)
 ax.annotate(
     rf"$\overline{{X}} = {xbar}$",
     xy=(xbar, 0),
@@ -427,13 +417,12 @@ ax.plot([xbar, xbar],
         linewidth=2,
         clip_on=False)
 
-ax.set_title(rf"Exact vs CLT CI for $\mu$ ($n=16$, central {100*(1-alpha):.0f}\%)", fontsize=24)
+ax.set_title(rf"Exact vs CLT CI for $\mu$ ($n=16$, central {100*(1-alpha):.0f}%)", fontsize=24)
 ax.set_yticks([])
 ax.tick_params(axis="x", labelsize=18)
 
-# Simple legend
 ax.plot([], [], linewidth=4, color="tab:blue", label="Exact (via $\\chi^2$)")
-ax.plot([], [], linewidth=4, color="tab:orange",   label="CLT Normal")
+ax.plot([], [], linewidth=4, color="tab:orange", label="CLT Normal")
 ax.legend(frameon=False, fontsize=16, loc="upper right")
 
 plt.tight_layout()
@@ -477,90 +466,46 @@ import matplotlib.pyplot as plt
 import scipy.stats as st
 plt.rcParams["mathtext.fontset"] = "cm"
 
-n = 10
+n = n_small
 df = n - 1
-
-mu_hat = xbar
-sigma_hat = 3.
-se_hat = sigma_hat / np.sqrt(n)
-
-def pdf_xbar(x):
-    return st.norm.pdf(x, loc=mu_hat, scale=se_hat)
-
-x_lo = mu_hat - 4*se_hat
-x_hi = mu_hat + 4*se_hat
-x = np.linspace(x_lo, x_hi, 900)
-
 a2 = alpha/2
 
-# Student-t CI endpoints
-tcrit = st.t.ppf(1 - a2, df)
-x_t_lo = mu_hat - tcrit * se_hat
-x_t_hi = mu_hat + tcrit * se_hat
+tcrit = st.t.isf(a2, df)   # upper alpha/2
+zcrit = st.norm.isf(a2)    # upper alpha/2
 
-# CLT (z) CI endpoints
-zcrit = st.norm.ppf(1 - a2)
-x_clt_lo = mu_hat - zcrit * se_hat
-x_clt_hi = mu_hat + zcrit * se_hat
+x = np.linspace(-4.5, 4.5, 900)
+
+pdf_t = st.t.pdf(x, df)
+pdf_z = st.norm.pdf(x)
 
 fig, ax = plt.subplots()
 
-# Same exact sampling pdf for Xbar (Normal), plot it once (black)
-ax.plot(x, pdf_xbar(x), linewidth=4, color="tab:blue")
+# Overlay PDFs: t (exact pivot) vs normal (z approximation)
+ax.plot(x, pdf_t, linewidth=4, color="tab:blue")
+ax.plot(x, pdf_z, linewidth=4, color="tab:orange")
 
-# Shade Student-t CI region (blue)
-x_mid_t = x[(x >= x_t_lo) & (x <= x_t_hi)]
-ax.fill_between(x_mid_t, 0, pdf_xbar(x_mid_t),
-                color="tab:blue", alpha=0.25)
+# Shade central regions
+x_mid_t = x[(x >= -tcrit) & (x <= tcrit)]
+ax.fill_between(x_mid_t, 0, st.t.pdf(x_mid_t, df), color="tab:blue", alpha=0.25)
 
-# Shade CLT (z) CI region (orange)
-x_mid_clt = x[(x >= x_clt_lo) & (x <= x_clt_hi)]
-ax.fill_between(x_mid_clt, 0, pdf_xbar(x_mid_clt),
-                color="tab:orange", alpha=0.25)
+x_mid_z = x[(x >= -zcrit) & (x <= zcrit)]
+ax.fill_between(x_mid_z, 0, st.norm.pdf(x_mid_z), color="tab:orange", alpha=0.25)
 
-# Student-t CI endpoints (blue)
-ax.vlines([x_t_lo, x_t_hi],
-          0,
-          [pdf_xbar(x_t_lo), pdf_xbar(x_t_hi)],
-          linewidth=3,
-          color="tab:blue")
-
-# CLT CI endpoints (orange)
-ax.vlines([x_clt_lo, x_clt_hi],
-          0,
-          [pdf_xbar(x_clt_lo), pdf_xbar(x_clt_hi)],
-          linewidth=3,
-          color="tab:orange")
-
-# Label xbar under the axis
-ax.annotate(
-    rf"$\overline{{X}} = {xbar}$",
-    xy=(xbar, 0),
-    xycoords=("data", "axes fraction"),
-    xytext=(0, -20),
-    textcoords="offset points",
-    ha="center",
-    va="top",
-    fontsize=18
-)
-
-ax.plot([xbar, xbar],
-        [0, -0.05],
-        transform=ax.get_xaxis_transform(),
-        color="black",
-        linewidth=2,
-        clip_on=False)
+# Critical lines (use the matching pdf height at the cutoff)
+ax.vlines([-tcrit, tcrit], 0, st.t.pdf([tcrit, tcrit], df),
+          linewidth=3, color="tab:blue")
+ax.vlines([-zcrit, zcrit], 0, st.norm.pdf([zcrit, zcrit]),
+          linewidth=3, color="tab:orange")
 
 ax.set_title(
-    rf"Student's $t$ vs CLT CI for $\mu$ ($n={n}$, central {100*(1-alpha):.0f}%)",
+    rf"Student's $t$ vs Normal pivot (df={df}, central {100*(1-alpha):.0f}%)",
     fontsize=24
 )
 ax.set_yticks([])
 ax.tick_params(axis="x", labelsize=18)
 
-# Legend (proxy lines)
 ax.plot([], [], linewidth=4, color="tab:blue", label=rf"Student's $t$ (df={df})")
-ax.plot([], [], linewidth=4, color="tab:orange", label="CLT Normal ($z$)")
+ax.plot([], [], linewidth=4, color="tab:orange", label="Normal($0,1$)")
 ax.legend(frameon=False, fontsize=16, loc="upper right")
 
 plt.tight_layout()

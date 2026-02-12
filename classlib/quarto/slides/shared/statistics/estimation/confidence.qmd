@@ -604,8 +604,8 @@ n = n_small
 df = n - 1
 a2 = alpha/2
 
-tcrit = st.t.isf(a2, df)   # upper alpha/2
-zcrit = st.norm.isf(a2)    # upper alpha/2
+tcrit = st.t.isf(a2, df)
+zcrit = st.norm.isf(a2)
 
 x = np.linspace(-4.5, 4.5, 900)
 
@@ -614,33 +614,45 @@ pdf_z = st.norm.pdf(x)
 
 fig, ax = plt.subplots()
 
-# Overlay PDFs: t (exact pivot) vs normal (z approximation)
 ax.plot(x, pdf_t, linewidth=4, color="tab:blue")
 ax.plot(x, pdf_z, linewidth=4, color="tab:orange")
 
-# Shade central regions
 x_mid_t = x[(x >= -tcrit) & (x <= tcrit)]
-ax.fill_between(x_mid_t, 0, st.t.pdf(x_mid_t, df), color="tab:blue", alpha=0.25)
+ax.fill_between(x_mid_t, 0, st.t.pdf(x_mid_t, df), alpha=0.25, color="tab:blue")
 
 x_mid_z = x[(x >= -zcrit) & (x <= zcrit)]
-ax.fill_between(x_mid_z, 0, st.norm.pdf(x_mid_z), color="tab:orange", alpha=0.25)
+ax.fill_between(x_mid_z, 0, st.norm.pdf(x_mid_z), alpha=0.25, color="tab:orange")
 
-# Critical lines (use the matching pdf height at the cutoff)
-ax.vlines([-tcrit, tcrit], 0, st.t.pdf([tcrit, tcrit], df),
-          linewidth=3, color="tab:blue")
-ax.vlines([-zcrit, zcrit], 0, st.norm.pdf([zcrit, zcrit]),
-          linewidth=3, color="tab:orange")
+# tick at 0 with label μ (center of the pivot)
+ax.plot([0, 0],
+        [0, -0.05],
+        transform=ax.get_xaxis_transform(),
+        color="black",
+        linewidth=2,
+        clip_on=False)
+
+ax.annotate(
+    r"$\mu$",
+    xy=(0, 0),
+    xycoords=("data", "axes fraction"),
+    xytext=(0, -18),
+    textcoords="offset points",
+    ha="center",
+    va="top",
+    fontsize=20
+)
 
 ax.set_title(
-    rf"Student's $t$ vs Normal pivot (df={df}, central {100*(1-alpha):.0f}%)",
+    rf"Sampling distribution for CI: standardized mean ($n={n}$, df={df})",
     fontsize=24
 )
 ax.set_yticks([])
-ax.tick_params(axis="x", labelsize=18)
+ax.set_xticks([])
+ax.tick_params(length=0)
 
-ax.plot([], [], linewidth=4, color="tab:blue", label=rf"Student's $t$ (df={df})")
-ax.plot([], [], linewidth=4, color="tab:orange", label="Normal($0,1$)")
-ax.legend(frameon=False, fontsize=16, loc="upper right")
+ax.plot([], [], linewidth=4, color="tab:blue", label=rf"Exact: $T\sim t_{{{df}}}$")
+ax.plot([], [], linewidth=4, color="tab:orange", label=r"Approx: $Z\sim N(0,1)$")
+ax.legend(frameon=False, fontsize=16, loc="lower right")
 
 plt.tight_layout()
 plt.show()

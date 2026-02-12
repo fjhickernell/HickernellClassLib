@@ -23,6 +23,15 @@ The bounds $\Theta_L$ and $\Theta_U$ are random because they depend on random da
 
 ---
 
+This process often proceeds by
+
+- Identifying a [estimator]{.alert} $\Theta$ for $\theta$ that depends only on the data
+- Finding the the [sampling distribution]{.alert} of the estimator $\Theta$
+- Using the sampling distribution to find [quantiles]{.alert} that give the desired coverage probability
+
+
+&nbsp;
+
 - [Critical value notation](#critical-value-notation-important)
 - [Large sample size confidence intervals for means](#large-sample-confidence-intervals-for-means)
 - [Small sample size confidence intervals for means when the distribution is known](#small-sample-confidence-intervals-for-means-when-the-distribution-is-known)

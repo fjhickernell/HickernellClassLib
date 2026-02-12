@@ -86,9 +86,9 @@ For $n = 1000$ we get $1/\sqrt{n} \approx 3\%$.
 
 ::: {.column width="23%"}
 
-<span class="fragment" data-fragment-index="1">
-<img src="{{< meta course_website >}}classlib/classlib/quarto/assets/figures/approval_rating/ci_failure_approval.png" style="width:100%; display:block; margin:0 auto;">
-</span>
+::: {.fragment data-fragment-index="1"}
+![]({{< meta course_website >}}classlib/classlib/quarto/assets/figures/approval_rating/ci_failure_approval.png){fig-align="center" width="100%"}
+:::
 
 :::
 
@@ -154,7 +154,7 @@ $$
 - $\beta$ measures years of life gained per [multiplicative]{.alert} increase in GDP
 - The log scale naturally reflects [diminishing returns]{.alert}
 
-<a class="button" style="margin-left:2em;" href="../classlib/classlib/notebooks/health_wealth_gapminder_regression.ipynb" download>
+<a class="button" style="margin-left:2em;" href="{{< meta course_website >}}classlib/classlib/notebooks/health_wealth_gapminder_regression.ipynb" download>
 ⬇ Health vs. Wealth 📓
 </a>
 :::
@@ -203,7 +203,7 @@ $$
 \Ex\biggl[\int_0^1 f(x) \, \dif x \mid \vf  = \vy\biggr] = \vy^\top \mK^{-1} \int_0^1 \vk(x) \, \dif x
 $$
 
-For $K(t,x) = 2 - \lvert t - x\rvert$ this is the [trapezoidal rule]{.alert}.  <a class="button" style="margin-left:2em;" href="../classlib/classlib/notebooks/Bayesian_quadrature.ipynb" download>
+For $K(t,x) = 2 - \lvert t - x\rvert$ this is the [trapezoidal rule]{.alert}.  <a class="button" style="margin-left:2em;" href="{{< meta course_website >}}classlib/classlib/notebooks/Bayesian_quadrature.ipynb" download>
 ⬇ Bayesian Quadrature 📓
 </a>
 </div>

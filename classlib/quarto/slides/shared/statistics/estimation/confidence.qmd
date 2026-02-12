@@ -718,6 +718,36 @@ print("| $p_L = \\alpha^{1/n}$ | " + " | ".join(f"{v:.4f}" for v in vals) + " |"
 
 ```
 
+## Why was the exact confidence interval for exponential and normal data "easy", but not Bernoulli data?
+
+A [pivot]{.alert} is a function of the data and the parameter whose distribution does **not** depend on unknown parameters:
+
+$$
+\begin{array}{rcrll}
+X_1,\ldots,X_n \sim \Exp(1/\mu)
+&:&
+\displaystyle \frac{2 n \barX_n}{\mu}
+&\sim \chi^2_{2n}
+&\quad \text{✓ no } \mu
+\\[1.2em]
+X_1,\ldots,X_n \sim \Norm(\mu,\sigma^2)
+&:&
+\displaystyle \frac{\barX_n - \mu}{S_n/\sqrt{n}}
+&\sim t_{n-1}
+&\quad \text{✓ no } \mu,\sigma^2
+\\[1.2em]
+X_1,\ldots,X_n \sim \Bern(p)
+&:&
+\displaystyle n\barX_n
+&\sim \Bin(n,p)
+&\quad \text{✗ depends on } p
+\end{array}
+$$
+
+If we can find a pivot,
+we can invert probability statements to get a confidence interval more easily
+
+
 
 ## Confidence Intervals for _Means_ of Differences
 
@@ -910,10 +940,12 @@ $$
 and a $(1-\alpha)$ confidence interval for $\sigma^2$ is
 
 \begin{equation*}
-\Prob\left[
-\frac{(n-1)S_n^2}{\chi^2_{n-1,\,1-\alpha/2}}
-\le \sigma^2 \le
-\frac{(n-1)S_n^2}{\chi^2_{n-1,\,\alpha/2}}
+\Prob\!\left[
+\frac{(n-1)S_n^2}{\chi^2_{n-1,\alpha/2}}
+\le
+\sigma^2
+\le
+\frac{(n-1)S_n^2}{\chi^2_{n-1,1-\alpha/2}}
 \right]
 =
 1-\alpha
@@ -941,14 +973,14 @@ and a $(1-\alpha)$ confidence interval for
 $\displaystyle \frac{\sigma_X^2}{\sigma_Y^2}$ is
 
 \begin{equation*}
-\Prob\left[
+\Prob\!\left[
 \frac{S_{X,n_X}^2}{S_{Y,n_Y}^2}
-\frac{1}{F_{n_X-1,n_Y-1;\,1-\alpha/2}}
+\frac{1}{F_{n_X-1,n_Y-1,\alpha/2}}
 \le
 \frac{\sigma_X^2}{\sigma_Y^2}
 \le
 \frac{S_{X,n_X}^2}{S_{Y,n_Y}^2}
-\frac{1}{F_{n_X-1,n_Y-1;\,\alpha/2}}
+\frac{1}{F_{n_X-1,n_Y-1,1-\alpha/2}}
 \right]
 =
 1-\alpha

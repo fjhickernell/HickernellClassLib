@@ -14,7 +14,7 @@
 - Observations, surveys, experiments, or computer simulations
 
 ::: {.vspace}
-See [Big Statistics Questions](/classlib/classlib/quarto/pages/stats-qs.html)
+See [Big Statistics Questions]({{< meta course_website >}}classlib/classlib/quarto/pages/stats-qs.html)
 ::: 
 
 # Examples
@@ -52,7 +52,7 @@ T &:= Y_1 + \cdots + Y_n \sim \Bin(n,\mu), \; \Prob(T = t) = \binom{n}{t} \mu^t 
 
 ::: {.column width="27%"}
 
-![](/classlib/classlib/quarto/assets/figures/approval_rating/ybar_histogram_approval.png){fig-align="center" width="100%"}
+![]({{< meta course_website >}}classlib/classlib/quarto/assets/figures/approval_rating/ybar_histogram_approval.png){fig-align="center" width="100%"}
 :::
 
 ::::
@@ -87,7 +87,7 @@ For $n = 1000$ we get $1/\sqrt{n} \approx 3\%$.
 ::: {.column width="23%"}
 
 <span class="fragment" data-fragment-index="1">
-<img src="/classlib/classlib/quarto/assets/figures/approval_rating/ci_failure_approval.png" style="width:100%; display:block; margin:0 auto;">
+<img src="{{< meta course_website >}}classlib/classlib/quarto/assets/figures/approval_rating/ci_failure_approval.png" style="width:100%; display:block; margin:0 auto;">
 </span>
 
 :::
@@ -125,7 +125,7 @@ $$
 
 ::: {.column width="47%"}
 
-![](/classlib/classlib/quarto/assets/figures/health_wealth_gapminder/health_wealth_linear_scale.png){fig-align="center" width="100%"}
+![]({{< meta course_website >}}classlib/classlib/quarto/assets/figures/health_wealth_gapminder/health_wealth_linear_scale.png){fig-align="center" width="100%"}
 :::
 
 ::::
@@ -161,7 +161,7 @@ $$
 
 ::: {.column width="35%"}
 
-![](/classlib/classlib/quarto/assets/figures/health_wealth_gapminder/health_wealth_semilogx_scale.png){fig-align="center" width="100%"}
+![]({{< meta course_website >}}classlib/classlib/quarto/assets/figures/health_wealth_gapminder/health_wealth_semilogx_scale.png){fig-align="center" width="100%"}
 
 
 :::

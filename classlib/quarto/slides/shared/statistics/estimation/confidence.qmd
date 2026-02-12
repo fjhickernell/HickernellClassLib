@@ -138,39 +138,39 @@ where $S_n^2$ is some estimate of the unknown population variance $\sigma^2$ (e.
 See the [Approval Ratings](../slides/01-intro.html#approval-ratings) example for an illustration of this construction for a Bernoulli mean
 
 ```{python}
-
 #| echo: false
 #| output: asis
 
 import math
+import numpy as np
+import matplotlib.pyplot as plt
 import scipy.stats as st
+plt.rcParams["mathtext.fontset"] = "cm"
 
 # =========================
-# Parameters (edit HERE)
+# Parameters (edit once HERE)
 # =========================
 n_small = 16
 n_large = 400
-
 xbar = 12.0
 alpha = 0.05
+a2 = alpha/2
+
+# common critical value
+z = st.norm.isf(a2)
 
 # =========================
 # CI helpers
 # =========================
 
-def ci_clt_exp_mu(n, xbar, alpha=0.05):
-    """CLT CI for Exp mean mu, using sigma≈mu and plug-in mu_hat=xbar."""
-    a2 = alpha/2
-    z = st.norm.isf(a2)          # upper alpha/2 quantile
-    se = xbar / math.sqrt(n)     # since sigma = mu, plug in mu_hat=xbar
-    return xbar - z*se, xbar + z*se
+def ci_clt_exp_mu(n, xbar, zcrit=z):
+    se = xbar / math.sqrt(n)
+    return xbar - zcrit*se, xbar + zcrit*se
 
-def ci_exp_exact_mu(n, xbar, alpha=0.05):
-    """Exact CI for Exp mean mu via chi-square (upper-tail/Wackerly convention)."""
+def ci_exp_exact_mu(n, xbar, alpha=alpha):
     df = 2*n
-    a2 = alpha/2
-    q_big   = st.chi2.isf(a2, df)        # chi^2_{df, alpha/2} (large)
-    q_small = st.chi2.isf(1 - a2, df)    # chi^2_{df, 1-alpha/2} (small)
+    q_big   = st.chi2.isf(alpha/2, df)
+    q_small = st.chi2.isf(1 - alpha/2, df)
     c = 2*n*xbar
     return c/q_big, c/q_small
 
@@ -179,19 +179,148 @@ def fmt_ci(lo, hi, digits=2):
 
 print(
     f"_Example_: You observe $\\barX_n = {xbar}$ minutes for taxis to arrive."
-    f"You construct a ${100*(1-alpha):.0f}\\%$ confidence interval for the mean arrival time, $\\mu$, assuming that the arrival times are distributed  $\\Exp(1/\\mu)$.  Recall that $\\mu = \\sigma = 1/\\lambda$.\n"
+    f"You construct a {100*(1-alpha):.0f}% confidence interval for the mean arrival time, $\\mu$, assuming that the arrival times are distributed  $\\Exp(1/\\mu)$.  Recall that $\\mu = \\sigma = 1/\\lambda$.\n"
 )
-
-print("| $n$ | *CLT* CI for $\\mu$ ($S=\\barX_{n}$) | CI width |")
-print("|---:|:---:|---:|")
-for n in (n_small, n_large):
-    lo, hi = ci_clt_exp_mu(n, xbar, alpha)
-    width = hi - lo
-    print(f"| {n} | {fmt_ci(lo, hi)} | {width:.3f} |")
 
 ```
 
+::: {.columns}
+
+::: {.column width="58%"}
+
+```{python}
+#| echo: false
+#| fig-width: 9.0
+#| fig-height: 4.6
+#| out-width: 100%
+#| fig-align: center
+#| dpi: 220
+
+
+n = n_small
+
+# ===== left figure only =====
+mu = 0.0
+sigma = 1.0
+se = sigma/np.sqrt(n)
+
+x = np.linspace(mu - 4*se, mu + 4*se, 1000)
+pdf = st.norm.pdf(x, loc=mu, scale=se)
+
+fig, ax1 = plt.subplots()
+
+ax1.plot(x, pdf, linewidth=4)
+
+left = mu - z*se
+right = mu + z*se
+
+mask = (x >= left) & (x <= right)
+ax1.fill_between(x[mask], 0, pdf[mask], alpha=0.3)
+
+ax1.set_yticks([])
+ax1.set_xticks([])
+
+for xpos in [left, mu, right]:
+    ax1.plot([xpos, xpos], [0, -0.03],
+             transform=ax1.get_xaxis_transform(),
+             clip_on=False, linewidth=3, color="tab:blue")
+
+ax1.text(mu, -0.10, r"$\mu$",
+         transform=ax1.get_xaxis_transform(),
+         ha="center", va="top", fontsize=20)
+
+ax1.text(left, -0.10,
+         r"$\mu - z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}$",
+         transform=ax1.get_xaxis_transform(),
+         ha="center", va="top", fontsize=20)
+
+ax1.text(right, -0.10,
+         r"$\mu + z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}$",
+         transform=ax1.get_xaxis_transform(),
+         ha="center", va="top", fontsize=20)
+
+ax1.text(0.98, 0.92, rf"$n={n}$",
+         transform=ax1.transAxes, ha="right", va="top", fontsize=18)
+
+ax1.set_title(r"Sampling distribution of $\overline{X} \overset{\cdot}{\sim} N(\mu, \sigma^2/n)$", fontsize=20)
+
+plt.subplots_adjust(bottom=0.28, top=0.86)
+plt.show()
+```
+
+:::
+
+::: {.column width="42%"}
+```{python}
+#| echo: false
+#| fig-width: 6.5
+#| fig-height: 4.6
+#| out-width: 100%
+#| fig-align: center
+#| dpi: 220
+
+
+ci_s_lo, ci_s_hi = ci_clt_exp_mu(n_small, xbar)
+ci_l_lo, ci_l_hi = ci_clt_exp_mu(n_large, xbar)
+
+y_small = 0.35
+y_large = -0.35
+
+fig, ax2 = plt.subplots()
+
+# Bars
+ax2.hlines(y_small, ci_s_lo, ci_s_hi, linewidth=6)
+ax2.hlines(y_large, ci_l_lo, ci_l_hi, linewidth=6)
+
+# Midpoint markers
+ax2.plot([xbar, xbar], [y_small, y_large], "o", markersize=9)
+
+# Endpoint ticks
+tick = 0.09
+ax2.vlines([ci_s_lo, ci_s_hi], y_small - tick, y_small + tick, linewidth=3)
+ax2.vlines([ci_l_lo, ci_l_hi], y_large - tick, y_large + tick, linewidth=3)
+
+# Limits
+pad = 0.25 * (ci_s_hi - ci_s_lo)
+xmin = min(ci_s_lo, ci_l_lo) - pad
+xmax = max(ci_s_hi, ci_l_hi) + pad
+ax2.set_xlim(xmin, xmax)
+
+# n-labels to the LEFT
+label_x = xmin + 0.02*(xmax - xmin)
+ax2.text(label_x, y_small, rf"$n={n_small}$", ha="left", va="center", fontsize=18)
+ax2.text(label_x, y_large, rf"$n={n_large}$", ha="left", va="center", fontsize=18)
+
+# ---- Symbols ABOVE (both bars) ----
+for (lo, hi, y) in [(ci_s_lo, ci_s_hi, y_small), (ci_l_lo, ci_l_hi, y_large)]:
+    ax2.text(lo,  y + 0.17, r"$\theta_L$", ha="center", va="bottom", fontsize=18)
+    ax2.text(xbar, y + 0.17, r"$\overline{x}$", ha="center", va="bottom", fontsize=18)
+    ax2.text(hi,  y + 0.17, r"$\theta_U$", ha="center", va="bottom", fontsize=18)
+
+# ---- Numbers BELOW (both bars) ----
+for (lo, hi, y) in [(ci_s_lo, ci_s_hi, y_small), (ci_l_lo, ci_l_hi, y_large)]:
+    ax2.text(lo,  y - 0.20, f"{lo:.1f}", ha="center", va="top", fontsize=14)
+    ax2.text(xbar, y - 0.20, f"{xbar:.1f}", ha="center", va="top", fontsize=14)
+    ax2.text(hi,  y - 0.20, f"{hi:.1f}", ha="center", va="top", fontsize=14)
+
+# Clean axes
+ax2.set_ylim(-0.75, 0.75)
+ax2.set_yticks([])
+ax2.set_xticks([])
+for spine in ax2.spines.values():
+    spine.set_visible(False)
+
+ax2.set_title(r"CLT Confidence Intervals for $\mu$ (data)", fontsize=20)
+
+plt.subplots_adjust(bottom=0.22, top=0.86)
+plt.show()
+```
+
+:::
+
+:::
 ---
+
 
 ## Small sample size confidence intervals for means when the distribution is known{#small-sample-confidence-intervals-for-means-when-the-distribution-is-known}
 
@@ -227,7 +356,7 @@ print(
 
 ```{python}
 #| echo: false
-#| fig-width: 6.8 
+#| fig-width: 6.8
 #| fig-height: 3.4
 
 import numpy as np
@@ -236,62 +365,49 @@ import scipy.stats as st
 plt.rcParams["mathtext.fontset"] = "cm"
 
 n = n_small
-df = 2*n
-a2 = alpha/2
 
-mu_hat = xbar
-c = 2*n*mu_hat
+# For drawing only — we must plug something in
+mu = xbar
 
-# Upper-tail chi-square critical values (Wackerly convention)
-q_big   = st.chi2.isf(a2, df)        # chi^2_{df, alpha/2} (large)
-q_small = st.chi2.isf(1 - a2, df)    # chi^2_{df, 1-alpha/2} (small)
+scale_xbar = mu / n
 
-# Exact CI for mu
-mu_lo = c / q_big
-mu_hi = c / q_small
-
-def pdf_mu_exact(mu):
-    y = c/mu
-    return st.chi2.pdf(y, df) * (c/(mu**2))
-
-mu_grid = np.linspace(max(0.0, 0.6*mu_lo), 1.4*mu_hi, 900)
+x_grid = np.linspace(0, 3*mu, 900)
+y_grid = st.gamma.pdf(x_grid, a=n, scale=scale_xbar)
 
 fig, ax = plt.subplots()
 
-ax.plot(mu_grid, pdf_mu_exact(mu_grid), linewidth=4)
+ax.plot(x_grid, y_grid, linewidth=4)
+ax.fill_between(x_grid, 0, y_grid, alpha=0.25)
 
-# Shade exact CI region
-mu_mid = mu_grid[(mu_grid >= mu_lo) & (mu_grid <= mu_hi)]
-ax.fill_between(mu_mid, 0, pdf_mu_exact(mu_mid), alpha=0.25)
+# Small tick at μ (no vertical line)
+ax.plot(
+    [mu, mu],
+    [0, -0.05],
+    transform=ax.get_xaxis_transform(),
+    color="black",
+    linewidth=2,
+    clip_on=False
+)
 
-# Endpoints
-ax.vlines([mu_lo, mu_hi],
-          0,
-          [pdf_mu_exact(mu_lo), pdf_mu_exact(mu_hi)],
-          linewidth=3)
-
-# Label xbar under the axis
 ax.annotate(
-    rf"$\overline{{X}} = {xbar}$",
-    xy=(xbar, 0),
+    r"$\mu$",
+    xy=(mu, 0),
     xycoords=("data", "axes fraction"),
-    xytext=(0, -20),
+    xytext=(0, -18),
     textcoords="offset points",
     ha="center",
     va="top",
-    fontsize=18
+    fontsize=20
 )
 
-ax.plot([xbar, xbar],
-        [0, -0.05],
-        transform=ax.get_xaxis_transform(),
-        color="black",
-        linewidth=2,
-        clip_on=False)
+ax.set_title(
+    rf"Sampling distribution of $\overline{{X}}$ for $X_i \sim \mathrm{{Exp}}(\mu)$, $n={n}$",
+    fontsize=24
+)
 
-ax.set_title(rf"Exact CI for $\mu$ via $\chi^2_{{{df}}}$ (central {100*(1-alpha):.0f}%)", fontsize=24)
 ax.set_yticks([])
-ax.tick_params(axis="x", labelsize=18)
+ax.set_xticks([])        # remove numeric x-axis ticks
+ax.tick_params(length=0)
 
 plt.tight_layout()
 plt.show()
@@ -302,38 +418,8 @@ plt.show()
 :::
 
 ---
-```{python}
-#| echo: false
-#| output: asis
 
-print("| $n$ | *Exact* $\\chi^2$ CI | *Exact* CI width | *CLT* CI | *CLT* CI width | (CLT width/<br>Exact width) |")
-print("|-:|:---:|----:|:---:|----:|-----:|")
-
-for n in (n_small, n_large):
-    clt_lo, clt_hi = ci_clt_exp_mu(n, xbar, alpha)
-    ex_lo, ex_hi   = ci_exp_exact_mu(n, xbar, alpha)
-
-    w_clt = clt_hi - clt_lo
-    w_ex  = ex_hi - ex_lo
-
-    print(
-        f"| {n} | {fmt_ci(ex_lo, ex_hi)} | {w_ex:.3f} | "
-        f"{fmt_ci(clt_lo, clt_hi)} | {w_clt:.3f} | {w_clt/w_ex:.3f} |"
-    )
-```
-::: {.columns}
-
-::: {.column width="45%"}
-
-- For small $n$
-  - Exact confidence interval can be substantially different from the CLT-based interval
-  - CLT interval is symmetric about $\bar X_n$, while the exact interval is not
-- As $n$ increases
-  - CLT-based interval approaches the exact interval
-
-:::
-
-::: {.column width="55%"}
+### Exact vs CLT sampling distribution of $\overline{X}$, when $X_i \sim \Exp(1/\mu)$
 
 ```{python}
 #| echo: false
@@ -346,92 +432,129 @@ import scipy.stats as st
 plt.rcParams["mathtext.fontset"] = "cm"
 
 n = n_small
-df = 2*n
-a2 = alpha/2
+alpha = alpha
 
-mu_hat = xbar
-se_hat = mu_hat/np.sqrt(n)
+mu = xbar
+sigma = xbar
+se = sigma/np.sqrt(n)
 
-# --- endpoints that MATCH the table ---
-mu_ex_lo, mu_ex_hi = ci_exp_exact_mu(n, xbar, alpha)
-mu_clt_lo, mu_clt_hi = ci_clt_exp_mu(n, xbar, alpha)
+x = np.linspace(0, 3*mu, 900)
 
-# exact mu-density induced by Y~chi2_df and mu = c/Y with c = 2n*mu_hat
-c = 2*n*mu_hat
+# Exact distribution of Xbar
+pdf_exact = st.gamma.pdf(x, a=n, scale=mu/n)
+q_ex_lo, q_ex_hi = st.gamma.ppf([alpha/2, 1-alpha/2], a=n, scale=mu/n)
 
-def pdf_mu_exact(mu):
-    y = c/mu
-    return st.chi2.pdf(y, df) * (c/(mu**2))
-
-def pdf_mu_clt(mu):
-    return st.norm.pdf(mu, loc=mu_hat, scale=se_hat)
-
-mu_lo = max(0.0, 0.6*min(mu_ex_lo, mu_clt_lo))
-mu_hi = 1.4*max(mu_ex_hi, mu_clt_hi)
-mu = np.linspace(mu_lo, mu_hi, 900)
+# CLT approximation
+pdf_clt = st.norm.pdf(x, loc=mu, scale=se)
+q_clt_lo, q_clt_hi = st.norm.ppf([alpha/2, 1-alpha/2], loc=mu, scale=se)
 
 fig, ax = plt.subplots()
 
-ax.plot(mu, pdf_mu_exact(mu), linewidth=4, color="tab:blue")
-ax.plot(mu, pdf_mu_clt(mu),   linewidth=4, color="tab:orange")
+# Curves
+ax.plot(x, pdf_exact, linewidth=4, color="tab:blue")
+ax.plot(x, pdf_clt,   linewidth=4, color="tab:orange")
 
-# Shade exact CI region (blue)
-mu_mid_ex = mu[(mu >= mu_ex_lo) & (mu <= mu_ex_hi)]
-ax.fill_between(mu_mid_ex, 0, pdf_mu_exact(mu_mid_ex),
-                color="tab:blue", alpha=0.25)
+# Shade central 95%
+x_ex_mid = x[(x >= q_ex_lo) & (x <= q_ex_hi)]
+ax.fill_between(x_ex_mid, 0,
+                st.gamma.pdf(x_ex_mid, a=n, scale=mu/n),
+                alpha=0.25, color="tab:blue")
 
-# Shade CLT CI region (orange)
-mu_mid_clt = mu[(mu >= mu_clt_lo) & (mu <= mu_clt_hi)]
-ax.fill_between(mu_mid_clt, 0, pdf_mu_clt(mu_mid_clt),
-                color="tab:orange", alpha=0.25)
+x_clt_mid = x[(x >= q_clt_lo) & (x <= q_clt_hi)]
+ax.fill_between(x_clt_mid, 0,
+                st.norm.pdf(x_clt_mid, loc=mu, scale=se),
+                alpha=0.25, color="tab:orange")
 
-# Endpoints
-ax.vlines([mu_ex_lo, mu_ex_hi],
-          0,
-          [pdf_mu_exact(mu_ex_lo), pdf_mu_exact(mu_ex_hi)],
-          linewidth=3,
-          color="tab:blue")
-
-ax.vlines([mu_clt_lo, mu_clt_hi],
-          0,
-          [pdf_mu_clt(mu_clt_lo), pdf_mu_clt(mu_clt_hi)],
-          linewidth=3,
-          color="tab:orange")
-
-# Label xbar under the axis (as point estimate of mu)
-ax.annotate(
-    rf"$\overline{{X}} = {xbar}$",
-    xy=(xbar, 0),
-    xycoords=("data", "axes fraction"),
-    xytext=(0, -20),
-    textcoords="offset points",
-    ha="center",
-    va="top",
-    fontsize=18
-)
-
-ax.plot([xbar, xbar],
-        [0, -0.05],
-        transform=ax.get_xaxis_transform(),
-        color="black",
-        linewidth=2,
-        clip_on=False)
-
-ax.set_title(rf"Exact vs CLT CI for $\mu$ ($n=16$, central {100*(1-alpha):.0f}%)", fontsize=24)
+ax.set_xlim(0, 3*mu)
 ax.set_yticks([])
-ax.tick_params(axis="x", labelsize=18)
+ax.set_xticks([])
+ax.tick_params(length=0)
 
-ax.plot([], [], linewidth=4, color="tab:blue", label="Exact (via $\\chi^2$)")
-ax.plot([], [], linewidth=4, color="tab:orange", label="CLT Normal")
+ax.set_title(rf"Exact vs CLT sampling distribution of $\overline{{X}}$ ($n={n}$)", fontsize=24)
+
+ax.plot([], [], linewidth=4, color="tab:blue", label="Exact (Gamma)")
+ax.plot([], [], linewidth=4, color="tab:orange", label="CLT (Normal)")
 ax.legend(frameon=False, fontsize=16, loc="upper right")
 
 plt.tight_layout()
 plt.show()
 ```
 
+
+---
+
+### Exact vs CLT confidence intervals for $\mu$, when $X_i \sim \Exp(1/\mu)$ (two sample sizes)
+
+::: {.columns}
+
+::: {.column width="65%"}
+```{python}
+#| echo: false
+#| fig-width: 6.8
+#| fig-height: 3.4
+
+import numpy as np
+import matplotlib.pyplot as plt
+plt.rcParams["mathtext.fontset"] = "cm"
+
+n_vals = [n_small, n_large]
+
+cis = []
+for n in n_vals:
+    ex_lo, ex_hi   = ci_exp_exact_mu(n, xbar, alpha)
+    clt_lo, clt_hi = ci_clt_exp_mu(n, xbar, z)
+    cis.append((n, ex_lo, ex_hi, clt_lo, clt_hi))
+
+xmin = min(min(ex_lo, clt_lo) for (_, ex_lo, ex_hi, clt_lo, clt_hi) in cis)
+xmax = max(max(ex_hi, clt_hi) for (_, ex_lo, ex_hi, clt_lo, clt_hi) in cis)
+pad = 0.08*(xmax - xmin)
+xmin = max(0.0, xmin - pad)
+xmax = xmax + pad
+
+fig, ax = plt.subplots()
+
+y_base = [2, 1]        # one row per n
+offset = 0.12          # vertical separation
+
+for y, (n, ex_lo, ex_hi, clt_lo, clt_hi) in zip(y_base, cis):
+
+    # Exact (blue) slightly above
+    ax.hlines(y + offset, ex_lo, ex_hi,
+              linewidth=8, color="tab:blue")
+
+    # CLT (orange) slightly below
+    ax.hlines(y - offset, clt_lo, clt_hi,
+              linewidth=8, color="tab:orange")
+
+    ax.text(xmin, y + 0.28,
+            rf"$n={n}$",
+            fontsize=18,
+            ha="left",
+            va="bottom")
+
+ax.set_xlim(xmin, xmax)
+ax.set_ylim(0.5, 2.5)
+ax.set_yticks([])
+
+ax.set_title(
+    rf"Central {100*(1-alpha):.0f}% CI for $\mu$: Exact vs CLT",
+    fontsize=24
+)
+
+ax.plot([], [], linewidth=8, color="tab:blue",
+        label="Exact (via $\\chi^2$)")
+ax.plot([], [], linewidth=8, color="tab:orange",
+        label="CLT (Normal)")
+ax.legend(frameon=False, fontsize=16, loc="lower right")
+
+plt.tight_layout()
+plt.show()
+```
 :::
 
-::: 
+::: {.column width="35%"}
+
+&nbsp;
 
 &nbsp;
 
@@ -439,7 +562,18 @@ plt.show()
 ⬇ Exact vs CLT vs Bootstrap Confidence Interval Coverage 📓
 </a>
 
+:::
+
+:::
+
+- For small $n$
+  - Exact confidence interval can be substantially different from the CLT-based interval
+  - CLT interval is symmetric about $\bar X_n$, while the exact interval is not
+- As $n$ increases
+  - CLT-based interval approaches the exact interval
+
 ---
+
 
 ### CI for the mean of Normal data with unknown variance
 If $X_1, \ldots, X_n$ are IID $\Norm(\mu, \sigma^2)$, then $\displaystyle\frac{\barX_n - \mu}{S_n/\sqrt{n}} \sim t_{n-1}$ for all $n \ge 2$, 

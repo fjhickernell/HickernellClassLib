@@ -1132,9 +1132,10 @@ print_md_table(header, md_rows)
 
 ```
 
-<a class="button" style="margin-left:0em;" href="{{< meta course_website >}}classlib/classlib/notebooks/confidence_interval_exact_vs_clt_vs_bootstrap.ipynb" download>
+<a class="button" style="margin-left:0em;" href="../classlib/classlib/notebooks/confidence_interval_exact_vs_clt_vs_bootstrap.ipynb" download>
 ⬇ Exact vs CLT vs Bootstrap Confidence Interval Coverage 📓
 </a>
+
 
 ## Assumptions behind common confidence intervals{#ci-assumptions}
 

@@ -909,29 +909,29 @@ z_{\alpha/2}\sqrt{\frac{\hP_n(1-\hP_n)}{n}}
 X_1,\dots,X_{n_X} \IIDsim \Bern(p_X), \qquad
 Y_1,\dots,Y_{n_Y} \IIDsim \Bern(p_Y)
 \\
-\hP_X = \frac{1}{n_X}\sum X_i,
+P_X = \frac{1}{n_X}\sum X_i,
 \qquad
-\hP_Y = \frac{1}{n_Y}\sum Y_j
+P_Y = \frac{1}{n_Y}\sum Y_j
 \end{gather*}
 
 If $n_X$ and $n_Y$ are large, an [approximate CLT-based]{.alert} confidence interval for $p_X - p_Y$ is
 
 \begin{multline*}
 \Prob\left[
-(\hP_X-\hP_Y)
+(P_X-P_Y)
 -
 z_{\alpha/2}
-\sqrt{\frac{\hP_X(1-\hP_X)}{n_X}
+\sqrt{\frac{P_X(1-P_X)}{n_X}
 +
-\frac{\hP_Y(1-\hP_Y)}{n_Y}}
+\frac{P_Y(1-P_Y)}{n_Y}}
 \right . \\ \left .
 \le p_X - p_Y \le
-(\hP_X-\hP_Y)
+(P_X-P_Y)
 +
 z_{\alpha/2}
-\sqrt{\frac{\hP_X(1-\hP_X)}{n_X}
+\sqrt{\frac{P_X(1-P_X)}{n_X}
 +
-\frac{\hP_Y(1-\hP_Y)}{n_Y}}
+\frac{P_Y(1-P_Y)}{n_Y}}
 \right]
 \approx
 1-\alpha

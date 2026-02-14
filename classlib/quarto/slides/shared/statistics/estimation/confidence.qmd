@@ -880,21 +880,21 @@ Construct the appropriate 95% confidence intervals for the following scenarios:
 
 ### One proportion
 - $X_1,\dots,X_n \IIDsim \Bern(p)$  ($p =$ probability of success shooting free throws, product quality control, etc.)
-- $\hP_n = \frac{1}{n}\sum_{i=1}^n X_i =$ sample proportion of successes
-- $\Ex[\hP_n] = p$ and $\var(\hP_n) = p(1-p)/n$
+- $P_n = \frac{1}{n}\sum_{i=1}^n X_i =$ sample proportion of successes
+- $\Ex[P_n] = p$ and $\var(P_n) = p(1-p)/n$
 
 If $n$ is large, an [approximate CLT-based]{.alert} interval for $p$ is
 
 \begin{equation*}
 \Prob\left[
-\hP_n
+P_n
 -
-z_{\alpha/2}\sqrt{\frac{\hP_n(1-\hP_n)}{n}}
+z_{\alpha/2}\sqrt{\frac{P_n(1-P_n)}{n}}
 \le p 
 \le
-\hP_n
+P_n
 +
-z_{\alpha/2}\sqrt{\frac{\hP_n(1-\hP_n)}{n}}
+z_{\alpha/2}\sqrt{\frac{P_n(1-P_n)}{n}}
 \right]
 \approx
 1-\alpha

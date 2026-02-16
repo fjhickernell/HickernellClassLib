@@ -82,7 +82,6 @@ from classlib.plots import (
 )
 plt.rcParams["mathtext.fontset"] = "cm"
 
-alpha = 0.025
 z = st.norm.ppf(1 - alpha)
 
 x = np.linspace(-4, 4, 800)
@@ -98,9 +97,7 @@ ax.plot(x, y, linewidth=4)
 ax.vlines(z, 0, y_z, linestyle="-", linewidth=4, color=tail_color)
 
 # Upper tail shading
-xtail = x[x >= z]
-ytail = st.norm.pdf(xtail)
-ax.fill_between(xtail, 0, ytail, alpha=0.3, color=tail_color)
+shade_under_curve(ax, x, y, where=(x >= z), alpha=0.3, color=tail_color)
 
 # Title
 ax.set_title(rf"Upper tail area $\alpha = {alpha} = {100*alpha}\%$", fontsize=24)

@@ -8,6 +8,8 @@
 
 ## Key probability concepts{#prob-concepts}
 
+({{< meta texts.cb.initials >}} Ch. 1–2; {{< meta texts.wms.initials >}} Ch. 1–2) {.small}
+
 - [Outcome]{.alert} — a single possible result of a random process, e.g., `yes`, $0.5$, $(1,-2)$.
 
 - [Sample space]{.alert} — the set of all possible outcomes, e.g., $\{\text{yes},\text{no}\}$, $\reals$.

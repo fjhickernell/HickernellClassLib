@@ -508,9 +508,9 @@ shade_under_curve(
 # --- Exact (Gamma) ticks BELOW axis ---
 annotate_xaxis_marks(
     ax,
-    [q_ex_lo, q_ex_hi],
-    [r"$\overline{X}_{L}^{\text{ex}}$", r"$\overline{X}_{U}^{\text{ex}}$"],
-    colors=[curve_color, curve_color],
+    [q_ex_lo, mu, q_ex_hi],
+    [r"$\overline{X}_{L}^{\text{ex}}$", r"$\mu$", r"$\overline{X}_{U}^{\text{ex}}$"],
+    colors=[curve_color, "black", curve_color],
     tick_height=0.05,
     tick_linewidth=3.0,
     text_offset_pts=-20,
@@ -525,7 +525,7 @@ annotate_xaxis_marks(
     colors=[clt_color, clt_color],
     tick_height=0.10,       # longer tick so it visually “belongs” to lower row
     tick_linewidth=3.0,
-    text_offset_pts=-52,    # push much further down
+    text_offset_pts=-42,    # push much further down
     fontsize=18,
 )
 

@@ -82,6 +82,7 @@ from classlib.plots import (
 )
 plt.rcParams["mathtext.fontset"] = "cm"
 
+alpha = 0.025
 z = st.norm.ppf(1 - alpha)
 
 x = np.linspace(-4, 4, 800)

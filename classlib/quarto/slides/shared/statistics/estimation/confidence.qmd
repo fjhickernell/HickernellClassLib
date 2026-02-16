@@ -77,6 +77,7 @@ import matplotlib.pyplot as plt
 import scipy.stats as st
 from classlib.plots import (
     annotate_xaxis_marks,
+    shade_under_curve,
     curve_color,
     tail_color,
 )

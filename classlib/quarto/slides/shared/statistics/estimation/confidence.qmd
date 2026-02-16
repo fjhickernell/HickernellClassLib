@@ -531,8 +531,9 @@ annotate_xaxis_marks(
     colors=[clt_color, clt_color],
     tick_height=0.10,       # longer tick so it visually “belongs” to lower row
     tick_linewidth=3.0,
-    text_offset_pts=-42,    # push much further down
+    text_offset_pts=-54,    # push much further down
     fontsize=18,
+    ha="right"
 )
 
 # Vertical lines at critical values (up to curve heights)
@@ -543,6 +544,7 @@ ax.vlines(
     st.gamma.pdf([q_ex_lo, q_ex_hi], a=n, scale=mu/n),
     linewidth=3,
     color=curve_color,
+    ha="left"
 )
 
 # --- CLT (Normal) vertical lines ---

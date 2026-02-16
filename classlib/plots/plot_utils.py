@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Iterable, Sequence, Optional, Union, List
+from typing import Sequence, Optional, List
 
 import numpy as np
 
@@ -79,4 +79,40 @@ def annotate_xaxis_marks(
         artists.append(ann)
 
     return artists
+
+
+def shade_under_curve(ax, x, y, *, where=None, color=None, alpha=0.3, zorder=None):
+    """
+    Shade area between y(x) and 0 over a subset of x.
+
+    where:
+      - None: shade entire curve
+      - callable: f(x) -> bool mask
+      - array-like mask: same length as x
+    """
+    x = np.asarray(x)
+    y = np.asarray(y)
+
+    if x.shape != y.shape:
+        raise ValueError("x and y must have the same shape")
+
+    if where is None:
+        mask = np.ones_like(x, dtype=bool)
+    elif callable(where):
+        mask = np.asarray(where(x), dtype=bool)
+    else:
+        mask = np.asarray(where, dtype=bool)
+
+    if mask.shape != x.shape:
+        raise ValueError("where mask must have the same shape as x")
+
+    return ax.fill_between(
+        x[mask],
+        0.0,
+        y[mask],
+        alpha=alpha,
+        color=color,
+        zorder=zorder,
+    )
+
 

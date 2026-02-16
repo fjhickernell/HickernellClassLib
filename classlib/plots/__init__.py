@@ -17,12 +17,16 @@ from .diagnostics import (
     plot_multiple_middle_half_sample_means,
 )
 
-from .plot_utils import annotate_xaxis_marks
+from .plot_utils import (
+    annotate_xaxis_marks,
+    shade_under_curve,
+)
 
 __all__ = [
     "plot_middle_half_sample_mean",
     "plot_multiple_middle_half_sample_means",
     "annotate_xaxis_marks", 
+    "shade_under_curve",
 
     "TOL_BRIGHT",
     "TOL_BRIGHT_ORDER",

@@ -80,17 +80,6 @@ from classlib.plots import (
     curve_color,
     tail_color,
 )
-
-ax.plot(x, y, color=curve_color)
-
-ax.fill_between(..., color=tail_color)
-
-annotate_xaxis_marks(
-    ax,
-    [z],
-    [r"$z_{0.025}$"],
-    colors=[tail_color],
-)
 plt.rcParams["mathtext.fontset"] = "cm"
 
 alpha = 0.025
@@ -126,7 +115,7 @@ annotate_xaxis_marks(
     ax,
     [z],
     [r"$z_{0.025}$"],
-    colors=["tab:orange"],
+    colors=[tail_color],
     tick_height=0.10,
     tick_linewidth=3.0,
     fontsize=24,

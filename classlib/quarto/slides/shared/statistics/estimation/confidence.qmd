@@ -509,7 +509,7 @@ shade_under_curve(
 annotate_xaxis_marks(
     ax,
     [q_ex_lo, q_ex_hi],
-    [r"$\bar X_{L}^{\text{ex}}$", r"$\bar X_{U}^{\text{ex}}$"],
+    [r"$\overline{X}_{L}^{\text{ex}}$", r"$\overline{X}_{U}^{\text{ex}}$"],
     colors=[curve_color, curve_color],
     tick_height=0.05,
     tick_linewidth=3.0,
@@ -521,11 +521,11 @@ annotate_xaxis_marks(
 annotate_xaxis_marks(
     ax,
     [q_clt_lo, q_clt_hi],
-    [r"$\bar X_{L}^{\text{clt}}$", r"$\bar X_{U}^{\text{clt}}$"],
+    [r"$\overline{X}_{L}^{\text{clt}}$", r"$\overline{X}_{U}^{\text{clt}}$"],
     colors=[clt_color, clt_color],
-    tick_height=-0.05,          # negative draws upward
+    tick_height=0.15,          # negative draws upward
     tick_linewidth=3.0,
-    text_offset_pts=8,          # positive pushes above
+    text_offset_pts=-42,          # negative pushes above
     va="bottom",
     fontsize=18,
 )

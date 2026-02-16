@@ -240,7 +240,7 @@ fig, ax1 = plt.subplots()
 ax1.plot(x, pdf, linewidth=4, color=curve_color)
 
 # shade central region
-shade_under_curve(ax1, x, pdf, where=((x >= left) & (x <= right)), alpha=0.3, color=tail_color)
+shade_under_curve(ax1, x, pdf, where=((x >= left) & (x <= right)), color=tail_color)
 
 ax1.set_yticks([])
 ax1.set_xticks([])

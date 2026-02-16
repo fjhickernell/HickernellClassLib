@@ -513,7 +513,7 @@ annotate_xaxis_marks(
     colors=[curve_color, curve_color],
     tick_height=0.05,
     tick_linewidth=3.0,
-    text_offset_pts=-22,
+    text_offset_pts=-20,
     fontsize=18,
 )
 
@@ -523,10 +523,9 @@ annotate_xaxis_marks(
     [q_clt_lo, q_clt_hi],
     [r"$\overline{X}_{L}^{\text{clt}}$", r"$\overline{X}_{U}^{\text{clt}}$"],
     colors=[clt_color, clt_color],
-    tick_height=0.15,          # negative draws upward
+    tick_height=0.10,       # longer tick so it visually “belongs” to lower row
     tick_linewidth=3.0,
-    text_offset_pts=-42,          # negative pushes above
-    va="bottom",
+    text_offset_pts=-52,    # push much further down
     fontsize=18,
 )
 

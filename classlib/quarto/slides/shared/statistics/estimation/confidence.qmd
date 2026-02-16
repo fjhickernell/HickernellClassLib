@@ -242,6 +242,11 @@ ax1.plot(x, pdf, linewidth=4, color=curve_color)
 # shade central region
 shade_under_curve(ax1, x, pdf, where=((x >= left) & (x <= right)), color=curve_color)
 
+y_left = st.norm.pdf(left)
+y_right = st.norm.pdf(right)
+ax1.vlines(left, 0, y_left, linestyle="-", linewidth=4, color=tail_color) # Critical value line: ONLY up to the pdf
+ax1.vlines(right, 0, y_right, linestyle="-", linewidth=4, color=tail_color) # Critical value line: ONLY up to the pdf
+
 ax1.set_yticks([])
 ax1.set_xticks([])
 
@@ -387,10 +392,6 @@ print(
 #| fig-width: 6.8
 #| fig-height: 3.4
 
-import numpy as np
-import matplotlib.pyplot as plt
-import scipy.stats as st
-plt.rcParams["mathtext.fontset"] = "cm"
 
 n = n_small
 
@@ -404,37 +405,51 @@ y_grid = st.gamma.pdf(x_grid, a=n, scale=scale_xbar)
 
 fig, ax = plt.subplots()
 
-ax.plot(x_grid, y_grid, linewidth=4)
-ax.fill_between(x_grid, 0, y_grid, alpha=0.25)
+ax.plot(x_grid, y_grid, color=curve_color, linewidth=4)
 
-# Small tick at μ (no vertical line)
-ax.plot(
-    [mu, mu],
-    [0, -0.05],
-    transform=ax.get_xaxis_transform(),
-    color="black",
-    linewidth=2,
-    clip_on=False
+# --- middle 95% bounds ---
+alpha = 0.05
+lower = st.gamma.ppf(alpha/2, a=n, scale=scale_xbar)
+upper = st.gamma.ppf(1 - alpha/2, a=n, scale=scale_xbar)
+
+# --- shade middle 95% ---
+shade_under_curve(
+    ax,
+    x_grid,
+    y_grid,
+    where=((x_grid >= lower) & (x_grid <= upper)),
+    alpha=0.30,
+    color=curve_color,
 )
 
-ax.annotate(
-    r"$\mu$",
-    xy=(mu, 0),
-    xycoords=("data", "axes fraction"),
-    xytext=(0, -18),
-    textcoords="offset points",
-    ha="center",
-    va="top",
-    fontsize=20
+
+y_left = st.norm.pdf(lower)
+y_right = st.norm.pdf(upper)
+ax1.vlines(lower, 0, y_left, linestyle="-", linewidth=4, color=tail_color) # Critical value line: ONLY up to the pdf
+ax1.vlines(upper, 0, y_right, linestyle="-", linewidth=4, color=tail_color) # Critical value line: ONLY up to the pdf
+# --- mark lower, μ, upper ---
+
+annotate_xaxis_marks(
+    ax,
+    [lower, mu, upper],
+    [
+        r"$\overline{x}_L$",
+        r"$\mu$",
+        r"$\overline{x}_U$",
+    ],
+    colors=[curve_color, "black", curve_color],
+    tick_height=0.05,
+    tick_linewidth=2.0,
+    fontsize=20,
 )
 
 ax.set_title(
-    rf"Sampling distribution of $\overline{{X}}$ for $X_i \sim \mathrm{{Exp}}(\mu)$, $n={n}$",
+    rf"Sampling distribution of $\overline{{X}}$ for $X_i \sim \mathrm{{Exp}}(1/\mu)$, $n={n}$",
     fontsize=24
 )
 
 ax.set_yticks([])
-ax.set_xticks([])        # remove numeric x-axis ticks
+ax.set_xticks([])
 ax.tick_params(length=0)
 
 plt.tight_layout()

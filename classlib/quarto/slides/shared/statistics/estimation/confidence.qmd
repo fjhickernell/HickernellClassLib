@@ -72,6 +72,7 @@ These [upper critical values]{.alert} are *not* $\alpha$-quantiles.
 #| fig-width: 4.8
 #| fig-height: 3.6
 
+import math
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as st
@@ -82,6 +83,7 @@ from classlib.plots import (
     tail_color,
 )
 plt.rcParams["mathtext.fontset"] = "cm"
+
 
 alpha = 0.025
 z = st.norm.ppf(1 - alpha)
@@ -165,11 +167,6 @@ See the [Approval Ratings](../slides/01-intro.html#approval-ratings) example for
 #| echo: false
 #| output: asis
 
-import math
-import numpy as np
-import matplotlib.pyplot as plt
-import scipy.stats as st
-plt.rcParams["mathtext.fontset"] = "cm"
 
 # =========================
 # Parameters (edit once HERE)
@@ -397,7 +394,6 @@ n = n_small
 
 # For drawing only — we must plug something in
 mu = xbar
-
 scale_xbar = mu / n
 
 x_grid = np.linspace(0, 3*mu, 900)
@@ -408,9 +404,8 @@ fig, ax = plt.subplots()
 ax.plot(x_grid, y_grid, color=curve_color, linewidth=4)
 
 # --- middle 95% bounds ---
-alpha = 0.05
-lower = st.gamma.ppf(alpha/2, a=n, scale=scale_xbar)
-upper = st.gamma.ppf(1 - alpha/2, a=n, scale=scale_xbar)
+lower = st.gamma.ppf(a2, a=n, scale=scale_xbar)
+upper = st.gamma.ppf(1 - a2, a=n, scale=scale_xbar)
 
 # --- shade middle 95% ---
 shade_under_curve(
@@ -433,9 +428,9 @@ annotate_xaxis_marks(
     ax,
     [lower, mu, upper],
     [
-        r"$\overline{x}_L$",
+        r"$\dfrac{\mu}{2n}\,\chi^2_{2n,\alpha/2}$",
         r"$\mu$",
-        r"$\overline{x}_U$",
+        r"$\dfrac{\mu}{2n}\,\chi^2_{2n,1-\alpha/2}$",
     ],
     colors=[curve_color, "black", curve_color],
     tick_height=0.05,

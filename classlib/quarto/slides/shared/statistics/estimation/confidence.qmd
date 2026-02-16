@@ -93,7 +93,7 @@ y_z = st.norm.pdf(z)
 fig, ax = plt.subplots()
 
 
-ax.plot(x, y, linewidth=4, curve_color) # Density
+ax.plot(x, y, linewidth=4, color=curve_color) # Density
 ax.vlines(z, 0, y_z, linestyle="-", linewidth=4, color=tail_color) # Critical value line: ONLY up to the pdf
 shade_under_curve(ax, x, y, where=(x >= z), alpha=0.3, color=tail_color) # Upper tail shading
 

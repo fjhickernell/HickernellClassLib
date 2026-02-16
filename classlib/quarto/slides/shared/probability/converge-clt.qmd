@@ -1,5 +1,7 @@
 ## Types of convergence{#type-conv}
 
+[({{< meta texts.cb.initials >}} §§5.5; {{< meta texts.wms.initials >}} §§??)]{.small}
+
 Let $X_1, X_2, \ldots$ be random variables and $X$ another random variable
 
 ### Almost Sure Convergence
@@ -51,6 +53,9 @@ so  $X_n \ \, \nconvas X$
 ---
 
 ## Central Limit Theorem{#clt data-state="goldborder"}
+
+[({{< meta texts.cb.initials >}} §5.5; {{< meta texts.wms.initials >}} §§???)]{.small}
+
 If $X_1, X_2, \ldots \IIDsim$ some distribution with finite moment generating function, $M(t) := \Ex\bigl(\exp(tX_1)\bigr)$, that exists for $t$ near $0$, and $\mu = \Ex(X_1)$ and $\sigma^2 = \var(X_1)$, and
 $$
 \barX_n := \frac 1n \left(X_1 + \cdots + X_n \right),
@@ -108,6 +113,8 @@ $$
 $\square$
 
 ## Chebyshev (Markov) Inequality
+
+[({{< meta texts.cb.initials >}} §3.6, §3.8; {{< meta texts.wms.initials >}} §§???)]{.small}
 $$
 \Prob\bigl( f(X) \ge r \bigr) \le \frac{\Ex[f(X)]}{r} \qquad f \text{ is }\class{alert}{\text{non-negative}}
 $$

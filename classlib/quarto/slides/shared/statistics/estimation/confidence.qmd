@@ -464,9 +464,25 @@ plt.show()
 #| fig-width: 6.8
 #| fig-height: 3.4
 
-from classlib.plots import TOL_BRIGHT
-
+from classlib.plots import TOL_BRIGHT)
 clt_color = TOL_BRIGHT["cyan"]
+
+n = n_small
+alpha = alpha
+
+mu = xbar
+sigma = xbar
+se = sigma/np.sqrt(n)
+
+x = np.linspace(0, 3*mu, 900)
+
+# Exact distribution of Xbar
+pdf_exact = st.gamma.pdf(x, a=n, scale=mu/n)
+q_ex_lo, q_ex_hi = st.gamma.ppf([alpha/2, 1-alpha/2], a=n, scale=mu/n)
+
+# CLT approximation
+pdf_clt = st.norm.pdf(x, loc=mu, scale=se)
+q_clt_lo, q_clt_hi = st.norm.ppf([alpha/2, 1-alpha/2], loc=mu, scale=se)
 
 fig, ax = plt.subplots()
 

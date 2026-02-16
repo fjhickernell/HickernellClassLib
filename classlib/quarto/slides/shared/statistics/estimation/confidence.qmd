@@ -420,8 +420,7 @@ shade_under_curve(
 
 y_left = st.gamma.pdf(lower, a=n, scale=scale_xbar)
 y_right = st.gamma.pdf(upper, a=n, scale=scale_xbar)
-ax.vlines(lower, 0, y_left, linestyle="-", linewidth=4, color=curve_color) # Critical value line: ONLY up to the pdf
-ax.vlines(upper, 0, y_right, linestyle="-", linewidth=4, color=curve_color) # Critical value line: ONLY up to the pdf
+ax.vlines([lower, upper], 0, [y_left, y_right], linestyle="-", linewidth=4, color=curve_color) # Critical value line: ONLY up to the pdf
 # --- mark lower, μ, upper ---
 
 annotate_xaxis_marks(
@@ -598,6 +597,25 @@ for y, (n, ex_lo, ex_hi, clt_lo, clt_hi) in zip(y_base, cis):
             ha="left",
             va="bottom")
 
+# Vertical lines at critical values (up to curve heights)
+# --- Exact (Gamma) vertical lines ---
+ax.vlines(
+    [q_ex_lo, q_ex_hi],
+    0,
+    st.gamma.pdf([q_ex_lo, q_ex_hi], a=n, scale=mu/n),
+    linewidth=3,
+    color=curve_color,
+)
+
+# --- CLT (Normal) vertical lines ---
+ax.vlines(
+    [q_clt_lo, q_clt_hi],
+    0,
+    st.norm.pdf([q_clt_lo, q_clt_hi], loc=mu, scale=se),
+    linewidth=3,
+    color=clt_color,
+)
+
 ax.set_xlim(xmin, xmax)
 ax.set_ylim(0.5, 2.5)
 ax.set_yticks([])
@@ -712,7 +730,7 @@ annotate_xaxis_marks(
     colors=[z_color, "black", z_color],
     tick_height=0.10,
     tick_linewidth=3.0,
-    text_offset_pts=-54,
+    text_offset_pts=-44,
     fontsize=18,
 )
 
@@ -726,7 +744,7 @@ ax.tick_params(length=0)
 
 ax.plot([], [], linewidth=4, color=curve_color, label=rf"Exact: $T\sim t_{{{df}}}$")
 ax.plot([], [], linewidth=4, color=z_color,     label=r"Approx: $Z\sim N(0,1)$")
-ax.legend(frameon=False, fontsize=16, loc="lower right")
+ax.legend(frameon=False, fontsize=16, loc="upper right")
 
 plt.subplots_adjust(bottom=0.34)
 plt.show()

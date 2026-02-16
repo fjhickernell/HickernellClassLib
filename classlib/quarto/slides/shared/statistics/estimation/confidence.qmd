@@ -242,10 +242,10 @@ ax1.plot(x, pdf, linewidth=4, color=curve_color)
 # shade central region
 shade_under_curve(ax1, x, pdf, where=((x >= left) & (x <= right)), color=curve_color)
 
-y_left = st.norm.pdf(left)
-y_right = st.norm.pdf(right)
-ax1.vlines(left, 0, y_left, linestyle="-", linewidth=4, color=tail_color) # Critical value line: ONLY up to the pdf
-ax1.vlines(right, 0, y_right, linestyle="-", linewidth=4, color=tail_color) # Critical value line: ONLY up to the pdf
+y_left = st.norm.pdf(left, loc=mu, scale=se)
+y_right = st.norm.pdf(right, loc=mu, scale=se)
+ax1.vlines(left, 0, y_left, linestyle="-", linewidth=4, color=curve_color) # Critical value line: ONLY up to the pdf
+ax1.vlines(right, 0, y_right, linestyle="-", linewidth=4, color=curve_color) # Critical value line: ONLY up to the pdf
 
 ax1.set_yticks([])
 ax1.set_xticks([])
@@ -423,10 +423,10 @@ shade_under_curve(
 )
 
 
-y_left = st.norm.pdf(lower)
-y_right = st.norm.pdf(upper)
-ax1.vlines(lower, 0, y_left, linestyle="-", linewidth=4, color=tail_color) # Critical value line: ONLY up to the pdf
-ax1.vlines(upper, 0, y_right, linestyle="-", linewidth=4, color=tail_color) # Critical value line: ONLY up to the pdf
+y_left = st.gamma.pdf(lower, a=n, scale=scale_xbar)
+y_right = st.gamma.pdf(upper, a=n, scale=scale_xbar)
+ax.vlines(lower, 0, y_left, linestyle="-", linewidth=4, color=curve_color) # Critical value line: ONLY up to the pdf
+ax.vlines(upper, 0, y_right, linestyle="-", linewidth=4, color=curve_color) # Critical value line: ONLY up to the pdf
 # --- mark lower, μ, upper ---
 
 annotate_xaxis_marks(

@@ -561,9 +561,7 @@ plt.show()
 #| fig-height: 3.4
 
 from classlib.plots import TOL_BRIGHT
-
 clt_color = TOL_BRIGHT["cyan"]
-print("clt_color =", clt_color)
 
 n_vals = [n_small, n_large]
 
@@ -663,10 +661,8 @@ But they are [exact]{.alert} and thus more accurate for all $n \ge 2$ when the d
 #| fig-width: 6.8
 #| fig-height: 3.4
 
-import numpy as np
-import matplotlib.pyplot as plt
-import scipy.stats as st
-plt.rcParams["mathtext.fontset"] = "cm"
+from classlib.plots import TOL_BRIGHT
+z_color = TOL_BRIGHT["cyan"]
 
 n = n_small
 df = n - 1
@@ -682,47 +678,57 @@ pdf_z = st.norm.pdf(x)
 
 fig, ax = plt.subplots()
 
-ax.plot(x, pdf_t, linewidth=4, color="tab:blue")
-ax.plot(x, pdf_z, linewidth=4, color="tab:orange")
+# Curves
+ax.plot(x, pdf_t, linewidth=4, color=curve_color)
+ax.plot(x, pdf_z, linewidth=4, color=z_color)
 
-x_mid_t = x[(x >= -tcrit) & (x <= tcrit)]
-ax.fill_between(x_mid_t, 0, st.t.pdf(x_mid_t, df), alpha=0.25, color="tab:blue")
+# Shade middle 1-alpha for each
+shade_under_curve(ax, x, pdf_t, where=((x >= -tcrit) & (x <= tcrit)), alpha=0.25, color=curve_color)
+shade_under_curve(ax, x, pdf_z, where=((x >= -zcrit) & (x <= zcrit)), alpha=0.25, color=z_color)
 
-x_mid_z = x[(x >= -zcrit) & (x <= zcrit)]
-ax.fill_between(x_mid_z, 0, st.norm.pdf(x_mid_z), alpha=0.25, color="tab:orange")
+# Vertical lines at critical values (up to curve heights)
+ax.vlines([-tcrit, tcrit], 0, st.t.pdf([-tcrit, tcrit], df), linewidth=3, color=curve_color)
+ax.vlines([-zcrit, zcrit], 0, st.norm.pdf([-zcrit, zcrit]), linewidth=3, color=z_color)
 
-# tick at 0 with label μ (center of the pivot)
-ax.plot([0, 0],
-        [0, -0.05],
-        transform=ax.get_xaxis_transform(),
-        color="black",
-        linewidth=2,
-        clip_on=False)
+# Optional center line at 0
+ax.vlines(0.0, 0, max(st.t.pdf(0.0, df), st.norm.pdf(0.0)), linewidth=2, color="black", alpha=0.7)
 
-ax.annotate(
-    r"$\mu$",
-    xy=(0, 0),
-    xycoords=("data", "axes fraction"),
-    xytext=(0, -18),
-    textcoords="offset points",
-    ha="center",
-    va="top",
-    fontsize=20
+# Staggered labels BELOW axis: t row closer, z row deeper
+annotate_xaxis_marks(
+    ax,
+    [-tcrit, 0.0, tcrit],
+    [r"$-t_{n-1,\alpha/2}$", r"$0$", r"$t_{n-1,\alpha/2}$"],
+    colors=[curve_color, "black", curve_color],
+    tick_height=0.05,
+    tick_linewidth=3.0,
+    text_offset_pts=-22,
+    fontsize=18,
+)
+
+annotate_xaxis_marks(
+    ax,
+    [-zcrit, 0.0, zcrit],
+    [r"$-z_{\alpha/2}$", r"$0$", r"$z_{\alpha/2}$"],
+    colors=[z_color, "black", z_color],
+    tick_height=0.10,
+    tick_linewidth=3.0,
+    text_offset_pts=-54,
+    fontsize=18,
 )
 
 ax.set_title(
     rf"Sampling distribution for CI: standardized mean ($n={n}$, df={df})",
-    fontsize=24
+    fontsize=24,
 )
 ax.set_yticks([])
 ax.set_xticks([])
 ax.tick_params(length=0)
 
-ax.plot([], [], linewidth=4, color="tab:blue", label=rf"Exact: $T\sim t_{{{df}}}$")
-ax.plot([], [], linewidth=4, color="tab:orange", label=r"Approx: $Z\sim N(0,1)$")
+ax.plot([], [], linewidth=4, color=curve_color, label=rf"Exact: $T\sim t_{{{df}}}$")
+ax.plot([], [], linewidth=4, color=z_color,     label=r"Approx: $Z\sim N(0,1)$")
 ax.legend(frameon=False, fontsize=16, loc="lower right")
 
-plt.tight_layout()
+plt.subplots_adjust(bottom=0.34)
 plt.show()
 ```
 :::

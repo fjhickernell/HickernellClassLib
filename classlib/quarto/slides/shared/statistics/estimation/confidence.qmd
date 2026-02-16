@@ -508,7 +508,11 @@ shade_under_curve(
 annotate_xaxis_marks(
     ax,
     [q_ex_lo, mu, q_ex_hi],
-    [r"$\overline{X}_{L}^{\text{ex}}$", r"$\mu$", r"$\overline{X}_{U}^{\text{ex}}$"],
+    [
+        r"$\dfrac{\mu}{2n}\,\chi^2_{2n,1-\alpha/2}$",
+        r"$\mu$",
+        r"$\dfrac{\mu}{2n}\,\chi^2_{2n,\alpha/2}$",
+    ],
     colors=[curve_color, "black", curve_color],
     tick_height=0.05,
     tick_linewidth=3.0,
@@ -520,7 +524,10 @@ annotate_xaxis_marks(
 annotate_xaxis_marks(
     ax,
     [q_clt_lo, q_clt_hi],
-    [r"$\overline{X}_{L}^{\text{clt}}$", r"$\overline{X}_{U}^{\text{clt}}$"],
+    [
+        r"$\mu - z_{\alpha/2}\,\dfrac{\mu}{\sqrt{n}}$",
+        r"$\mu + z_{\alpha/2}\,\dfrac{\mu}{\sqrt{n}}$",
+    ],
     colors=[clt_color, clt_color],
     tick_height=0.10,       # longer tick so it visually “belongs” to lower row
     tick_linewidth=3.0,

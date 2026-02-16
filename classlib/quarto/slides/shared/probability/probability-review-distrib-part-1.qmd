@@ -8,7 +8,7 @@
 
 ## Key probability concepts{#prob-concepts}
 
-({{< meta texts.cb.initials >}} Ch. 1–2; {{< meta texts.wms.initials >}} Ch. 1–2) {.small}
+[({{< meta texts.cb.initials >}} Ch. 1–2; {{< meta texts.wms.initials >}} Ch. 1–2)]{.small}
 
 - [Outcome]{.alert} — a single possible result of a random process, e.g., `yes`, $0.5$, $(1,-2)$.
 
@@ -18,10 +18,7 @@
 
 - [Event space]{.alert} — a collection of events (subsets of the sample space) that we are allowed to assign probabilities to.
 
-- [Probability]{.alert} — a function  
-  \[
-  \Prob:\text{event space}\to[0,1]
-  \]
+- [Probability]{.alert} — a function  $\Prob:\text{event space}\to[0,1]$
   satisfying:
   - $0 \le \Prob(A) \le 1$ for every event $A$
   - $\Prob(\text{sample space}) = 1$
@@ -82,6 +79,8 @@
 </div>
 
 ## Important distributions{#prob-distrib}
+
+[({{< meta texts.cb.initials >}} §§3.1–3.3; {{< meta texts.wms.initials >}} §§3.1–3.4, 4.1–4.6)]{.small}
 
 - [Binomial]{.alert} (free-throw shooting, discrete) $\Bin(n,p)$
 $$

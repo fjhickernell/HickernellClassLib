@@ -464,6 +464,8 @@ plt.show()
 #| fig-width: 6.8
 #| fig-height: 3.4
 
+from classlib.plots import TOL_BRIGHT
+
 clt_color = TOL_BRIGHT["cyan"]
 
 fig, ax = plt.subplots()

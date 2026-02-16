@@ -11,6 +11,8 @@
 
 ## Summary statistics{#summary-statistics}
 
+[({{< meta texts.cb.initials >}} §5.3, §5.4, §6.1; {{< meta texts.wms.initials >}} §6.7, §8.1, §9.6)]{.small}
+
 Given IID data, $X_1, \ldots, X_n$, we often compute
 
 - [Empirical Distribution]{.alert} $F_{\{X_i\}}(x) := \frac 1n \sum_{i=1}^n \indic(X_i \le x)$
@@ -39,6 +41,8 @@ Given IID data, $(X_1, Y_1), \ldots, (X_n,Y_n)$, with sample mean $(\barX_n, \ba
 
 ## Maximum likelihood estimators{#maximum-likelihood-estimators}
 
+[({{< meta texts.cb.initials >}} §7.2.2; {{< meta texts.wms.initials >}} §9.7)]{.small}
+
 The joint density of data,  $\vX = (X_1, \ldots, X_n)^\top$ given a parameter, $\vtheta$, is $\varrho_{X_1, \ldots, X_n| \vtheta}$.  The [likelihood]{.alert}, $L$ turns that around to make the parameter the variable, so 
 \begin{align*}
 L(\vtheta | x_1, \ldots, x_n) & := \varrho_{X_1, \ldots, X_n | \vtheta}(x_1, \ldots, x_n) \\
@@ -49,6 +53,13 @@ The [maximum likelihood estimator (MLE)]{.alert} of $\vtheta$ is the one that fi
 $$
 \vTheta_{\MLE}  = \Argmax{\vtheta} L(\vtheta | X_1, \ldots, X_n) 
 $$
+
+It may be easier to work with the [log-likelihood]{.alert} $\ell(\vtheta) := \log(L(\vtheta))$ since the logarithm is a monotone transformation, so
+$$
+\vTheta_{\MLE}  = \Argmax{\vtheta} \ell(\vtheta | X_1, \ldots, X_n) 
+$$
+
+---
 
 $\exstar$ What is the MLE of $p$ for the distribution $\Bern(p)$?
 
@@ -69,6 +80,9 @@ $\exstar$ What are the MLE of $\mu$ and $\sigma$ for $X \sim \Norm(\mu,\sigma^2)
 - [Distributions of estimators](#distribest)
 
 ## Bias, variance, and mean squared error of estimators{#biasvar}
+
+[({{< meta texts.cb.initials >}} §7.3.1; {{< meta texts.wms.initials >}} §§8.2–8.4)]{.small}
+
 Suppose that $\Theta$ is an estimator of a parameter, $\theta$, of a population
 
 - [Bias]{.alert} $\bias(\Theta) = \Ex(\Theta) - \theta$
@@ -96,6 +110,8 @@ $\exstar$ What is the MLE $\theta$ of $\theta$ for $X \sim \Unif(0,\theta)$?
 
 
 ## Distributions of estimators (see [Important Distributions](../slides/01-intro.html#prob-distrib)) {#distribest}
+
+[({{< meta texts.cb.initials >}} §5.2–5.4; {{< meta texts.wms.initials >}} §§7.2)]{.small}
 
 For the sample mean $\barX_n$, based on IID data
 

@@ -1,5 +1,7 @@
 # Confidence Intervals
 
+[({{< meta texts.cb.initials >}} §9.1; {{< meta texts.wms.initials >}} §8.5)]{.small}
+
 If
 
 - $\theta$ is a parameter of interest of a distribution, and
@@ -18,10 +20,12 @@ depending only on the data (and not on $\theta$), that give intervals which
 
 The bounds $\Theta_L$ and $\Theta_U$ are random because they depend on random data. Here $\alpha$ is our willingness to be wrong, typically $\alpha = 5\%$.
 
+---
+
+More about confidence intervals:
+
 - In many continuous cases, the probability is exactly $1-\alpha$
 - For discrete distributions, the probability is often slightly larger than $1-\alpha$
-
----
 
 This process often proceeds by
 
@@ -29,8 +33,7 @@ This process often proceeds by
 - Finding the the [sampling distribution]{.alert} of the estimator $\Theta$
 - Using the sampling distribution to find [quantiles]{.alert} that give the desired coverage probability
 
-
-&nbsp;
+---
 
 - [Critical value notation](#critical-value-notation-important)
 - [Large sample size confidence intervals for means](#large-sample-confidence-intervals-for-means)
@@ -129,10 +132,25 @@ plt.show()
 
 
 ## Large sample size confidence intervals for means{#large-sample-confidence-intervals-for-means}   
-If $X_1, \ldots, X_n$ are IID with mean $\mu$ and variance $\sigma^2 < \infty$, and $\barX_n$ is the sample mean, then by the [Central Limit Theorem](../slides/01-intro.html#clt)
+
+[({{< meta texts.cb.initials >}} §9.2; {{< meta texts.wms.initials >}} §§8.6–8.7)]{.small}
+
+If $X_1, \ldots, X_n$ are IID with mean $\mu$ and variance $\sigma^2 < \infty$, and 
+
+- $\barX_n$ is the sample mean, 
+
+- $S_n^2$ is some estimate of the unknown population variance $\sigma^2$ (e.g., unbiased or MLE)
+
+then by the [Central Limit Theorem](../slides/01-intro.html#clt)
 $$
 \frac{\barX_n - \mu}{\sigma/\sqrt{n}} \appxsim \Norm(0,1) \quad \text{for large } n
 $$
+
+---
+$$
+\frac{\barX_n - \mu}{\sigma/\sqrt{n}} \appxsim \Norm(0,1) \quad \text{for large } n
+$$
+
 Letting $z_{\alpha/2}$ be the upper $\alpha/2$ quantile of $\Norm(0,1)$, i.e., $z_{\alpha/2} = Q_{\Norm(0,1)}(1 - \alpha/2)$, then
 \begin{align*}
 1 - \alpha & \approx
@@ -140,7 +158,10 @@ Letting $z_{\alpha/2}$ be the upper $\alpha/2$ quantile of $\Norm(0,1)$, i.e., $
 & \approx \Prob \biggl( \barX_n - z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \le \mu \le \barX_n + z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \biggr) \\
 & \approx \Prob \biggl( \underbrace{\barX_n - z_{\alpha/2} \frac{S_n}{\sqrt{n}}}_{\Theta_L} \le \mu \le \underbrace{\barX_n + z_{\alpha/2} \frac{S_n}{\sqrt{n}}}_{\Theta_U} \biggr)
 \end{align*}
-where $S_n^2$ is some estimate of the unknown population variance $\sigma^2$ (e.g., unbiased or MLE)
+
+Thus, a large sample size confidence interval for $\mu$ is
+$$\left[ \barX_n - z_{\alpha/2} \frac{S_n}{\sqrt{n}}, \; \barX_n + z_{\alpha/2} \frac{S_n}{\sqrt{n}} \right]$$   
+
 
 ---
 
@@ -333,7 +354,13 @@ plt.show()
 
 ## Small sample size confidence intervals for means when the distribution is known{#small-sample-confidence-intervals-for-means-when-the-distribution-is-known}
 
-If the sample size is not large enough for the [Central Limit Theorem](../slides/01-intro.html#clt) to apply, but the sample mean has a known distribution, then exact confidence intervals can sometimes be constructed
+[({{< meta texts.cb.initials >}} §9.2; {{< meta texts.wms.initials >}} §8.8–8.9)]{.small}
+
+- If the sample sizem $n$, is [not large enough]{.alert} for the [Central Limit Theorem](../slides/01-intro.html#clt) to apply, 
+
+- But the sample mean has a [known distribution]{.alert}, then exact confidence intervals can sometimes be constructed
+
+---
 
 ### Confidence interval for the mean of an exponential distribution
 
@@ -996,6 +1023,8 @@ $\displaystyle \frac{\sigma_X^2}{\sigma_Y^2}$ is
 \end{equation*}
 
 ## Bootstrap Confidence Intervals{#bootstrap-confidence-intervals}
+
+[({{< meta references.eh.initials >}} Ch. 11)]{.small}
 
 Classical confidence intervals rely on assumptions such as:
 

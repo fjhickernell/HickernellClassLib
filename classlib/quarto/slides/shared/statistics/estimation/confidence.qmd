@@ -428,9 +428,9 @@ annotate_xaxis_marks(
     ax,
     [lower, mu, upper],
     [
-        r"$\dfrac{\mu}{2n}\,\chi^2_{2n,\alpha/2}$",
-        r"$\mu$",
         r"$\dfrac{\mu}{2n}\,\chi^2_{2n,1-\alpha/2}$",
+        r"$\mu$",
+        r"$\dfrac{\mu}{2n}\,\chi^2_{2n,\alpha/2}$",
     ],
     colors=[curve_color, "black", curve_color],
     tick_height=0.05,
@@ -464,54 +464,66 @@ plt.show()
 #| fig-width: 6.8
 #| fig-height: 3.4
 
-import numpy as np
-import matplotlib.pyplot as plt
-import scipy.stats as st
-plt.rcParams["mathtext.fontset"] = "cm"
-
-n = n_small
-alpha = alpha
-
-mu = xbar
-sigma = xbar
-se = sigma/np.sqrt(n)
-
-x = np.linspace(0, 3*mu, 900)
-
-# Exact distribution of Xbar
-pdf_exact = st.gamma.pdf(x, a=n, scale=mu/n)
-q_ex_lo, q_ex_hi = st.gamma.ppf([alpha/2, 1-alpha/2], a=n, scale=mu/n)
-
-# CLT approximation
-pdf_clt = st.norm.pdf(x, loc=mu, scale=se)
-q_clt_lo, q_clt_hi = st.norm.ppf([alpha/2, 1-alpha/2], loc=mu, scale=se)
+clt_color = TOL_BRIGHT["cyan"]
 
 fig, ax = plt.subplots()
 
-# Curves
-ax.plot(x, pdf_exact, linewidth=4, color="tab:blue")
-ax.plot(x, pdf_clt,   linewidth=4, color="tab:orange")
+# --- Curves ---
+ax.plot(x, pdf_exact, linewidth=4, color=curve_color)
+ax.plot(x, pdf_clt,   linewidth=4, color=clt_color)
 
-# Shade central 95%
-x_ex_mid = x[(x >= q_ex_lo) & (x <= q_ex_hi)]
-ax.fill_between(x_ex_mid, 0,
-                st.gamma.pdf(x_ex_mid, a=n, scale=mu/n),
-                alpha=0.25, color="tab:blue")
+# --- Shade central 95% ---
+shade_under_curve(
+    ax, x, pdf_exact,
+    where=((x >= q_ex_lo) & (x <= q_ex_hi)),
+    alpha=0.25,
+    color=curve_color,
+)
 
-x_clt_mid = x[(x >= q_clt_lo) & (x <= q_clt_hi)]
-ax.fill_between(x_clt_mid, 0,
-                st.norm.pdf(x_clt_mid, loc=mu, scale=se),
-                alpha=0.25, color="tab:orange")
+shade_under_curve(
+    ax, x, pdf_clt,
+    where=((x >= q_clt_lo) & (x <= q_clt_hi)),
+    alpha=0.25,
+    color=clt_color,
+)
+
+# --- Exact (Gamma) ticks BELOW axis ---
+annotate_xaxis_marks(
+    ax,
+    [q_ex_lo, q_ex_hi],
+    [r"$\bar X_{L}^{\text{ex}}$", r"$\bar X_{U}^{\text{ex}}$"],
+    colors=[curve_color, curve_color],
+    tick_height=0.05,
+    tick_linewidth=3.0,
+    text_offset_pts=-22,
+    fontsize=18,
+)
+
+# --- CLT ticks ABOVE axis ---
+annotate_xaxis_marks(
+    ax,
+    [q_clt_lo, q_clt_hi],
+    [r"$\bar X_{L}^{\text{clt}}$", r"$\bar X_{U}^{\text{clt}}$"],
+    colors=[clt_color, clt_color],
+    tick_height=-0.05,          # negative draws upward
+    tick_linewidth=3.0,
+    text_offset_pts=8,          # positive pushes above
+    va="bottom",
+    fontsize=18,
+)
 
 ax.set_xlim(0, 3*mu)
 ax.set_yticks([])
 ax.set_xticks([])
 ax.tick_params(length=0)
 
-ax.set_title(rf"Exact vs CLT sampling distribution of $\overline{{X}}$ ($n={n}$)", fontsize=24)
+ax.set_title(
+    rf"Exact vs CLT sampling distribution of $\overline{{X}}$ ($n={n}$)",
+    fontsize=24,
+)
 
-ax.plot([], [], linewidth=4, color="tab:blue", label="Exact (Gamma)")
-ax.plot([], [], linewidth=4, color="tab:orange", label="CLT (Normal)")
+ax.plot([], [], linewidth=4, color=curve_color, label="Exact (Gamma)")
+ax.plot([], [], linewidth=4, color=clt_color,   label="CLT (Normal)")
 ax.legend(frameon=False, fontsize=16, loc="upper right")
 
 plt.tight_layout()

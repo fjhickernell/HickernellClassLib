@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from typing import Callable, Optional, Tuple, Dict, Any, Union, Mapping, overload
-from classlib.nbviz import TOL_BRIGHT, TOL_BRIGHT_ORDER # dict of named Tol colors
+from .colors import TOL_BRIGHT, TOL_BRIGHT_ORDER # dict of named Tol colors
 
 def plot_middle_half_sample_mean(
     sampler: Callable[..., np.ndarray],

@@ -36,16 +36,12 @@ __all__ = [
 # ---- Defaults / constants ----
 DEFAULT_HIGHLIGHT_COLOR = "#e6f7ff"   # light blue (for markdown/cell adornment)
 
-TOL_BRIGHT = {
-    "blue":   "#4477AA",
-    "cyan":   "#66CCEE",
-    "green":  "#228833",
-    "yellow": "#CCBB44",
-    "red":    "#EE6677",
-    "purple": "#AA3377",
-    "gray":   "#BBBBBB",
-}
-TOL_BRIGHT_ORDER: list[str] = ["blue", "cyan", "green", "yellow", "red", "purple", "gray"]
+from classlib.plots.colors import (
+    TOL_BRIGHT,
+    TOL_BRIGHT_ORDER,
+    tol_bright_list,
+    set_tol_bright_cycle,
+)
 
 # ---- Session state (configured via configure()) ----
 FIGPATH: Path | None = None

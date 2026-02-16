@@ -75,6 +75,7 @@ These [upper critical values]{.alert} are *not* $\alpha$-quantiles.
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as st
+from classlib.plots import annotate_xaxis_marks
 plt.rcParams["mathtext.fontset"] = "cm"
 
 alpha = 0.025
@@ -106,21 +107,15 @@ ax.set_yticks([])
 # Emphasize x-axis ticks
 ax.tick_params(axis="x", labelsize=18)
 
-# Mark z_alpha under the x-axis
-ax.annotate(
-    r"$z_{0.025}$",
-    xy=(z, 0),
-    xycoords=("data", "axes fraction"),
-    xytext=(0, -18),
-    textcoords="offset points",
-    ha="center",
-    va="top",
-    fontsize=24
+annotate_xaxis_marks(
+    ax,
+    [z],
+    [r"$z_{0.025}$"],
+    colors=["tab:orange"],
+    tick_height=0.10,
+    tick_linewidth=3.0,
+    fontsize=24,
 )
-
-# Small tick at z_alpha
-ax.plot([z, z], [0, -0.1],  linewidth=3, transform=ax.get_xaxis_transform(), color="tab:orange", 
-        clip_on=False, solid_capstyle="butt")
 
 plt.tight_layout()
 plt.show()

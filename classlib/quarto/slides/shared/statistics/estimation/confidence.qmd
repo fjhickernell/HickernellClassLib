@@ -528,6 +528,25 @@ annotate_xaxis_marks(
     fontsize=18,
 )
 
+# Vertical lines at critical values (up to curve heights)
+# --- Exact (Gamma) vertical lines ---
+ax.vlines(
+    [q_ex_lo, q_ex_hi],
+    0,
+    st.gamma.pdf([q_ex_lo, q_ex_hi], a=n, scale=mu/n),
+    linewidth=3,
+    color=curve_color,
+)
+
+# --- CLT (Normal) vertical lines ---
+ax.vlines(
+    [q_clt_lo, q_clt_hi],
+    0,
+    st.norm.pdf([q_clt_lo, q_clt_hi], loc=mu, scale=se),
+    linewidth=3,
+    color=clt_color,
+)
+
 ax.set_xlim(0, 3*mu)
 ax.set_yticks([])
 ax.set_xticks([])
@@ -597,24 +616,7 @@ for y, (n, ex_lo, ex_hi, clt_lo, clt_hi) in zip(y_base, cis):
             ha="left",
             va="bottom")
 
-# Vertical lines at critical values (up to curve heights)
-# --- Exact (Gamma) vertical lines ---
-ax.vlines(
-    [q_ex_lo, q_ex_hi],
-    0,
-    st.gamma.pdf([q_ex_lo, q_ex_hi], a=n, scale=mu/n),
-    linewidth=3,
-    color=curve_color,
-)
 
-# --- CLT (Normal) vertical lines ---
-ax.vlines(
-    [q_clt_lo, q_clt_hi],
-    0,
-    st.norm.pdf([q_clt_lo, q_clt_hi], loc=mu, scale=se),
-    linewidth=3,
-    color=clt_color,
-)
 
 ax.set_xlim(xmin, xmax)
 ax.set_ylim(0.5, 2.5)

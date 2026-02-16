@@ -92,14 +92,10 @@ y_z = st.norm.pdf(z)
 
 fig, ax = plt.subplots()
 
-# Density
-ax.plot(x, y, linewidth=4)
 
-# Critical value line: ONLY up to the pdf
-ax.vlines(z, 0, y_z, linestyle="-", linewidth=4, color=tail_color)
-
-# Upper tail shading
-shade_under_curve(ax, x, y, where=(x >= z), alpha=0.3, color=tail_color)
+ax.plot(x, y, linewidth=4, curve_color) # Density
+ax.vlines(z, 0, y_z, linestyle="-", linewidth=4, color=tail_color) # Critical value line: ONLY up to the pdf
+shade_under_curve(ax, x, y, where=(x >= z), alpha=0.3, color=tail_color) # Upper tail shading
 
 # Title
 ax.set_title(rf"Upper tail area $\alpha = {alpha} = {100*alpha}\%$", fontsize=24)
@@ -235,37 +231,35 @@ se = sigma/np.sqrt(n)
 x = np.linspace(mu - 4*se, mu + 4*se, 1000)
 pdf = st.norm.pdf(x, loc=mu, scale=se)
 
-fig, ax1 = plt.subplots()
-
-ax1.plot(x, pdf, linewidth=4)
-
 left = mu - z*se
 right = mu + z*se
 
-mask = (x >= left) & (x <= right)
-ax1.fill_between(x[mask], 0, pdf[mask], alpha=0.3)
+
+fig, ax1 = plt.subplots()
+
+ax1.plot(x, pdf, linewidth=4, color=curve_color)
+
+# shade central region
+shade_under_curve(ax1, x, pdf, where=((x >= left) & (x <= right)), alpha=0.3, color=tail_color)
 
 ax1.set_yticks([])
 ax1.set_xticks([])
 
-for xpos in [left, mu, right]:
-    ax1.plot([xpos, xpos], [0, -0.03],
-             transform=ax1.get_xaxis_transform(),
-             clip_on=False, linewidth=3, color="tab:blue")
-
-ax1.text(mu, -0.10, r"$\mu$",
-         transform=ax1.get_xaxis_transform(),
-         ha="center", va="top", fontsize=20)
-
-ax1.text(left, -0.10,
-         r"$\mu - z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}$",
-         transform=ax1.get_xaxis_transform(),
-         ha="center", va="top", fontsize=20)
-
-ax1.text(right, -0.10,
-         r"$\mu + z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}$",
-         transform=ax1.get_xaxis_transform(),
-         ha="center", va="top", fontsize=20)
+# ticks + labels under axis
+annotate_xaxis_marks(
+    ax1,
+    [left, mu, right],
+    [
+        r"$\mu - z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}$",
+        r"$\mu$",
+        r"$\mu + z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}}$",
+    ],
+    colors=[curve_color, "black", curve_color],   # or [tail_color, "black", tail_color]
+    tick_height=0.03,
+    tick_linewidth=3.0,
+    text_offset_pts=-18.0,   # closer than your old -0.10 axes-fraction
+    fontsize=20,
+)
 
 ax1.text(0.98, 0.92, rf"$n={n}$",
          transform=ax1.transAxes, ha="right", va="top", fontsize=18)

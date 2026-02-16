@@ -560,9 +560,10 @@ plt.show()
 #| fig-width: 6.8
 #| fig-height: 3.4
 
-import numpy as np
-import matplotlib.pyplot as plt
-plt.rcParams["mathtext.fontset"] = "cm"
+from classlib.plots import TOL_BRIGHT
+
+clt_color = TOL_BRIGHT["cyan"]
+print("clt_color =", clt_color)
 
 n_vals = [n_small, n_large]
 
@@ -587,11 +588,11 @@ for y, (n, ex_lo, ex_hi, clt_lo, clt_hi) in zip(y_base, cis):
 
     # Exact (blue) slightly above
     ax.hlines(y + offset, ex_lo, ex_hi,
-              linewidth=8, color="tab:blue")
+              linewidth=8, color=curve_color)
 
     # CLT (orange) slightly below
     ax.hlines(y - offset, clt_lo, clt_hi,
-              linewidth=8, color="tab:orange")
+              linewidth=8, color=clt_color)
 
     ax.text(xmin, y + 0.28,
             rf"$n={n}$",
@@ -608,9 +609,9 @@ ax.set_title(
     fontsize=24
 )
 
-ax.plot([], [], linewidth=8, color="tab:blue",
+ax.plot([], [], linewidth=8, color=curve_color,
         label="Exact (via $\\chi^2$)")
-ax.plot([], [], linewidth=8, color="tab:orange",
+ax.plot([], [], linewidth=8, color=clt_color,
         label="CLT (Normal)")
 ax.legend(frameon=False, fontsize=16, loc="lower right")
 

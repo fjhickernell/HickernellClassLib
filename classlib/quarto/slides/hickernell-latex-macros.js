@@ -74,6 +74,7 @@
         Prob: "{\\mathbb{P}}",
         Ex:   "{\\mathbb{E}}",
 
+
         dist:  "{\\operatorname{dist}}",
         spn:   "{\\operatorname{span}}",
         sgn:   "{\\operatorname{sgn}}",
@@ -96,6 +97,7 @@
         med:   "{\\operatorname{med}}",
         vol:   "{\\operatorname{vol}}",
         bias:  "{\\operatorname{bias}}",
+        RR:   "{\\mathrm{RR}}",
 
         Bern:  "{\\operatorname{Bern}}",
         Bin:   "{\\operatorname{Bin}}",

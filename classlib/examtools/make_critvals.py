@@ -1,124 +1,184 @@
 #!/usr/bin/env python3
 import argparse
 from pathlib import Path
+import random
 
-def fmt(x: float, digits: int) -> str:
+
+def fmt(x: float, digits: int, mode: str) -> str:
+    if mode == "sig":
+        s = f"{x:.{digits}g}"
+        if "e" in s or "E" in s:
+            return s
+
+        core = s.replace(".", "").replace("-", "")
+        sig_count = len(core.lstrip("0"))
+
+        if sig_count < digits:
+            if "." not in s:
+                s += "."
+            s += "0" * (digits - sig_count)
+
+        return s
+
     return f"{x:.{digits}f}"
+
 
 def parse_csv_floats(s: str):
     return [float(tok.strip()) for tok in s.split(",") if tok.strip()]
 
+
 def parse_csv_ints(s: str):
     return [int(tok.strip()) for tok in s.split(",") if tok.strip()]
 
+
+def unique_preserve(seq):
+    seen = set()
+    out = []
+    for x in seq:
+        if x not in seen:
+            out.append(x)
+            seen.add(x)
+    return out
+
+
 def main():
-    p = argparse.ArgumentParser(
-        description="Generate LaTeX critical value tables (upper-tail) for z, t, chi-square."
+    p = argparse.ArgumentParser()
+
+    p.add_argument("--out", default="build/critvals.tex")
+    p.add_argument("--digits", type=int, default=3)
+    p.add_argument(
+        "--caption",
+        default=r"Upper quantiles: $q_\alpha$ satisfies $\Prob(X>q_\alpha)=\alpha$",
     )
-    p.add_argument("--out", default="build/critvals.tex", help="Output .tex file path")
-    p.add_argument("--alphas", default="0.10,0.05,0.025,0.01",
-                   help="Comma-separated upper-tail probabilities alpha")
-    p.add_argument("--df", default="",
-                   help="Comma-separated df values used for t and chi-square (e.g., 19 or 24,25,26)")
-    p.add_argument("--digits", type=int, default=4, help="Decimal digits for printed critical values")
-    p.add_argument("--include-lower", action="store_true",
-                   help="Also include LOWER-tail chi-square quantiles (i.e., chi2_{df,1-alpha})")
+
+    p.add_argument(
+        "--alphas",
+        default="0.99,0.975,0.95,0.9,0.1,0.05,0.025,0.01",
+    )
+
+    p.add_argument("--t-df", default="")
+    p.add_argument("--chi-df", default="")
+    p.add_argument("--n", type=int, default=0)
+
+    p.add_argument("--t-bait", default="0")
+    p.add_argument("--chi-bait", default="0")
+    p.add_argument("--bait-include-target", action="store_true")
+
+    p.add_argument("--shuffle", action="store_true")
+    p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--fmt", choices=["dec", "sig"], default="sig")
+
     args = p.parse_args()
 
-    alphas = parse_csv_floats(args.alphas)
-    dfs = parse_csv_ints(args.df) if args.df.strip() else []
+    import scipy.stats as st
 
-    try:
-        import scipy.stats as st
-    except Exception as e:
-        raise SystemExit(
-            "Error: SciPy is required (pip/conda install scipy). "
-            f"Original import error: {e}"
-        )
+    alphas = parse_csv_floats(args.alphas)
+    alphas = sorted(unique_preserve(alphas), reverse=True)
+
+    split_at = 0.5
+    left_alphas = [a for a in alphas if a >= split_at]
+    right_alphas = [a for a in alphas if a < split_at]
+
+    if not left_alphas or not right_alphas:
+        m = len(alphas) // 2
+        left_alphas, right_alphas = alphas[:m], alphas[m:]
+
+    t_dfs = parse_csv_ints(args.t_df) if args.t_df.strip() else []
+    chi_dfs = parse_csv_ints(args.chi_df) if args.chi_df.strip() else []
+
+    if args.n > 0:
+        t_target = args.n - 1
+        chi_target = 2 * args.n
+
+        t_offsets = parse_csv_ints(args.t_bait) if args.t_bait.strip() else [0]
+        chi_offsets = parse_csv_ints(args.chi_bait) if args.chi_bait.strip() else [0]
+
+        t_from_n = [t_target + k for k in t_offsets if (t_target + k) >= 1]
+        chi_from_n = [chi_target + k for k in chi_offsets if (chi_target + k) >= 1]
+
+        if not t_dfs:
+            t_dfs = t_from_n
+        elif args.bait_include_target and t_target not in t_dfs:
+            t_dfs.append(t_target)
+
+        if not chi_dfs:
+            chi_dfs = chi_from_n
+        elif args.bait_include_target and chi_target not in chi_dfs:
+            chi_dfs.append(chi_target)
+
+    t_dfs = sorted(unique_preserve(t_dfs))
+    chi_dfs = sorted(unique_preserve(chi_dfs))
+
+    if args.shuffle:
+        rng = random.Random(None if args.seed == 0 else args.seed)
+        rng.shuffle(t_dfs)
+        rng.shuffle(chi_dfs)
+
+    colspec = (
+        "rl"
+        + ("c" * len(left_alphas))
+        + r"@{\hspace{0.6em}}|@{\hspace{0.6em}}"
+        + ("c" * len(right_alphas))
+    )
+
+    def header_row():
+        hL = " & ".join([rf"${a:g}$" for a in left_alphas])
+        hR = " & ".join([rf"${a:g}$" for a in right_alphas])
+        return r"$X$ & $\alpha$ & " + hL + " & " + hR + r" \\"
+
+    def row_vals(dist_func):
+        left_vals = [dist_func(a) for a in left_alphas]
+        right_vals = [dist_func(a) for a in right_alphas]
+        return left_vals, right_vals
+
+    def row_line(dist, label, left_vals, right_vals):
+        L = " & ".join(fmt(v, args.digits, args.fmt) for v in left_vals)
+        R = " & ".join(fmt(v, args.digits, args.fmt) for v in right_vals)
+        return dist + " & " + label + " & " + L + " & " + R + r" \\"
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
-    alpha_cols = "c" * len(alphas)
-    alpha_header = " & ".join([rf"$\alpha={a:g}$" for a in alphas])
-
-    z_vals = [st.norm.isf(a) for a in alphas]
-    z_row = " & ".join([fmt(v, args.digits) for v in z_vals])
-
     lines = []
-    lines.append(r"% Auto-generated by make_critvals.py")
-    lines.append(r"% Conventions: upper-tail critical values, i.e. q = F^{-1}(1-\alpha)")
-    lines.append("")
-
-    lines.append(r"\paragraph{Critical Values (Upper Tail)}")
-    lines.append("")
-
     lines.append(r"\begin{center}")
-    lines.append(r"\begin{tabular}{" + "l" + alpha_cols + r"}")
-    lines.append(r"\hline")
-    lines.append(r" & " + alpha_header + r" \\")
-    lines.append(r"\hline")
-    lines.append(r"$z_\alpha$ & " + z_row + r" \\")
-    lines.append(r"\hline")
+    lines.append(r"\small")
+    if args.caption.strip():
+        lines.append(r"\textbf{" + args.caption + r"}")
+        lines.append("")
+    lines.append(r"\begin{tabular}{" + colspec + r"}")
+
+    lines.append(header_row())
+    lines.append(r"\toprule")
+
+    zL, zR = row_vals(lambda a: st.norm.isf(a))
+    lines.append(row_line(r"$\mathrm{Norm}(0,1)$", r"$z_\alpha$", zL, zR))
+
+    if t_dfs or chi_dfs:
+        lines.append(r"\midrule")
+
+    for i, nu in enumerate(t_dfs):
+        tL, tR = row_vals(lambda a, nu=nu: st.t.isf(a, nu))
+        dist = r"$t_\nu$" if i == 0 else r"{}"
+        lines.append(row_line(dist, rf"$t_{{{nu},\alpha}}$", tL, tR))
+
+    if chi_dfs:
+        lines.append(r"\midrule")
+
+    for i, nu in enumerate(chi_dfs):
+        cL, cR = row_vals(lambda a, nu=nu: st.chi2.isf(a, nu))
+        dist = r"$\chi^2_\nu$" if i == 0 else r"{}"
+        lines.append(row_line(dist, rf"$\chi^2_{{{nu},\alpha}}$", cL, cR))
+
+    lines.append(r"\bottomrule")
     lines.append(r"\end{tabular}")
     lines.append(r"\end{center}")
     lines.append("")
 
-    if dfs:
-        for df in dfs:
-            t_vals = [st.t.isf(a, df) for a in alphas]
-            t_row = " & ".join([fmt(v, args.digits) for v in t_vals])
-
-            lines.append(r"\begin{center}")
-            lines.append(r"\begin{tabular}{" + "l" + alpha_cols + r"}")
-            lines.append(r"\hline")
-            lines.append(rf"\multicolumn{{{1+len(alphas)}}}{{c}}{{Student $t$ critical values, df = {df}}} \\")
-            lines.append(r"\hline")
-            lines.append(r" & " + alpha_header + r" \\")
-            lines.append(r"\hline")
-            lines.append(rf"$t_{{\alpha,{df}}}$ & " + t_row + r" \\")
-            lines.append(r"\hline")
-            lines.append(r"\end{tabular}")
-            lines.append(r"\end{center}")
-            lines.append("")
-
-        for df in dfs:
-            chi_u = [st.chi2.isf(a, df) for a in alphas]
-            chi_u_row = " & ".join([fmt(v, args.digits) for v in chi_u])
-
-            if args.include_lower:
-                chi_l = [st.chi2.isf(1.0 - a, df) for a in alphas]
-                chi_l_row = " & ".join([fmt(v, args.digits) for v in chi_l])
-
-                lines.append(r"\begin{center}")
-                lines.append(r"\begin{tabular}{" + "l" + alpha_cols + r"}")
-                lines.append(r"\hline")
-                lines.append(rf"\multicolumn{{{1+len(alphas)}}}{{c}}{{Chi-square critical values, df = {df}}} \\")
-                lines.append(r"\hline")
-                lines.append(r" & " + alpha_header + r" \\")
-                lines.append(r"\hline")
-                lines.append(rf"$\chi^2_{{{df},\alpha}}$ (upper) & " + chi_u_row + r" \\")
-                lines.append(rf"$\chi^2_{{{df},1-\alpha}}$ (lower) & " + chi_l_row + r" \\")
-                lines.append(r"\hline")
-                lines.append(r"\end{tabular}")
-                lines.append(r"\end{center}")
-                lines.append("")
-            else:
-                lines.append(r"\begin{center}")
-                lines.append(r"\begin{tabular}{" + "l" + alpha_cols + r"}")
-                lines.append(r"\hline")
-                lines.append(rf"\multicolumn{{{1+len(alphas)}}}{{c}}{{Chi-square critical values (upper tail), df = {df}}} \\")
-                lines.append(r"\hline")
-                lines.append(r" & " + alpha_header + r" \\")
-                lines.append(r"\hline")
-                lines.append(rf"$\chi^2_{{{df},\alpha}}$ & " + chi_u_row + r" \\")
-                lines.append(r"\hline")
-                lines.append(r"\end{tabular}")
-                lines.append(r"\end{center}")
-                lines.append("")
-
     out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"Wrote {out_path}")
 
+
 if __name__ == "__main__":
     main()
+
+    

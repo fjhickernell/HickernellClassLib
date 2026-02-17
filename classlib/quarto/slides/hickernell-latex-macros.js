@@ -161,6 +161,9 @@
         vz:  "{\\boldsymbol{z}}",
         vZ:  "{\\boldsymbol{Z}}",
 
+        tg:  "{\\widetilde{g}}",
+        th:  "{\\widetilde{h}}",
+
         valpha: "{\\boldsymbol{\\alpha}}",
         vbeta:  "{\\boldsymbol{\\beta}}",
         vgamma: "{\\boldsymbol{\\gamma}}",
@@ -188,6 +191,9 @@
         hX:     "{\\widehat{X}}",
         hY:     "{\\widehat{Y}}",
         hZ:     "{\\widehat{Z}}",
+
+        ct: "{\\mathcal{T}}",
+        cx: "{\\mathcal{X}}",
 
         vzero: "{\\boldsymbol{0}}",
         vone:  "{\\boldsymbol{1}}",

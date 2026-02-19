@@ -612,6 +612,19 @@ body.goldborder::before {
   min-width: 0;
 }
 
+.reveal .exitem .exsub {
+  display: block;
+  margin-top: 0.15em;
+  margin-left: 0.8em;
+  position: relative;
+}
+
+.reveal .exitem .exsub::before {
+  content: "–";      /* en-dash */
+  position: absolute;
+  left: -0.8em;      /* same as margin-left */
+}
+
 .small {
   font-size: 0.75em;
 }

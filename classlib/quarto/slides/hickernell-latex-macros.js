@@ -88,6 +88,7 @@
         comp:  "{\\operatorname{comp}}",
         corr:  "{\\operatorname{corr}}",
         diag:  "{\\operatorname{diag}}",
+        power: "{\\operatorname{power}}",
         var:   "{\\operatorname{var}}",
         opt:   "{\\operatorname{opt}}",
         brandnew: "{\\operatorname{new}}",

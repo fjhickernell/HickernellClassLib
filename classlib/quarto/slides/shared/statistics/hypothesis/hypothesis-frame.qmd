@@ -1,0 +1,337 @@
+# Hypothesis Testing Framework
+
+- [Null hypothesis]{.alert} $H_0$ — the default assumption, [innocence]{.alert}, often "no effect" or "status quo"
+- [Alternative hypothesis]{.alert} $H_A$ — [guilty]{.alert}, the claim requiring evidence
+
+- [Test statistic]{.alert} $T(\vX)$ — a function (summary) of the data, $\vX = (X_1, \ldots, X_n)$, used to assess $H_0$
+- [Rejection region]{.alert} $\RR$ — values of $T(\vX)$ for which we reject $H_0$
+
+- [Type I error]{.alert} $\alpha$ — [reasonable doubt]{.alert}, probability of falsely rejecting $H_0$
+- [$p$-value]{.alert} — (under $H_0$) probability of observing a result at least as extreme as the one observed
+
+- [Type II error]{.alert} $\beta$ — probability of failing to reject $H_0$ when $H_A$ is true
+- [Power]{.alert} $1-\beta$ — probability of correctly rejecting $H_0$
+
+> Hypothesis testing is a formal way of deciding whether the data provide enough evidence to overturn a protected default assumption
+
+We will use ideas from estimation, confidence intervals, and pivots to construct tests
+
+---
+
+## Example: Server Reliability Claim (Mean Time Between Failures)
+
+Suppose
+
+$$
+X_1,\dots,X_n \IIDsim \Exp(1/\mu),
+\qquad \Ex(X)=\mu.
+$$
+
+Here 
+
+- $X_i$ is the *time between unexpected server failures* (e.g., crashes/outages) for a particular service
+- The provider claims the *mean time between failures* is $\mu_0 = 200$ hours
+- We want evidence that reliability has *worsened*, i.e. failures are happening more frequently
+
+::: {.fragment}
+
+### Step 1: Hypotheses
+
+- [Null hypothesis]{.alert} (innocence, status quo)
+  $$
+  H_0: \mu = 200
+  $$
+
+- [Alternative hypothesis]{.alert} (guilty, change)
+  $$
+  H_A: \mu < 200
+  $$
+
+::: 
+
+
+---
+
+### Step 2: Construct test statistic
+
+Use the pivot
+$\displaystyle
+\frac{2n\barX}{\mu} \sim \chi^2_{2n}
+$
+so that under $H_0: \mu = 200$,
+
+$$
+T(\vX) = \frac{2n\barX}{200} \sim \chi^2_{2n}
+$$
+
+---
+
+### Step 3: Choose significance level and construct rejection region
+
+Choose $\alpha = 0.05$ as the maximum tolerable risk of falsely accusing underperformance.
+
+::: {.columns}
+
+::: {.column width="40%"}
+
+Left-tailed test:
+
+$$
+\RR
+=
+\left\{
+T < \chi^2_{2n,1-\alpha}
+\right\}.
+$$
+
+Equivalently, reject when
+
+$$
+\barX < \frac{200}{2n}\,\chi^2_{2n,1-\alpha}.
+$$
+
+::: 
+
+
+::: {.column width="60%"}
+
+```{python}
+#| echo: false
+#| fig-width: 6.0
+#| fig-height: 2.3
+
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats as st
+from classlib.plots import (
+    annotate_xaxis_marks,
+    shade_under_curve,
+    curve_color,
+    reject_color,
+)
+plt.rcParams["mathtext.fontset"] = "cm"
+
+# ---- parameters (edit here) ----
+n = 10
+mu0 = 200.0
+alpha = 0.05
+xbar = 176.0
+# --------------------------------
+
+df = 2*n
+T_obs = (2*n*xbar)/mu0
+tcrit = st.chi2.ppf(alpha, df)
+ycrit = st.chi2.pdf(tcrit, df)
+
+x = np.linspace(0, st.chi2.ppf(0.999, df), 800)
+pdf = st.chi2.pdf(x, df)
+
+fig, ax = plt.subplots()
+curve, = ax.plot(
+    x,
+    pdf,
+    linewidth=3.0,
+    color=curve_color,
+)
+
+# Shade rejection region: T < tcrit
+shade = shade_under_curve(
+    ax,
+    x,
+    pdf,
+    where=(x <= tcrit),
+    alpha=0.3,
+    color=reject_color,
+)
+
+# Critical value 
+ax.vlines(tcrit, 0, ycrit, linewidth=3.0)
+
+ax.set_title(rf"Left-tailed test under $H_0$: $T \sim \chi^2_{{{df}}}$", fontsize=18)
+ax.set_xlabel(r"$t$", fontsize=24)
+ax.set_ylabel(r"$\varrho_{T}(t)$", fontsize=24)
+
+ax.set_ylim(0, max(pdf)*1.15)
+
+annotate_xaxis_marks(
+    ax,
+    [tcrit],
+    [rf"$\chi^2_{{{df},1-\alpha}} = {tcrit:.2f}$"],
+    fontsize=24,
+)
+
+
+ax.legend(
+    [curve, shade],
+    [rf"$\chi^2_{{{df}}}$ density under $H_0$",
+     rf"rejection region ($\alpha={alpha}$)"],
+    loc="upper right",
+    frameon=False,
+    fontsize=16,
+)
+plt.tight_layout()
+plt.show()
+```
+
+
+::: 
+
+::: 
+---
+
+### Step 4: Observed Data
+
+Let
+
+$$
+n=10,
+\qquad
+\barX=176
+$$
+
+Then
+
+$$
+T_{\text{obs}}=\frac{2(10)(176)}{200}=17.6
+$$
+
+### Step 5: p-value
+
+The [$p$-value]{.alert} is
+
+$$
+p=\Prob\big(\chi^2_{20} \le 17.6\big)  \approx 0.38
+$$
+
+Reject $H_0$ iff $p\le \alpha$
+
+So we do not reject $H_0$ at the $\alpha=0.05$ level
+
+---
+
+
+### Type I and Type II Errors
+
+- [Type I error]{.alert} $\alpha$:  
+  Falsely conclude that reliability has worsened when the true mean time between failures is 200 hours
+  $$
+  \alpha
+  =
+  \Prob(\text{reject }H_0\mid \mu=200)
+  $$
+
+- [Type II error]{.alert} $\beta(\mu_1)$ (for some $\mu_1<200$):  
+  Fail to detect that the system is less reliable than claimed
+  $$
+  \beta(\mu_1)
+  =
+  \Prob(\text{fail to reject }H_0 | \mu = \mu_1)
+  $$
+
+- [Power function]{.alert}  $\power(\mu_1)$
+  The probability of correctly detecting reduced reliability (for some $\mu_1<200$)
+  $$
+  \power(\mu_1)
+  =
+  \Prob(\text{reject }H_0 | \mu = \mu_1)
+  =
+  1-\beta(\mu_1)
+  $$
+
+---
+
+### Power for the Server Reliability Test
+
+From Step 3, we reject $H_0$ when
+$$
+T=\frac{2n\barX}{200} < \chi^2_{2n,1-\alpha}
+$$
+
+If the true mean is actually $\mu_1$, then
+$$
+\frac{200 T }{\mu_1} = \frac{2n\barX}{\mu_1} \sim\chi^2_{2n}
+$$
+
+Therefore the [power function]{.alert} is
+\begin{align*}
+\power(\mu_1)
+& =
+\Prob(T< \chi^2_{2n,1-\alpha} \mid \mu = \mu_1)
+=
+\Prob \!\left (\frac{200 T }{\mu_1}< \frac{200 \chi^2_{2n,1-\alpha}}{\mu_1} \mid \mu = \mu_1 \right) \\
+& =
+F_{\chi^2_{2n}}\!\left(\frac{200 \chi^2_{2n,1-\alpha}}{\mu_1}\right) \qquad \text{increases as $\mu_1$ decreases}
+\end{align*} 
+
+---
+
+### Power Curve
+
+```{python}
+#| echo: false
+#| fig-width: 6.2
+#| fig-height: 3.2
+
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats as st
+from classlib.plots import annotate_xaxis_marks
+
+plt.rcParams["mathtext.fontset"] = "cm"
+
+# ---- parameters (edit here) ----
+n = 10
+mu0 = 200.0
+alpha = 0.05
+# --------------------------------
+
+df = 2*n
+c = st.chi2.ppf(alpha, df)  # left-tail cutoff (lower alpha quantile)
+
+mu = np.linspace(50, 300, 400)
+power = st.chi2.cdf((mu0/mu)*c, df)  # beta(mu) = P_mu(reject)
+
+fig, ax = plt.subplots()
+ax.plot(mu, power, linewidth=3.0)
+
+ax.vlines(mu0, 0, 1, linestyles="--", linewidth=2.0)
+ax.hlines(alpha, mu.min(), mu.max(), linestyles="--", linewidth=2.0)
+
+ax.set_xlabel(r"$\mu$", fontsize=24)
+ax.set_ylabel(r"$\mathrm{power}(\mu)$", fontsize=24)
+ax.set_title(rf"$n={n}$, $\alpha={alpha}$", fontsize=24)
+ax.set_ylim(-0.02, 1.02)
+
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+### Big Picture Summary
+
+- $H_0$: default reliability claim  
+- $H_A$: evidence of reduced reliability  
+- $T(\vX)$: summary of the observed inter-failure times  
+- $\RR$: values of $T$ that signal reliability has worsened  
+- $\alpha$: risk of falsely accusing underperformance  
+- $p$-value: strength of evidence against the claim  
+- $\beta$: risk of missing a real reliability problem  
+- $1-\beta$: probability of detecting reduced reliability
+
+
+
+## Link to Confidence Intervals
+
+Tests and CIs are two views of the same pivot idea
+
+## Likelihood viewpoint (563 emphasis)
+
+- Likelihood $L(\theta \mid \vx)$
+- Likelihood ratio statistic
+
+## Sufficiency link (563 emphasis)
+
+If likelihood depends on data only through $T(\vX)$, then $T(\vX)$ is sufficient.
+
+Tests depend only on sufficient statistics.

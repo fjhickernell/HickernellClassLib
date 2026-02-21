@@ -645,5 +645,30 @@ body.goldborder::before {
   border-bottom-color: var(--link-hover);
 }
 
+.reveal .flexline > p {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8em;
+}
+
+.reveal .flexline > p > .pushright {
+  margin-left: auto;
+}
+
+.reveal .line-right {
+  position: relative;
+  padding-right: 14em; /* reserve space for the right label/link */
+}
+
+.reveal .line-right .right {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  white-space: nowrap;
+}
+
+.reveal .text-end { text-align: right; }
+
+
 /*-- end:scss --*/
 

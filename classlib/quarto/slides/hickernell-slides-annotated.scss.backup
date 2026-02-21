@@ -1,16 +1,59 @@
 /*-- scss:rules --*/
 
+/*
+===============================================================================
+HICKERNELL REVEALJS / QUARTO SLIDES THEME (ANNOTATED VERSION)
+===============================================================================
 
-/* ==========================================================================
-   DESIGN TOKENS SECTION
-   --------------------------------------------------------------------------
-   Central control panel for:
-     • Brand colors
-     • Spacing rails
-     • Fullscreen safety gutters
-     • Banner bleed compensation
-   Adjust variables here first before editing structural rules below.
-   ========================================================================== */
+This is a fully drop-in replacement for hickernell-slides.scss.
+
+No styling logic has been removed.
+The original CSS appears below verbatim.
+This file simply adds structured documentation at the top so Future-Fred
+can understand the architectural intent and maintenance logic.
+
+-------------------------------------------------------------------------------
+REVEAL + QUARTO STRUCTURE MODEL
+-------------------------------------------------------------------------------
+
+RevealJS DOM structure:
+
+  .reveal
+    .slides
+      section                (vertical stack wrapper — no .slide class)
+        section.slide        (actual slide)
+
+Quarto adds wrapper containers inside slides:
+  .quarto-slide-content
+  .slide-content
+
+Implications:
+  • Wrapper padding must be neutralized.
+  • Content rails must be explicitly controlled.
+  • Fullscreen scaling requires compensation.
+  • Banner backgrounds must account for Reveal scale transforms.
+
+-------------------------------------------------------------------------------
+MAINTENANCE GUIDE
+-------------------------------------------------------------------------------
+
+If something looks misaligned:
+  → Check content rail section.
+If fullscreen clips edges:
+  → Adjust --fs-safe-x variable.
+If banner background misaligns:
+  → Check reveal-scale variable usage.
+If title card layout shifts:
+  → Inspect #title-slide block.
+If vertical stacks misbehave:
+  → Check wrapper neutralization section.
+
+===============================================================================
+ORIGINAL THEME STARTS BELOW
+===============================================================================
+*/
+
+/*-- scss:rules --*/
 
 :root {
   --header-blue: #004b80;
@@ -41,18 +84,6 @@
 /* ============================================================
    FULLSCREEN SAFE GUTTER
    ============================================================ */
-
-
-/* ==========================================================================
-   FULLSCREEN SAFETY SYSTEM
-   --------------------------------------------------------------------------
-   RevealJS scales the presentation using transforms.
-   Browsers apply fullscreen differently (Safari vs Chromium).
-   These rules:
-     • Add horizontal safety padding
-     • Respect OS safe-area insets
-     • Prevent edge clipping on projectors
-   ========================================================================== */
 
 .reveal-viewport:fullscreen .reveal .slides,
 .reveal-viewport:-webkit-full-screen .reveal .slides,
@@ -110,14 +141,6 @@ body,
 }
 
 /* Overall font sizing + remove outer padding */
-
-/* ==========================================================================
-   GLOBAL TYPOGRAPHY + BASE SCALE
-   --------------------------------------------------------------------------
-   Sets master font size and navigation colors.
-   All sizing decisions cascade from here.
-   ========================================================================== */
-
 .reveal {
   font-size: 34px;
   padding: 0 !important;
@@ -133,23 +156,7 @@ body,
    -------------------------------------------- */
 
 /* Safari-safe: Quarto marks real slides with .slide */
-.reveal .slides 
-/* ==========================================================================
-   SINGLE CONTENT RAIL SYSTEM
-   --------------------------------------------------------------------------
-   Establishes one consistent left/right inset for all non-title slides.
-   Prevents double-rail issues from Quarto wrappers.
-   ========================================================================== */
-
-section.slide:not(
-/* ==========================================================================
-   TITLE SLIDE CARD LAYOUT
-   --------------------------------------------------------------------------
-   Distinct visual system from banner slides.
-   Designed as a floating card with controlled width + shadow.
-   ========================================================================== */
-
-#title-slide):not(:has(h1, h2)) {
+.reveal .slides section.slide:not(#title-slide):not(:has(h1, h2)) {
   padding-top: 1.2em !important;
 }
 
@@ -162,14 +169,6 @@ section.slide:not(
    IMPORTANT: ONLY zero out wrapper sections (Reveal stacks),
    NOT real slides and NOT the title slide.
    ============================================================ */
-
-
-/* ==========================================================================
-   VERTICAL STACK WRAPPER NEUTRALIZATION
-   --------------------------------------------------------------------------
-   Reveal vertical stacks insert wrapper <section> elements.
-   These must NOT introduce padding or margins.
-   ========================================================================== */
 
 .reveal .slides > section:not(.slide):not(#title-slide) {
   padding: 0 !important;
@@ -291,15 +290,7 @@ body.goldborder::before {
 
 /* Banner background: full-bleed in ALL modes (windowed + fullscreen)
    Scale-compensated using --reveal-scale set by reveal-scale-var.html */
-.reveal .slides section.slide:not(#title-slide) 
-/* ==========================================================================
-   FULL-BLEED BANNER BACKGROUND MECHANISM
-   --------------------------------------------------------------------------
-   Uses 100vw divided by Reveal scale factor.
-   Ensures banner truly spans edge-to-edge even when scaled.
-   ========================================================================== */
-
-h1::before,
+.reveal .slides section.slide:not(#title-slide) h1::before,
 .reveal .slides section.slide:not(#title-slide) h2::before {
   content: "";
   position: absolute;
@@ -349,16 +340,7 @@ h1::before,
   pointer-events: none;
 }
 
-.reveal 
-/* ==========================================================================
-   FOOTER SYSTEM
-   --------------------------------------------------------------------------
-   Footer is made non-interactive globally (pointer-events:none),
-   then links are selectively re-enabled.
-   Prevents invisible footer layers blocking slide clicks.
-   ========================================================================== */
-
-.footer {
+.reveal .footer {
   position: absolute !important;
   left: 3em !important;
   right: 7em !important;
@@ -596,14 +578,6 @@ h1::before,
    Table styling (RevealJS)
    =============================== */
 
-
-/* ==========================================================================
-   TABLE VISUAL POLICY
-   --------------------------------------------------------------------------
-   Adds bottom rule, header rule, and alternating row shading.
-   Ensures statistical tables read cleanly on projectors.
-   ========================================================================== */
-
 .reveal table {
   border-collapse: collapse;
   border-bottom: 2px solid #666666; /* bottom rule */
@@ -639,15 +613,6 @@ h1::before,
    ------------------------------ */
 
 /* Default bullets (policy) */
-
-/* ==========================================================================
-   BULLET POLICY
-   --------------------------------------------------------------------------
-   Default bullets are en-dashes.
-   Slide-level classes may override (circle-bullets, dash-bullets).
-   Nested lists preserve hierarchy markers.
-   ========================================================================== */
-
 .reveal ul {
   list-style-type: "–  ";   /* change this later if desired */
 }
@@ -670,14 +635,6 @@ h1::before,
 .reveal section.circle-bullets ul ul {
   list-style-type: circle;
 }
-
-
-/* ==========================================================================
-   EXERCISE GRID BLOCK (.exitem)
-   --------------------------------------------------------------------------
-   Two-column grid: [bullet] [content]
-   Avoids Markdown list inconsistencies and MathJax vertical drift.
-   ========================================================================== */
 
 .reveal .exitem {
   width: 100%;
@@ -743,15 +700,7 @@ h1::before,
   border-bottom-color: var(--link-hover);
 }
 
-.reveal 
-/* ==========================================================================
-   INLINE FLEX HELPERS
-   --------------------------------------------------------------------------
-   Allows right-aligned inline elements without tables.
-   Used for title + right-side metadata patterns.
-   ========================================================================== */
-
-.flexline > p {
+.reveal .flexline > p {
   display: flex;
   align-items: baseline;
   gap: 0.8em;

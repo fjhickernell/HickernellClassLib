@@ -629,5 +629,21 @@ body.goldborder::before {
   font-size: 0.75em;
 }
 
+/* Header links: visible without underline */
+.reveal .slides section.slide:not(#title-slide) h1 a,
+.reveal .slides section.slide:not(#title-slide) h2 a {
+  color: #ffffff !important;
+  font-weight: 700 !important;   /* match banner weight */
+  text-decoration: none !important;
+  border-bottom: 3px solid rgba(255, 215, 0, 0.6); /* subtle gold rule */
+  padding-bottom: 2px;
+}
+
+.reveal .slides section.slide:not(#title-slide) h1 a:hover,
+.reveal .slides section.slide:not(#title-slide) h2 a:hover {
+  color: var(--link-hover) !important; /* teal hover */
+  border-bottom-color: var(--link-hover);
+}
+
 /*-- end:scss --*/
 

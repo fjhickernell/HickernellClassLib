@@ -43,20 +43,19 @@ Given IID data, $(X_1, Y_1), \ldots, (X_n,Y_n)$, with sample mean $(\barX_n, \ba
 
 [({{< meta texts.cb.initials >}} §7.2.2; {{< meta texts.wms.initials >}} §9.7)]{.small}
 
-The joint density of data,  $\vX = (X_1, \ldots, X_n)^\top$ given a parameter, $\vtheta$, is $\varrho_{X_1, \ldots, X_n| \vtheta}$.  The [likelihood]{.alert}, $L$ turns that around to make the parameter the variable, so 
-\begin{align*}
-L(\vtheta | x_1, \ldots, x_n) & := \varrho_{X_1, \ldots, X_n | \vtheta}(x_1, \ldots, x_n) \\
-& = \prod_{i=1}^n \varrho_{X_1 |\vtheta}(x_i) \qquad \text{if } X_1, \ldots, X_n \text{ are } \IID
-\end{align*}
+The joint density of [data]{.alert},  $\vX = (X_1, \ldots, X_n)^\top$ given a parameter, $\vtheta$, is $\varrho_{\vX \mid  \vtheta}$.  The [likelihood]{.alert}, $L$ turns that around to make the parameter the variable, so 
+$$
+L(\vtheta  \mid  \vx) := \varrho_{\vX  \mid  \vtheta}(\vx); \qquad L(\vtheta  \mid  \vx)  = \prod_{i=1}^n \varrho_{X_1  \mid \vtheta}(x_i) \quad \text{if } X_1, \ldots, X_n \text{ are } \IID
+$$
 
 The [maximum likelihood estimator (MLE)]{.alert} of $\vtheta$ is the one that fits the observed data best in terms of
 $$
-\vTheta_{\MLE}  = \Argmax{\vtheta} L(\vtheta | X_1, \ldots, X_n) 
+\vTheta_{\MLE}  = \Argmax{\vtheta} L(\vtheta  \mid  \vX) 
 $$
 
-It may be easier to work with the [log-likelihood]{.alert} $\ell(\vtheta) := \log(L(\vtheta))$ since the logarithm is a monotone transformation, so
+It may be easier to work with the [log-likelihood]{.alert} $\ell(\vtheta \mid \vX) := \log(L(\vtheta \mid \vX))$ since the logarithm is a monotone transformation, so
 $$
-\vTheta_{\MLE}  = \Argmax{\vtheta} \ell(\vtheta | X_1, \ldots, X_n) 
+\vTheta_{\MLE}  = \Argmax{\vtheta} \ell(\vtheta  \mid  \vX) 
 $$
 
 ---

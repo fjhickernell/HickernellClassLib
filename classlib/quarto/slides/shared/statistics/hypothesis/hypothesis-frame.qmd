@@ -18,34 +18,70 @@ We will use ideas from estimation, confidence intervals, and pivots to construct
 
 ---
 
+```{python}
+#| echo: false
+#| output: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.stats as st
+
+from classlib.plots import (
+    annotate_xaxis_marks,
+    shade_under_curve,
+    curve_color,
+    reject_color,
+)
+
+plt.rcParams["mathtext.fontset"] = "cm"
+
+# -----------------------
+# PARAMETERS (edit here)
+# -----------------------
+mu0 = 200
+n = 10
+alpha = 0.05
+xbar = 176
+# -----------------------
+
+df = 2 * n
+T_obs = (2 * n * xbar) / mu0
+tcrit = st.chi2.ppf(alpha, df)
+ycrit = st.chi2.pdf(tcrit, df)
+xbar_crit = (mu0 / (2 * n)) * tcrit
+pval = st.chi2.cdf(T_obs, df)
+```
+
 ## Example: Server Reliability Claim (Mean Time Between Failures)
 
-Suppose
+Suppose 
 
 $$
 X_1,\dots,X_n \IIDsim \Exp(1/\mu),
-\qquad \Ex(X)=\mu.
+\qquad \Ex(X)=\mu
 $$
 
 Here 
 
 - $X_i$ is the *time between unexpected server failures* (e.g., crashes/outages) for a particular service
-- The provider claims the *mean time between failures* is $\mu_0 = 200$ hours
+
+```{python}
+#| echo: false
+#| output: asis
+print(rf"- The provider claims the *mean time between failures* is $\mu_0 = {mu0:g}$ hours") 
+```
 - We want evidence that reliability has *worsened*, i.e. failures are happening more frequently
 
 ::: {.fragment}
 
 ### Step 1: Hypotheses
 
-- [Null hypothesis]{.alert} (innocence, status quo)
-  $$
-  H_0: \mu = 200
-  $$
-
-- [Alternative hypothesis]{.alert} (guilty, change)
-  $$
-  H_A: \mu < 200
-  $$
+```{python}
+#| echo: false
+#| output: asis
+print(rf"- [Null hypothesis]{{.alert}} (innocence, status quo): $\qquad H_0:\ \mu={mu0:g}$")
+print(rf"- [Alternative hypothesis]{{.alert}} (guilty, change): $\qquad H_A:\ \mu<{mu0:g}$")  
+```
 
 ::: 
 
@@ -58,17 +94,23 @@ Use the pivot
 $\displaystyle
 \frac{2n\barX}{\mu} \sim \chi^2_{2n}
 $
-so that under $H_0: \mu = 200$,
-
-$$
-T(\vX) = \frac{2n\barX}{200} \sim \chi^2_{2n}
-$$
+```{python}
+#| echo: false
+#| output: asis
+print(rf"so that under $H_0: \mu = {mu0:g}$ \n")
+print(rf"$$")
+print(rf"T(\vX) = \frac{{2n\barX}}{{{mu0:g}}} \sim \chi^2_{{2n}}$$")
+```
 
 ---
 
 ### Step 3: Choose significance level and construct rejection region
 
-Choose $\alpha = 0.05$ as the maximum tolerable risk of falsely accusing underperformance.
+```{python}
+#| echo: false
+#| output: asis
+print(rf"Choose $\alpha = {alpha}$ as the maximum tolerable risk of falsely accusing underperformance")
+```
 
 ::: {.columns}
 
@@ -81,14 +123,16 @@ $$
 =
 \left\{
 T < \chi^2_{2n,1-\alpha}
-\right\}.
+\right\}
 $$
 
 Equivalently, reject when
 
-$$
-\barX < \frac{200}{2n}\,\chi^2_{2n,1-\alpha}.
-$$
+```{python}
+#| echo: false
+#| output: asis
+print(rf"$$\barX < \frac{{{mu0}}}{{2n}}\,\chi^2_{{2n,1-\alpha}}$$")
+```
 
 ::: 
 
@@ -110,18 +154,6 @@ from classlib.plots import (
     reject_color,
 )
 plt.rcParams["mathtext.fontset"] = "cm"
-
-# ---- parameters (edit here) ----
-n = 10
-mu0 = 200.0
-alpha = 0.05
-xbar = 176.0
-# --------------------------------
-
-df = 2*n
-T_obs = (2*n*xbar)/mu0
-tcrit = st.chi2.ppf(alpha, df)
-ycrit = st.chi2.pdf(tcrit, df)
 
 x = np.linspace(0, st.chi2.ppf(0.999, df), 800)
 pdf = st.chi2.pdf(x, df)
@@ -147,7 +179,7 @@ shade = shade_under_curve(
 # Critical value 
 ax.vlines(tcrit, 0, ycrit, linewidth=3.0)
 
-ax.set_title(rf"Left-tailed test under $H_0$: $T \sim \chi^2_{{{df}}}$", fontsize=18)
+ax.set_title(rf"Left-tailed test under $H_0$: $n ={n}$, $T \sim \chi^2_{{{df}}}$", fontsize=18)
 ax.set_xlabel(r"$t$", fontsize=24)
 ax.set_ylabel(r"$\varrho_{T}(t)$", fontsize=24)
 
@@ -156,7 +188,7 @@ ax.set_ylim(0, max(pdf)*1.15)
 annotate_xaxis_marks(
     ax,
     [tcrit],
-    [rf"$\chi^2_{{{df},1-\alpha}} = {tcrit:.2f}$"],
+    [rf"$\chi^2_{{{df},{1-alpha}}} = {tcrit:.2f}$"],
     fontsize=24,
 )
 
@@ -183,29 +215,32 @@ plt.show()
 
 Let
 
-$$
-n=10,
-\qquad
-\barX=176
-$$
-
-Then
-
-$$
-T_{\text{obs}}=\frac{2(10)(176)}{200}=17.6
-$$
+```{python}
+#| echo: false
+#| output: asis
+print(rf"$$n={n},\qquad \barX={xbar}$$")
+print("")
+print("Then")
+print(rf"$$T_{{\text{{obs}}}}=\frac{{2({n})({xbar})}}{{{mu0}}}={T_obs:.2f}$$")
+```
 
 ### Step 5: p-value
 
 The [$p$-value]{.alert} is
 
-$$
-p=\Prob\big(\chi^2_{20} \le 17.6\big)  \approx 0.38
-$$
-
-Reject $H_0$ iff $p\le \alpha$
-
-So we do not reject $H_0$ at the $\alpha=0.05$ level
+```{python}
+#| echo: false
+#| output: asis
+pval = st.chi2.cdf(T_obs, df)
+print(rf"$$p=\Prob\big(\chi^2_{{{df}}} \le {T_obs:.2f}\big)  \approx {pval:.2f}$$")
+print("")
+print(rf"Reject $H_0$ iff $p\le \alpha$")  
+print(r"<div style='height:40px;'></div>")
+if pval <= alpha:
+  print(rf"So we REJECT $H_0$ at the $\alpha={alpha}$ level")
+else:
+  print(rf"So we do NOT reject $H_0$ at the $\alpha={alpha}$ level")
+```
 
 ---
 
@@ -213,23 +248,28 @@ So we do not reject $H_0$ at the $\alpha=0.05$ level
 ### Type I and Type II Errors
 
 - [Type I error]{.alert} $\alpha$:  
-  Falsely conclude that reliability has worsened when the true mean time between failures is 200 hours
-  $$
-  \alpha
-  =
-  \Prob(\text{reject }H_0\mid \mu=200)
-  $$
 
-- [Type II error]{.alert} $\beta(\mu_1)$ (for some $\mu_1<200$):  
+```{python}
+#| echo: false
+#| output: asis
+print(rf"  Falsely conclude that reliability has worsened when the true mean time between failures is {mu0} hours")
+print(rf"$$\alpha=\Prob(\text{{reject }}H_0\mid \mu={mu0})$$")
+print(rf"- [Type II error]{{.alert}} $\beta(\mu_1)$ (for some $\mu_1<{mu0}$):")
+```
+
   Fail to detect that the system is less reliable than claimed
   $$
   \beta(\mu_1)
   =
-  \Prob(\text{fail to reject }H_0 | \mu = \mu_1)
+  \Prob(\text{fail to reject }H_0 \mid \mu = \mu_1)
   $$
 
-- [Power function]{.alert}  $\power(\mu_1)$
-  The probability of correctly detecting reduced reliability (for some $\mu_1<200$)
+- [Power function]{.alert}  $\power(\mu_1)$\
+```{python}
+#| echo: false
+#| output: asis
+print(rf"  The probability of correctly detecting reduced reliability (for some $\mu_1<{mu0}$)")
+```
   $$
   \power(\mu_1)
   =
@@ -243,25 +283,23 @@ So we do not reject $H_0$ at the $\alpha=0.05$ level
 ### Power for the Server Reliability Test
 
 From Step 3, we reject $H_0$ when
-$$
-T=\frac{2n\barX}{200} < \chi^2_{2n,1-\alpha}
-$$
 
-If the true mean is actually $\mu_1$, then
-$$
-\frac{200 T }{\mu_1} = \frac{2n\barX}{\mu_1} \sim\chi^2_{2n}
-$$
-
-Therefore the [power function]{.alert} is
-\begin{align*}
-\power(\mu_1)
-& =
-\Prob(T< \chi^2_{2n,1-\alpha} \mid \mu = \mu_1)
-=
-\Prob \!\left (\frac{200 T }{\mu_1}< \frac{200 \chi^2_{2n,1-\alpha}}{\mu_1} \mid \mu = \mu_1 \right) \\
-& =
-F_{\chi^2_{2n}}\!\left(\frac{200 \chi^2_{2n,1-\alpha}}{\mu_1}\right) \qquad \text{increases as $\mu_1$ decreases}
-\end{align*} 
+```{python}
+#| echo: false
+#| output: asis
+print(rf"$$T=\frac{{2n\barX}}{{{mu0}}} < \chi^2_{{2n,1-\alpha}}$$")
+print("")
+print(rf"If the true mean is actually $\mu_1$, then")
+print(rf"$$\frac{{{mu0} T }}{{\mu_1}} = \frac{{2n\barX}}{{\mu_1}} \sim\chi^2_{{2n}}$$")
+print("")
+print(rf"Therefore the [power function]{{.alert}} is")
+print(r"\begin{align*}")
+print(r"\power(\mu_1)")
+print(r"&= \Prob\!\left(T < \chi^2_{2n,\,1-\alpha}\mid \mu=\mu_1\right)")
+print(rf"= \Prob\!\left(\frac{{{mu0}\,T}}{{\mu_1}} < \frac{{{mu0}\,\chi^2_{{2n,\,1-\alpha}}}}{{\mu_1}} \,\middle|\, \mu=\mu_1\right)\\")
+print(rf"&= F_{{\chi^2_{{2n}}}}\!\left(\frac{{{mu0}\,\chi^2_{{2n,\,1-\alpha}}}}{{\mu_1}}\right)\qquad \text{{increases as $\mu_1$ decreases.}}")
+print(r"\end{align*}")
+```
 
 ---
 
@@ -272,35 +310,40 @@ F_{\chi^2_{2n}}\!\left(\frac{200 \chi^2_{2n,1-\alpha}}{\mu_1}\right) \qquad \tex
 #| fig-width: 6.2
 #| fig-height: 3.2
 
-import numpy as np
-import matplotlib.pyplot as plt
-import scipy.stats as st
-from classlib.plots import annotate_xaxis_marks
+from classlib.plots import annotate_xaxis_marks, set_tol_bright_cycle
 
 plt.rcParams["mathtext.fontset"] = "cm"
 
-# ---- parameters (edit here) ----
-n = 10
-mu0 = 200.0
-alpha = 0.05
-# --------------------------------
+# --- larger sample size ---
+nlarge = 200
+dflarge = 2 * nlarge
+tcrit_large = st.chi2.ppf(alpha, dflarge)  # upper-quantile convention
 
-df = 2*n
-c = st.chi2.ppf(alpha, df)  # left-tail cutoff (lower alpha quantile)
-
+# --- grid ---
 mu = np.linspace(50, 300, 400)
-power = st.chi2.cdf((mu0/mu)*c, df)  # beta(mu) = P_mu(reject)
 
+# --- power curves ---
+power_base = st.chi2.cdf((mu0 / mu) * tcrit, df)
+power_large = st.chi2.cdf((mu0 / mu) * tcrit_large, dflarge)
+
+# --- plot ---
 fig, ax = plt.subplots()
-ax.plot(mu, power, linewidth=3.0)
 
+set_tol_bright_cycle(ax)
+
+ax.plot(mu, power_base, linewidth=3.0, label=rf"$n={n}$")
+ax.plot(mu, power_large, linewidth=3.0, label=rf"$n={nlarge}$")
+
+# reference lines
 ax.vlines(mu0, 0, 1, linestyles="--", linewidth=2.0)
 ax.hlines(alpha, mu.min(), mu.max(), linestyles="--", linewidth=2.0)
 
 ax.set_xlabel(r"$\mu$", fontsize=24)
 ax.set_ylabel(r"$\mathrm{power}(\mu)$", fontsize=24)
-ax.set_title(rf"$n={n}$, $\alpha={alpha}$", fontsize=24)
 ax.set_ylim(-0.02, 1.02)
+ax.set_title(rf"$\alpha={alpha}$", fontsize=24)
+
+ax.legend(frameon=False, fontsize=18, loc="upper right")
 
 plt.tight_layout()
 plt.show()
@@ -325,13 +368,12 @@ plt.show()
 
 Tests and CIs are two views of the same pivot idea
 
+We need to add a table here with ChatGPT's help to make this more explicit
+
 ## Likelihood viewpoint (563 emphasis)
 
 - Likelihood $L(\theta \mid \vx)$
 - Likelihood ratio statistic
-
-## Sufficiency link (563 emphasis)
-
-If likelihood depends on data only through $T(\vX)$, then $T(\vX)$ is sufficient.
-
-Tests depend only on sufficient statistics.
+- Neyman-Pearson lemma and uniformly most powerful tests
+- what else?
+- we do need to talk about different hypotheses, e.g., one-sided vs two-sided, simple vs composite, etc.

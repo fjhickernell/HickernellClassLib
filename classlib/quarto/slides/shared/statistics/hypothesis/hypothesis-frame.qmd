@@ -368,18 +368,16 @@ $H_0$ and $H_A$ must be mutually exclusive
 | $H_0$ false | Correct <br> probability $\power(\theta)$| **Type II error** <br> probability $\beta(\theta)$ |
 
 
-## Confidence Intervals vs Hypothesis Testing
+## Confidence Intervals & Hypothesis Testing
 
 ### Structural Comparison
 
 | Confidence Interval | Hypothesis Test |
 |--------------------|-----------------|
-| Produces an **interval** of plausible values | Produces a **decision** |
+| An *interval* of plausible values | A *decision* |
 | Random interval | Random decision |
 | Statement about $\theta$ | Statement about $H_0$ |
 | No special value privileged | Tests a specific value $\theta_0$ |
-
----
 
 ### Shared Ingredients
 
@@ -389,23 +387,13 @@ $H_0$ and $H_A$ must be mutually exclusive
 | Pivot / test statistic | Standardized measure of evidence |
 | Sampling distribution | Controls coverage / Type I error |
 
----
-
-### Deep Connection (Two-Sided Case)
-
 $$
 \theta_0 \text{ rejected at level } \alpha
 \iff
-\theta_0 \notin (1-\alpha)\text{ CI}
+\theta_0 \notin \text{corresponding } 1-\alpha\text{ confidence interval}
 $$
 
 
-
-## Link to Confidence Intervals
-
-Tests and CIs are two views of the same pivot idea
-
-We need to add a table here with ChatGPT's help to make this more explicit
 
 ## Likelihood viewpoint (563 emphasis)
 

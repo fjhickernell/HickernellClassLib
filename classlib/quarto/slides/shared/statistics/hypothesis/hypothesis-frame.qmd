@@ -368,7 +368,36 @@ $H_0$ and $H_A$ must be mutually exclusive
 | $H_0$ false | Correct <br> probability $\power(\theta)$| **Type II error** <br> probability $\beta(\theta)$ |
 
 
+## Confidence Intervals vs Hypothesis Testing
 
+### Structural Comparison
+
+| Confidence Interval | Hypothesis Test |
+|--------------------|-----------------|
+| Produces an **interval** of plausible values | Produces a **decision** |
+| Random interval | Random decision |
+| Statement about $\theta$ | Statement about $H_0$ |
+| No special value privileged | Tests a specific value $\theta_0$ |
+
+---
+
+### Shared Ingredients
+
+| Both Use | Meaning |
+|----------|---------|
+| Level $\alpha$ | Willingness to be wrong |
+| Pivot / test statistic | Standardized measure of evidence |
+| Sampling distribution | Controls coverage / Type I error |
+
+---
+
+### Deep Connection (Two-Sided Case)
+
+$$
+\theta_0 \text{ rejected at level } \alpha
+\iff
+\theta_0 \notin (1-\alpha)\text{ CI}
+$$
 
 
 

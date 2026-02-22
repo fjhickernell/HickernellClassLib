@@ -1,5 +1,152 @@
 /*-- scss:rules --*/
 
+/*
+===============================================================================
+HICKERNELL SLIDES THEME — FUTURE MAINTAINER NOTES (RevealJS + Quarto)
+===============================================================================
+
+This file is a DROP-IN theme stylesheet for Quarto RevealJS slide decks.
+
+GOALS
+-----
+1) One consistent content rail (no “double inset” surprises)
+2) Full-bleed banner headings (h1/h2) that truly span screen edges
+3) A distinct title slide card layout
+4) Predictable behavior in fullscreen (Safari + Chromium + projectors)
+5) Stable exercise bullets (.exitem) that survive MathJax + Quarto wrappers
+
+If you are debugging layout issues, this header is your map.
+
+-------------------------------------------------------------------------------
+REVEAL + QUARTO DOM DIAGRAM (mental model)
+-------------------------------------------------------------------------------
+
+RevealJS (with vertical stacks):
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- STACK PARENT (wrapper) -->
+      <section>
+
+        <!-- REAL SLIDE -->
+        <section class="slide level2">
+          <div class="quarto-slide-content"> ... </div>
+        </section>
+
+        <section class="slide level2"> ... </section>
+      </section>
+
+      <!-- A non-stacked slide (still a REAL SLIDE) -->
+      <section class="slide level1" id="title-slide"> ... </section>
+
+    </div>
+  </div>
+
+Key insight:
+  • `.slides > section` may be a wrapper (no .slide class).
+  • Actual slides have `.slide`.
+  • Quarto often inserts `.quarto-slide-content` and/or `.slide-content` wrappers.
+
+Therefore:
+  • Wrapper sections must be neutralized (no padding/margins).
+  • The rail must be imposed at the `.slide` level, not wrappers.
+  • Any nested wrapper padding must be zeroed to avoid “double rails”.
+
+-------------------------------------------------------------------------------
+REVEAL SCALE & WHY THE BANNER NEEDS MATH
+-------------------------------------------------------------------------------
+
+RevealJS scales the presentation using a CSS transform so it fits the viewport.
+That means:
+  • The slide content coordinates are NOT “real pixels”.
+  • `width: 100vw` inside a scaled element can behave unexpectedly.
+
+For banner backgrounds, we want “true viewport width”, even under scaling.
+We therefore use the trick:
+
+  width: calc(100vw / var(--reveal-scale, 1))
+
+where `--reveal-scale` is injected by a small JS helper at runtime.
+
+Why:
+  • If Reveal scales to 0.85, content shrinks.
+  • But we still want the banner background to reach the screen edges.
+  • Dividing by scale cancels the transform.
+
+If banner bleed is off by ~1–2px, adjust:
+  • --banner-bleed-y (covers seams)
+  • verify the JS helper is present (sets --reveal-scale)
+
+-------------------------------------------------------------------------------
+FULLSCREEN: WHY WE PAD THE STAGE, NOT THE SLIDES
+-------------------------------------------------------------------------------
+
+Fullscreen differs across browsers:
+  • Chromium often applies fullscreen to the document element.
+  • Safari sometimes reports fullscreen on `.reveal` or `.reveal-viewport`.
+  • Some environments have “safe area” insets (notches / overscan / projectors).
+
+We therefore:
+  1) Set padding on `.reveal` (the stage)
+  2) Force `.slides` padding to 0
+so there is exactly ONE place controlling the horizontal gutter.
+
+Primary knob:
+  • --fs-safe-x   (increase if edges clip in fullscreen)
+
+-------------------------------------------------------------------------------
+SINGLE CONTENT RAIL SYSTEM (the “one inset” rule)
+-------------------------------------------------------------------------------
+
+Non-title slides:
+  • `.slide` gets left/right padding = --content-inset
+  • `.quarto-slide-content` and `.slide-content` are reset to 0 padding/margins
+  • common elements have margin-left/right forced to 0
+
+This prevents:
+  • Quarto wrapper + slide padding = double inset
+  • columns introducing new insets
+
+If you want more/less whitespace, adjust:
+  • --content-inset
+  • --list-pad (bullet gutter)
+
+-------------------------------------------------------------------------------
+EXERCISES: WHY `.exitem` USES A GRID (and not markdown lists)
+-------------------------------------------------------------------------------
+
+Markdown lists can:
+  • vary indentation across Quarto versions
+  • interact badly with MathJax baseline alignment
+  • make custom bullet glyphs drift
+
+So `.exitem` uses a 2-column grid:
+  [bullet] [text]
+and `.exsub` provides indented sub-lines with an en-dash marker via ::before.
+
+-------------------------------------------------------------------------------
+SECTION INDEX (scroll/search targets)
+-------------------------------------------------------------------------------
+  • DESIGN TOKENS .................. :root
+  • FULLSCREEN SAFETY .............. reveal-viewport:fullscreen / reveal:fullscreen
+  • GLOBAL TYPOGRAPHY .............. .reveal { font-size: ... }
+  • VERTICAL STACK FIXES ........... .slides > section:not(.slide)
+  • CONTENT RAIL ................... section.slide:not(#title-slide)
+  • BANNER SYSTEM .................. h1/h2 and ::before background
+  • TITLE CARD ..................... #title-slide
+  • FOOTER ........................ .footer
+  • TABLES ........................ .reveal table
+  • BULLETS ....................... .reveal ul + section.dash-bullets/circle-bullets
+  • EXERCISES ..................... .exitem
+  • INLINE HELPERS ................ .flexline, .line-right
+
+===============================================================================
+THEME RULES START BELOW
+===============================================================================
+*/
+
+
 
 /* ==========================================================================
    DESIGN TOKENS SECTION
@@ -774,34 +921,6 @@ h1::before,
 }
 
 .reveal .text-end { text-align: right; }
-
-
-/* ===============================
-   Deck navigation
-   =============================== */
-
-.reveal .deck-nav{
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1.0rem;
-  font-size: 0.70em;
-  line-height: 1.1;
-}
-
-.reveal .deck-nav a{
-  text-decoration: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 48%;
-}
-
-.reveal .deck-nav .deck-disabled{
-  opacity: 0.35;
-  white-space: nowrap;
-  max-width: 48%;
-}
 
 
 /*-- end:scss --*/

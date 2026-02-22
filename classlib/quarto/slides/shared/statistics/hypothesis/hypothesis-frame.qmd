@@ -358,7 +358,7 @@ H_0 \text{ null hypothesis (default, innocence) in terms of } \theta
 H_A \text{ alternative hypothesis (evidence, guilt) in terms of } \theta
 $$
 
-$H_0$ and $H_A$ must be mutually exclusive
+$H_0$ and $H_A$ are mutually exclusive
 
 ### Truth vs Decision
 
@@ -368,18 +368,18 @@ $H_0$ and $H_A$ must be mutually exclusive
 | $H_0$ false | Correct <br> probability $\power(\theta)$| **Type II error** <br> probability $\beta(\theta)$ |
 
 
-## Confidence Intervals & Hypothesis Testing
+## Confidence intervals & hypothesis testing
 
-### Structural Comparison
+### Structural comparison
 
 | Confidence Interval | Hypothesis Test |
 |--------------------|-----------------|
-| An *interval* of plausible values | A *decision* |
+| An *interval* of plausible values | A *reject / do not reject decision* |
 | Random interval | Random decision |
 | Statement about $\theta$ | Statement about $H_0$ |
 | No special value privileged | Tests a specific value $\theta_0$ |
 
-### Shared Ingredients
+### Shared ingredients
 
 | Both Use | Meaning |
 |----------|---------|
@@ -390,8 +390,99 @@ $H_0$ and $H_A$ must be mutually exclusive
 $$
 \theta_0 \text{ rejected at level } \alpha
 \iff
-\theta_0 \notin \text{corresponding } 1-\alpha\text{ confidence interval}
+\theta_0 \notin \text{corresponding } (1-\alpha) \text{ confidence interval}
 $$
+
+## What depends on data and what does not?
+
+:::{.columns}
+
+::: {.column width="50%"}
+
+### Chosen before seeing data
+
+| Quantity | Who chooses it? |
+|----------------|----------------|
+| $H_0$ and $H_A$ | Us |
+| Form of test statistic $T$ | Us |
+| Significance level $\alpha$ | Us |
+| Sample size $n$ | Us |
+| Rejection region $\RR$ | Determined by $\alpha$ & $n$<br> (once $H_0$, $T$ are fixed) |
+| Type II error $\beta(\theta)$ <br>$\power(\theta)$ | Determined by $\alpha$, $n$, & $\theta$ |
+
+Once $H_0$ and $T$ are fixed:
+
+- One may choose two of  $\alpha$, $n$, and $\RR$,  
+- But not all three independently
+
+:::
+
+::: {.column width="5%"}
+
+:::
+
+::: {.column width="45%"}
+
+### Depends on data
+
+| Quantity      | Why? |
+|:-----------------------------------|:------|
+| Test statistic value | Computed from sample |
+| p-value | Function of statistic |
+| Decision (reject / not reject) | Depends on statistic |
+
+:::
+
+:::
+
+## Forms of $H_0$ and $H_A$
+
+:::{.columns}
+
+:::{.column width="45%"}
+
+### Common structures
+
+| Type | $H_0$ | $H_A$ |
+|------|--------|--------|
+| Two-sided | $\theta = \theta_0$ | $\theta \ne \theta_0$ |
+| One-sided (upper) | $\theta = \theta_0$ | $\theta > \theta_0$ |
+| One-sided (lower) | $\theta = \theta_0$ | $\theta < \theta_0$ |
+| Two simple values | $\theta = \theta_0$ | $\theta = \theta_1$ |
+
+- [Simple]{.alert}: a single $\theta$ value
+
+- [Composite]{.alert}: multiple $\theta$ values
+
+:::
+
+:::{.column width="55%"}
+
+### Composite null example
+
+| Version A | Version B |   |
+|------------|------------|----------|
+| $H_0:\ \theta = \theta_0$ | $H_0:\ \theta \ge \theta_0$ | Same?
+| $H_A:\ \theta < \theta_0$ | $H_A:\ \theta < \theta_0$ | 
+
+The test is calibrated at the boundary:
+
+\begin{align*}
+\text{A}: \quad &\Prob(\text{Reject } H_0 \mid \theta_0)=\alpha \\
+\text{B}: \quad &\sup_{\theta \ge \theta_0}
+\Prob(\text{Reject } H_0 \mid \theta)
+= \alpha
+\end{align*}
+
+### Key idea
+
+- $H_0$ may be composite  
+- The boundary value controls Type I error  
+- Test the _least favorable_ value
+
+:::
+
+:::
 
 
 

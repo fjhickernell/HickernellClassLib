@@ -351,16 +351,24 @@ plt.show()
 
 ---
 
-### Big Picture Summary
+## Two kinds of error
+$$
+H_0 \text{ null hypothesis (default, innocence) in terms of } \theta 
+\qquad
+H_A \text{ alternative hypothesis (evidence, guilt) in terms of } \theta
+$$
 
-- $H_0$: default reliability claim  
-- $H_A$: evidence of reduced reliability  
-- $T(\vX)$: summary of the observed inter-failure times  
-- $\RR$: values of $T$ that signal reliability has worsened  
-- $\alpha$: risk of falsely accusing underperformance  
-- $p$-value: strength of evidence against the claim  
-- $\beta$: risk of missing a real reliability problem  
-- $1-\beta$: probability of detecting reduced reliability
+$H_0$ and $H_A$ must be mutually exclusive
+
+### Truth vs Decision
+
+| Truth about $H_0$ | Reject $H_0$ | Do Not Reject $H_0$ |
+|-----------------|-------------------|-------------------|
+| $H_0$ true | **Type I error** <br> probability $\alpha$| Correct |
+| $H_0$ false | Correct <br> probability $\power(\theta)$| **Type II error** <br> probability $\beta(\theta)$ |
+
+
+
 
 
 

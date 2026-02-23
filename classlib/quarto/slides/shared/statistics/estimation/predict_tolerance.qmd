@@ -1,30 +1,103 @@
 # Beyond Confidence Intervals
 
-So far, our intervals have targeted a [population parameter]{.alert} such as mean, $\mu$$, or variance, $\sigma^2$
+So far, our intervals have targeted a [population parameter]{.alert} such as mean, $\mu$, or variance, $\sigma^2$
 
 
 But in practice, we may want to answer different questions:
 
-1. Where is the true mean? [confidence interval]{.alert}
-2. Where will the next observation fall? [prediction interval]{.alert}
-3. Does most of the population lie within specifications? [tolerance interval]{.alert}
+1. Where is the true mean? [confidence interval](#ci_review)
+2. Where will the next observation fall? [prediction interval](#prediction_interval)
+3. Does most of the population lie within specifications? [tolerance interval](#tolerance_interval)
 
 These require different kinds of intervals, and different calculations
 
-## Large Sample Confidence Interval (Review)
+## Large sample *confidence* interval (review) {#ci_review}
 
-Under the CLT,
-
-$$
-\frac{\bar X - \mu}{S/\sqrt{n}} \approx N(0,1)
-$$
-
-So a 95% confidence interval for $\mu$ is
+Under the CLT, a $100(1-\alpha)\%$ confidence interval for $\mu$ is
 
 $$
-\bar X \pm z_{0.975}\frac{S}{\sqrt{n}}.
+\Prob \left[ \bar X - z_{\alpha/2}\frac{S}{\sqrt{n}} \le \mu \le \bar X + z_{\alpha/2}\frac{S}{\sqrt{n}} \right] = 1-\alpha 
 $$
 
 - Targets the parameter $\mu$  
-- Shrinks as $n$ increases  
-- Says nothing directly about future observations
+- Shrinks to zero width as $n$ increases  
+- Says _nothing_ directly about future observations
+
+## Large sample *prediction* interval (Normal data) {#prediction_interval}
+
+Suppose $X_1,\dots,X_n,X_{n+1}$ are IID $N(\mu,\sigma^2)$, and we want to predict a *new* observation:
+
+$$X_{n+1} 
+=
+(X_{n+1} - \mu)
+-
+(\barX_n - \mu) + \barX_n$$
+
+in relation to $\barX_n$. Note that
+
+$$
+\var(X_{n+1} - \barX_n)
+= 
+\sigma^2 + \frac{\sigma^2}{n}
+=
+\sigma^2\left(1 + \frac{1}{n}\right)
+$$
+
+since $X_{n+1}$ and $\barX_n$ are independent. Thus, a $100(1-\alpha)\%$ prediction interval for $X_{n+1}$ is
+
+$$
+\Prob\left( \barX_n - z_{\alpha/2}\, S \sqrt{1 + \frac{1}{n}} \le X_{n+1} \le \barX_n + z_{\alpha/2}\, S \sqrt{1 + \frac{1}{n}} \right) = 1-\alpha
+$$
+
+- Targets a future observation $X_{n+1}$
+
+- Does _not_ shrink to zero width as $n$ increases  
+
+
+## Large sample *tolerance* interval for $\Norm(\mu,\sigma^2)$ data (different again) {#tolerance_interval}
+
+Assume $X \sim N(\mu,\sigma^2)$. Sometimes the question is:
+
+> Can we say that at least 95% of the population lies within an interval?
+
+A $(1-\alpha,\gamma)$ **tolerance interval** consists of random endpoints
+$X_-$ and $X_+$ such that
+
+$$
+\Prob\!\left[
+\Prob(X_- \le X \le X_+) \ge 1-\alpha
+\right]
+=
+\gamma
+$$
+
+- The inner probability is taken over the population distribution of $X$
+- The outer probability is taken over repeated samples used to compute
+  $X_-$ and $X_+$
+
+--- 
+
+For $X \sim N(\mu,\sigma^2)$, the central $1-\alpha$ proportion of the population is
+$\mu \pm z_{\alpha/2}\sigma$
+
+So a $(1-\alpha,\gamma)$ tolerance interval is approximately
+
+$$
+\Prob \left [\Prob \left( \barX_n - z_{\alpha/2} S
+\sqrt{
+1+\frac{z_\gamma^2}{2n}} \le X \le \barX_n + z_{\alpha/2} S \sqrt{1 + \frac{z_\gamma^2}{2n}} \right) \ge 1-\alpha  \right ] = \gamma
+$$
+
+
+- Targets population coverage
+- Does not shrink to zero width
+- Is typically wider than a prediction interval
+
+## Comparison of interval half-widths
+
+| Interval type | Half-width |
+| ------ | --- |
+| Confidence interval for $\mu$ | $\displaystyle z_{\alpha/2} \frac{S}{\sqrt{n}}$ |
+| Prediction interval for $X_{n+1}$ | $\displaystyle z_{\alpha/2} S \sqrt{1 + \frac{1}{n}}$ |
+| Tolerance interval for $1-\alpha$ coverage | $\displaystyle z_{\alpha/2} S \sqrt{1 + \frac{z_\gamma^2}{2n}}$ |
+

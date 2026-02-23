@@ -1,0 +1,30 @@
+# Beyond Confidence Intervals
+
+So far, our intervals have targeted a [population parameter]{.alert} such as mean, $\mu$$, or variance, $\sigma^2$
+
+
+But in practice, we may want to answer different questions:
+
+1. Where is the true mean? [confidence interval]{.alert}
+2. Where will the next observation fall? [prediction interval]{.alert}
+3. Does most of the population lie within specifications? [tolerance interval]{.alert}
+
+These require different kinds of intervals, and different calculations
+
+## Large Sample Confidence Interval (Review)
+
+Under the CLT,
+
+$$
+\frac{\bar X - \mu}{S/\sqrt{n}} \approx N(0,1)
+$$
+
+So a 95% confidence interval for $\mu$ is
+
+$$
+\bar X \pm z_{0.975}\frac{S}{\sqrt{n}}.
+$$
+
+- Targets the parameter $\mu$  
+- Shrinks as $n$ increases  
+- Says nothing directly about future observations

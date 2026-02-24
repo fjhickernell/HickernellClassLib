@@ -1,0 +1,105 @@
+# Optimal Tests and Likelihood Methods
+
+- 
+
+
+## From procedures to optimality
+
+We have constructed tests, and we have computed their size and power, but 
+
+> Among all tests with size $\alpha$, which has the highest power (at a fixed alternative)?
+
+To compare two hypotheses
+
+$$
+H_0: \theta = \theta_0 \text{ vs } H_A: \theta = \theta_1
+$$
+
+Consider the [likelihood](02-estimator.html#maximum-likelihood-estimators) ratio statistic
+
+$$
+\Lambda(\vX)
+=
+\frac{L(\theta_0 \mid \vX)}
+     {L(\theta_1 \mid \vX)}
+$$
+
+Small $\Lambda \implies$ evidence against $H_0$
+
+Or for more general hypotheses, e.g., $H_0: \theta \in \Theta_0$ vs $H_A: \theta \in \Theta_A$:   
+
+$$
+\Lambda(\vX)
+=
+\frac{\sup_{\theta\in H_0} L(\theta \mid \vX)}
+     {\sup_{\theta\in H_A} L(\theta \mid \vX)}
+$$
+
+## Neyman–Pearson lemma (simple vs simple)
+
+Test
+
+$$
+H_0:\theta=\theta_0
+\qquad
+H_A:\theta=\theta_1
+$$
+
+Among all tests with size $\alpha$,
+
+> The likelihood ratio test is most powerful
+
+Reject $H_0$ when
+
+$$
+\frac{L(\theta_1 \mid \vX)}
+     {L(\theta_0 \mid \vX)}
+> k
+$$
+
+where $k$ is chosen to make the test have size $\alpha$
+
+## Example: normal mean (known $\sigma$)
+
+Test
+
+$$
+H_0:\mu=\mu_0
+\qquad
+H_A:\mu=\mu_1
+$$
+
+Likelihood ratio simplifies to a function of $\barX_n$.
+
+Rejection region:
+
+$$
+\barX_n > c
+$$
+
+This is exactly the familiar $z$-test.
+
+## From Neyman–Pearson to likelihood ratio tests
+
+For composite hypotheses,
+
+$$
+\Lambda(\vX)
+=
+\frac{\sup_{\theta\in H_0} L(\theta)}
+     {\sup_{\theta\in \Theta} L(\theta)}
+$$
+
+Reject for small $\Lambda$.
+
+## Large-sample behavior of the likelihood ratio statistic
+
+Under regularity conditions,
+
+$$
+-2\log \Lambda
+\appxsim
+\chi^2_{df}
+$$
+
+Degrees of freedom = difference in parameter dimension.

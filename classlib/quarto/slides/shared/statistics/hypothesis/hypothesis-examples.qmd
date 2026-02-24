@@ -28,6 +28,26 @@ Building on the established framework
 | "Your average time between failures is less than 200 hours" | $\mu = 200$ | $\mu < 200$ |
 | “Our job placement rate is 90%, not 70%” (two simple) | $p = 0.7$ | $p = 0.9$ |
 
+## Definition of the $p$-value
+
+The *$p$-value* is the probability, computed under $H_0$, of observing a test statistic at least as extreme as the one observed, assuming $H_0$ is true
+
+If $T$ is the test statistic and $t_{\text{obs}}$ is the observed value, then
+
+- Right-tailed test:  $\quad p\text{-value} = \Prob_{H_0}(T \ge t_{\text{obs}})$
+
+- Left-tailed test: $\quad p\text{-value} = \Prob_{H_0}(T \le t_{\text{obs}})$
+
+- Two-sided test: $\quad p\text{-value} = \Prob_{H_0}(|T| \ge |t_{\text{obs}}|)$
+
+::: {.key-point}
+
+Compute $p$-values **after** setting the significance level $\alpha$, rather than choosing $\alpha$ after seeing the data
+
+Changing $\alpha$ after seeing the $p$-value is a form of [data snooping]{.alert}
+
+:::
+
 ## Two-sided test for a mean (CLT)
 
 Suppose $X_1,\dots,X_n$ IID with $\Ex[X_i] = \mu$, $\var(X_i) = \sigma^2$ with large $n$
@@ -38,7 +58,7 @@ $H_0: \mu = \mu_0$ against
 
 $H_A: \mu \ne \mu_0$
 
-- [Test statistic]{.alert} $\displaystyle Z_n = \frac{\barX_n - \mu_0}{S/\sqrt{n}} \appxsim \Norm(0,1) \text{ under } H_0$
+- [Test statistic]{.alert} $\displaystyle Z_n = \frac{\barX_n - \mu_0}{S/\sqrt{n}} \appxsim \Norm(0,1) \text{ for large } n \text{ under } H_0$
 
 - [Rejection region]{.alert} $\RR = \{Z_n: |Z_n| > z_{\alpha/2}\}$
 
@@ -47,6 +67,8 @@ $H_A: \mu \ne \mu_0$
 $$
 \power(\mu_1)= \Prob(|Z_n|>z_{\alpha/2} \mid \mu = \mu_1) = 1 - \Phi\!\left(z_{\alpha/2} - \frac{\mu_1-\mu_0}{\sigma/\sqrt{n}}\right) + \Phi\!\left(-z_{\alpha/2} - \frac{\mu_1-\mu_0}{\sigma/\sqrt{n}}\right  )
 $$
+
+- [$p$-value]{.alert} for observed $z_{\text{obs}}$ is $p = 2\big(1 - \Phi(|z_{\text{obs}}|)\big)$
 
 ---
 
@@ -112,6 +134,13 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.key-point}
+Power is $\Prob(\text{reject} \mid \theta)$
+
+It is **not** $\Prob(\theta \mid \text{data})$
+
+Power describes the test design, not the evidence in this sample
+:::
 
 ## One-sided test for a mean (Normal data) {#onesided_t_test}
 
@@ -134,6 +163,7 @@ T_n \sim t_{n-1}(\delta) \text{ for } \delta = \frac{\mu_1 - \mu_0}{\sigma/\sqrt
 
 where $F_{t_{n-1}(\delta)}$ is the CDF of the noncentral t distribution with $n-1$ degrees of freedom and noncentrality parameter $\delta$
 
+- [$p$-value]{.alert} for observed $t_{\text{obs}}$ is $p = \Prob(t_{n-1} \ge t_{\text{obs}})$
 
 ## Power curves for the one-sided $t$-test
 
@@ -224,6 +254,9 @@ Q > \chi^2_{n-1,\alpha}\mid \sigma_1
 \chi^2_{n-1} > \frac{\sigma_0^2}{\sigma_1^2}\chi^2_{n-1,\alpha}
 \right)
 $$
+
+- [$p$-value]{.alert} for observed $q_{\text{obs}}$ is  $p = \Prob(\chi^2_{n-1} \ge q_{\text{obs}})$
+
 
 ---
 

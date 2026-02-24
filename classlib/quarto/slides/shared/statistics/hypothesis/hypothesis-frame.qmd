@@ -90,20 +90,13 @@ print(rf"- [Alternative hypothesis]{{.alert}} (guilty, change): $\qquad H_A:\ \m
 
 ### Step 2: Construct test statistic
 
-Use the pivot
-$\displaystyle
-\frac{2n\barX}{\mu} \sim \chi^2_{2n}
-$
 ```{python}
 #| echo: false
 #| output: asis
-print(rf"so that under $H_0: \mu = {mu0:g}$ \n")
-print(rf"$$")
-print(rf"T(\vX) = \frac{{2n\barX}}{{{mu0:g}}} \sim \chi^2_{{2n}}$$")
+print(rf"$$\text{{Use the pivot }} \frac{{2n\barX}}{{\mu}} \sim \chi^2_{{2n}}, \qquad \text{{so that under }} H_0: \mu = {mu0:g}, \quad T(\vX) = \frac{{2n\barX}}{{{mu0:g}}} \sim \chi^2_{{2n}}$$")
 ```
 
----
-
+:::{.fragment}
 ### Step 3: Choose significance level and construct rejection region
 
 ```{python}
@@ -209,6 +202,8 @@ plt.show()
 ::: 
 
 ::: 
+
+:::
 ---
 
 ### Step 4: Observed Data
@@ -224,7 +219,8 @@ print("Then")
 print(rf"$$T_{{\text{{obs}}}}=\frac{{2({n})({xbar})}}{{{mu0}}}={T_obs:.2f}$$")
 ```
 
-### Step 5: p-value
+::: {.fragment}
+### Step 5: $p$-value and decision
 
 The [$p$-value]{.alert} is
 
@@ -241,6 +237,7 @@ if pval <= alpha:
 else:
   print(rf"So we do NOT reject $H_0$ at the $\alpha={alpha}$ level")
 ```
+:::
 
 ---
 
@@ -280,7 +277,7 @@ print(rf"  The probability of correctly detecting reduced reliability (for some 
 
 ---
 
-### Power for the Server Reliability Test
+### Power for the Server Reliability test
 
 From Step 3, we reject $H_0$ when
 
@@ -296,8 +293,8 @@ print(rf"Therefore the [power function]{{.alert}} is")
 print(r"\begin{align*}")
 print(r"\power(\mu_1)")
 print(r"&= \Prob\!\left(T < \chi^2_{2n,\,1-\alpha}\mid \mu=\mu_1\right)")
-print(rf"= \Prob\!\left(\frac{{{mu0}\,T}}{{\mu_1}} < \frac{{{mu0}\,\chi^2_{{2n,\,1-\alpha}}}}{{\mu_1}} \,\middle|\, \mu=\mu_1\right)\\")
-print(rf"&= F_{{\chi^2_{{2n}}}}\!\left(\frac{{{mu0}\,\chi^2_{{2n,\,1-\alpha}}}}{{\mu_1}}\right)\qquad \text{{increases as $\mu_1$ decreases.}}")
+print(rf"= \Prob\!\left(\frac{{{mu0}\,T}}{{\mu_1}} \sim \chi^2_{{2n}} < \frac{{{mu0}\,\chi^2_{{2n,\,1-\alpha}}}}{{\mu_1}} \,\middle|\, \mu=\mu_1\right)\\")
+print(rf"&\qquad \qquad \text{{increases as $\mu_1$ decreases.}}")
 print(r"\end{align*}")
 ```
 
@@ -348,15 +345,19 @@ ax.legend(frameon=False, fontsize=18, loc="upper right")
 plt.tight_layout()
 plt.show()
 ```
+::: {.key-point}
+**Do not** use the power curve to decide whether to reject after seeing the data
 
+Power is about the test procedure, not about the observed data
+:::
 ---
 
 ## Two kinds of error
-$$
+\begin{gather*}
 H_0 \text{ null hypothesis (default, innocence) in terms of } \theta 
-\qquad
+\\
 H_A \text{ alternative hypothesis (evidence, guilt) in terms of } \theta
-$$
+\end{gather*}
 
 $H_0$ and $H_A$ are mutually exclusive
 
@@ -483,13 +484,3 @@ The test is calibrated at the boundary:
 :::
 
 :::
-
-
-
-## Likelihood viewpoint (563 emphasis)
-
-- Likelihood $L(\theta \mid \vx)$
-- Likelihood ratio statistic
-- Neyman-Pearson lemma and uniformly most powerful tests
-- what else?
-- we do need to talk about different hypotheses, e.g., one-sided vs two-sided, simple vs composite, etc.

@@ -18,14 +18,18 @@ from .diagnostics import (
 )
 
 from .plot_utils import (
+    annotate_axis_marks,
     annotate_xaxis_marks,
+    annotate_yaxis_marks,
     shade_under_curve,
 )
 
 __all__ = [
     "plot_middle_half_sample_mean",
     "plot_multiple_middle_half_sample_means",
-    "annotate_xaxis_marks", 
+    "annotate_axis_marks",
+    "annotate_xaxis_marks",
+    "annotate_yaxis_marks",
     "shade_under_curve",
 
     "TOL_BRIGHT",

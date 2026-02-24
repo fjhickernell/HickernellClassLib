@@ -1,0 +1,100 @@
+# Examples of hypothesis testing
+
+Building on the established framework
+
+- [Translating words into hypotheses](#translating-words-into-hypotheses)
+
+- [Two-sided large sample size CLT test for the mean](#twoclttest)
+
+
+## Translating words into $H_0$ and $H_A$
+
+- $H_0$ contains the status quo — often written with equality
+- $H_A$ reflects the research claim
+
+### Examples
+
+| Words | $H_0$ | $H_A$ |
+|------------|----|----|
+| “Is the mean different from 10?” | $\theta = 10$ | $\theta \ne 10$ |
+| “Is the mean greater than 10?” | $\theta = 10$ | $\theta > 10$ |
+| “Is the defect rate below 5%?” | $\theta = 0.05$ | $\theta < 0.05$ |
+| “Has the process changed?” | $\theta = \theta_0$ | $\theta \ne \theta_0$ |
+| "Our average time between failures is greater than 200 hours" | $\mu = 200$ | $\mu > 200$ |
+| "Your average time between failures is less than 200 hours" | $\mu = 200$ | $\mu < 200$ |
+| “Our job placement rate is 90%, not 70%” (two simple) | $p = 0.7$ | $p = 0.9$ |
+
+## Two-sided test for a mean (CLT)
+
+Suppose $X_1,\dots,X_n$ IID with $\Ex[X_i] = \mu$, $\var(X_i) = \sigma^2$ with large $n$
+
+Test
+$H_0: \mu = \mu_0$ against 
+$H_A: \mu \ne \mu_0$
+
+- [Test statistic]{.alert} $\displaystyle Z_n = \frac{\barX_n - \mu_0}{S/\sqrt{n}} \appxsim \Norm(0,1) \text{ under } H_0$
+
+- [Rejection region]{.alert} $\RR = \{Z_n: |Z_n| > z_{\alpha/2}\}$
+
+- [Power function]{.alert} — the probability of rejecting $H_0$ when the true mean is $\mu_1$
+
+$$
+\power(\mu_1)= \Prob(|Z_n|>z_{\alpha/2} \mid \mu = \mu_1) = 1 - \Phi\!\left(z_{\alpha/2} - \frac{\mu_1-\mu_0}{\sigma/\sqrt{n}}\right) + \Phi\!\left(-z_{\alpha/2} - \frac{\mu_1-\mu_0}{\sigma/\sqrt{n}}\right  )
+$$
+
+---
+
+## Power curves for the two-sided CLT test
+
+```{python}
+#| echo: false
+#| warning: false
+#| message: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+plt.rcParams["mathtext.fontset"] = "cm"
+from classlib.plots.colors import tol_bright_list
+
+colors = tol_bright_list()   # first four Tol Bright colors
+
+alpha = 0.05
+mu0 = 47.0
+
+n_values = [25, 250]          # <-- choose two n's
+sigma_values = [1.0, 10.0]     # <-- choose two sigmas
+
+zcrit = norm.ppf(1 - alpha/2)
+
+def power_two_sided(mu1, *, n, sigma):
+    delta = (mu1 - mu0) / (sigma / np.sqrt(n))
+    return (1 - norm.cdf(zcrit - delta)) + norm.cdf(-zcrit - delta)
+
+# x-axis range: centered at mu0 with a span that shows all four curves well
+sigma_max = max(sigma_values)
+mu = np.linspace(mu0 - sigma_max, mu0 + sigma_max, 600)
+
+plt.figure(figsize=(10,6))
+k = 0
+for n in n_values:
+    for sigma in sigma_values:
+        plt.plot(mu, power_two_sided(mu, n=n, sigma=sigma),
+                 color=colors[k],
+                 label=rf"$n={n},\ \sigma={sigma}$")
+        k += 1
+
+plt.axvline(mu0, color=colors[6], linestyle="--")  # vertical line at mu0
+plt.axhline(alpha, color=colors[6], linestyle=":")  # horizontal line at alpha
+plt.xlabel(r"True mean $\mu_1$", fontsize=18)
+plt.ylabel("Power", fontsize=18)
+plt.title("Two-sided CLT test: power vs true mean", fontsize=22)
+
+plt.xticks(fontsize=20)
+plt.yticks(fontsize=20)
+
+plt.legend(fontsize=16)
+plt.ylim(0, 1.02)
+plt.tight_layout()
+plt.show()
+```

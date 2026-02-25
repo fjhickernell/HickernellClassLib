@@ -161,7 +161,7 @@ def main():
         dist = r"$t_\nu$" if i == 0 else r"{}"
         lines.append(row_line(dist, rf"$t_{{{nu},\alpha}}$", tL, tR))
 
-    if chi_dfs:
+    if t_dfs and chi_dfs:
         lines.append(r"\midrule")
 
     for i, nu in enumerate(chi_dfs):
@@ -181,4 +181,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-    
+

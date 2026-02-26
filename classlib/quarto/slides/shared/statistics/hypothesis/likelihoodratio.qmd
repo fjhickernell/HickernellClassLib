@@ -110,9 +110,9 @@ For composite hypotheses,
 
 $$
 \Lambda(\vX)
-=
-\frac{\sup_{\theta\in H_0} L(\theta)}
-     {\sup_{\theta\in \Theta} L(\theta)}
+= 
+\frac{\displaystyle \sup_{\theta\in \text{null model}} L(\theta \mid \vX)}
+     {\displaystyle \sup_{\theta\in \text{full model}} L(\theta \mid \vX)}
 $$
 
 Reject for small $\Lambda$

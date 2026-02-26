@@ -136,7 +136,7 @@ For the sample mean $\barX_n$, based on IID data (cont'd)
   - $\displaystyle S_n^2 := \frac{1}{n-1} \sum_{i=1}^n (X_i - \barX_n)^2$
   - $t_\nu$ is the [Student's t distribution]{.alert} with $\nu$ degrees of freedom
 
-    - $\displaystyle \varrho_{t_\nu}(x) = \frac{\Gamma\!\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\,\Gamma\!\left(\frac{\nu}{2}\right)}\left(1+\frac{x^2}{\nu}\right)^{-(\nu+1)/2}, \quad \infty < x < \infty$
+    - $\displaystyle \varrho_{t_\nu}(x) = \frac{\Gamma\!\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\,\Gamma\!\left(\frac{\nu}{2}\right)}\left(1+\frac{x^2}{\nu}\right)^{-(\nu+1)/2}, \quad -\infty < x < \infty$
     - Symmetric about $0$
     - Heavier tails than the standard normal
     - $\exstar$ Converges to $N(0,1)$ as $\nu \to \infty$

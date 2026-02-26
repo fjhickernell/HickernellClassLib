@@ -145,6 +145,8 @@
         abs:  ["{\\left\\lvert #1 \\right\\rvert}", 1],
         norm: ["{\\left\\lVert #1 \\right\\rVert}", 1],
         ip:   ["{\\left\\langle #1, #2 \\right\\rangle}", 2],
+        dim:   "{\\operatorname{dim}}",
+        df:   "{\\mathrm{df}}",
 
 
         bvec: ["{\\boldsymbol{#1}}", 1],

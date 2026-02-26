@@ -1,9 +1,13 @@
 # Optimal Tests and Likelihood Methods
 
-- 
+- [Likelihood ratio tests (LRT)](#likelihoodratiotests)
+
+- [Neyman–Pearson lemma](#neymanpearson)
+
+- [Large-sample behavior of the likelihood ratio statistic](#largesamplelikelihoodratio)
 
 
-## From procedures to optimality
+## From procedures to optimality {#likelihoodratiotests}
 
 We have constructed tests, and we have computed their size and power, but 
 
@@ -35,7 +39,7 @@ $$
      {\sup_{\theta\in H_A} L(\theta \mid \vX)}
 $$
 
-## Neyman–Pearson lemma (simple vs simple)
+## Neyman–Pearson lemma (simple vs simple) {.neymanpearson}
 
 Test
 
@@ -59,25 +63,46 @@ $$
 
 where $k$ is chosen to make the test have size $\alpha$
 
-## Example: normal mean (known $\sigma$)
+---
+
+### Example:  mean of Normal data with known $\sigma$
 
 Test
 
 $$
 H_0:\mu=\mu_0
 \qquad
-H_A:\mu=\mu_1
+H_A:\mu=\mu_1 \quad \text{with } \mu_1 > \mu_0
 $$
 
-Likelihood ratio simplifies to a function of $\barX_n$.
-
-Rejection region:
+Assume $X_1,\dots,X_n \sim \Norm(\mu,\sigma^2)$.  We know that $\barX_n$ is the MLE of $\mu$, so the [likelihood ratio]{.alert} test statistic is
 
 $$
-\barX_n > c
+\Lambda
+=
+\frac{L(\mu_0)}{L(\barX_n)}
+=
+\exp\!\left(
+-\frac{n}{2\sigma^2}
+(\barX_n - \mu_0)^2
+\right)
 $$
 
-This is exactly the familiar $z$-test.
+
+[Reject]{.alert} when $\Lambda$ is small $\iff (\barX_n - \mu_0)^2 \iff \barX_n$  is large, because alternative is one-sided
+
+Equivalently,
+
+$$
+\frac{\barX_n - \mu_0}{\sigma/\sqrt n}
+>
+z_\alpha, \qquad \text{which gives the cut-off in terms of $n$, $\sigma$, and $\alpha$}
+$$
+
+The LRT reproduces the classical $z$-test for the mean of a normal distribution with known variance
+
+$\exstar$ Show that the LRT for testing $H_0: \mu = \mu_0$ vs $H_A: \mu  = \mu_1$ with $\mu_1 > \mu_0$ and $\sigma$ unknown is the same as the $t$-test
+
 
 ## From Neyman–Pearson to likelihood ratio tests
 
@@ -90,16 +115,54 @@ $$
      {\sup_{\theta\in \Theta} L(\theta)}
 $$
 
-Reject for small $\Lambda$.
+Reject for small $\Lambda$
 
-## Large-sample behavior of the likelihood ratio statistic
+## Wilks' Theorem
 
 Under regularity conditions,
 
 $$
--2\log \Lambda
-\appxsim
-\chi^2_{df}
+-2 \log \Lambda
+\dto
+\chi^2_{\df}
+$$
+where the degrees of freedom is
+$$
+\df
+=
+\dim(\text{full model}) - \dim(\text{null model}))
 $$
 
-Degrees of freedom = difference in parameter dimension.
+### Example: Normal data with unknown $\sigma$
+
+- Full model for $\Norm(\mu,\sigma^2)$ has $\dim(\Theta) = 2$
+- Null model for $H_0: \mu = \mu_0$ has $\dim(\Theta_0) = 1$
+- $\df = 2 - 1 = 1$
+
+
+
+## Why bother with the likelihood ratio test (LRT)
+
+$$
+\Lambda(x)
+=
+\frac{\sup_{\theta \in \Theta_0} L(\theta)}
+{\sup_{\theta \in \Theta} L(\theta)} \qquad \text{Reject when $\Lambda$ is small}
+$$
+
+
+Even though 
+
+- We already know the $z$, $t$, and other tests, the LRT
+
+- We still need to choose the rejection region cut-off to get the desired size $\alpha$,
+
+However, the LRT
+
+- Is a unifying concept
+- Handles composite hypotheses\
+- Reproduces $z$, $t$, $\chi^2$, $F$ tests\
+- Scales to multi-parameter models\
+- Has large-sample theory (Wilks)
+
+&nbsp;

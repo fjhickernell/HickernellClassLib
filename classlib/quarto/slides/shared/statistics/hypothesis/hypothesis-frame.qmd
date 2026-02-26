@@ -12,7 +12,9 @@
 - [Type II error]{.alert} $\beta$ — probability of failing to reject $H_0$ when $H_A$ is true
 - [Power]{.alert} $1-\beta$ — probability of correctly rejecting $H_0$
 
-> Hypothesis testing is a formal way of deciding whether the data provide enough evidence to overturn a protected default assumption
+::: {.key-point}
+Hypothesis testing is a formal way of deciding whether the data provide enough evidence to overturn a protected default assumption
+:::
 
 We will use ideas from estimation, confidence intervals, and pivots to construct tests
 
@@ -45,11 +47,11 @@ xbar = 176
 # -----------------------
 
 df = 2 * n
-T_obs = (2 * n * xbar) / mu0
+t_obs = (2 * n * xbar) / mu0
 tcrit = st.chi2.ppf(alpha, df)
 ycrit = st.chi2.pdf(tcrit, df)
 xbar_crit = (mu0 / (2 * n)) * tcrit
-pval = st.chi2.cdf(T_obs, df)
+pval = st.chi2.cdf(t_obs, df)
 ```
 
 ## Example: Server Reliability Claim (Mean Time Between Failures)
@@ -126,6 +128,13 @@ Equivalently, reject when
 #| output: asis
 print(rf"$$\barX < \frac{{{mu0}}}{{2n}}\,\chi^2_{{2n,1-\alpha}}$$")
 ```
+
+&nbsp;
+
+::: {.key-point}
+No data has been observed yet
+:::
+
 
 ::: 
 
@@ -213,10 +222,10 @@ Let
 ```{python}
 #| echo: false
 #| output: asis
-print(rf"$$n={n},\qquad \barX={xbar}$$")
+print(rf"$$n={n},\qquad \barx_n={xbar}$$")
 print("")
 print("Then")
-print(rf"$$T_{{\text{{obs}}}}=\frac{{2({n})({xbar})}}{{{mu0}}}={T_obs:.2f}$$")
+print(rf"$$t_{{\text{{obs}}}}=\frac{{2({n})({xbar})}}{{{mu0}}}={t_obs:.2f}$$")
 ```
 
 ::: {.fragment}
@@ -227,8 +236,8 @@ The [$p$-value]{.alert} is
 ```{python}
 #| echo: false
 #| output: asis
-pval = st.chi2.cdf(T_obs, df)
-print(rf"$$p=\Prob\big(\chi^2_{{{df}}} \le {T_obs:.2f}\big)  \approx {pval:.2f}$$")
+pval = st.chi2.cdf(t_obs, df)
+print(rf"$$p=\Prob\big(\chi^2_{{{df}}} \le {t_obs:.2f}\big)  \approx {pval:.2f}$$")
 print("")
 print(rf"Reject $H_0$ iff $p\le \alpha$")  
 print(r"<div style='height:40px;'></div>")
@@ -335,8 +344,8 @@ ax.plot(mu, power_large, linewidth=3.0, label=rf"$n={nlarge}$")
 ax.vlines(mu0, 0, 1, linestyles="--", linewidth=2.0)
 ax.hlines(alpha, mu.min(), mu.max(), linestyles="--", linewidth=2.0)
 
-ax.set_xlabel(r"$\mu$", fontsize=24)
-ax.set_ylabel(r"$\mathrm{power}(\mu)$", fontsize=24)
+ax.set_xlabel(r"True mean $\mu_1$", fontsize=20)
+ax.set_ylabel(r"$\mathrm{power}(\mu_1)$", fontsize=24)
 ax.set_ylim(-0.02, 1.02)
 ax.set_title(rf"$\alpha={alpha}$", fontsize=24)
 

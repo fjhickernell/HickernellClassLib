@@ -117,18 +117,18 @@ for n in n_values:
 
 plt.axvline(mu0, color=colors[6], linestyle="--")  # vertical line at mu0
 plt.axhline(alpha, color=colors[6], linestyle=":")  # horizontal line at alpha
-plt.xlabel(r"True mean $\mu_1$", fontsize=18)
-plt.ylabel("Power", fontsize=18)
+plt.xlabel(r"True mean $\mu_1$", fontsize=22)
+plt.ylabel("Power", fontsize=24)
 plt.title(r"Two-sided CLT test ($H_0: \mu=\mu_0$, $H_A: \mu \ne \mu_0$): power vs true mean", fontsize=22)
 
 plt.xticks(fontsize=20)
 plt.yticks(fontsize=20)
 
 ax = plt.gca()
-annotate_xaxis_marks(ax, [mu0], [r"$\mu_0$"], colors=["black"], text_offset_pts=-50, fontsize=20)
-annotate_yaxis_marks(ax, [alpha], [r"$\alpha$"], colors=["black"], text_offset_pts = -40, fontsize=20)
+annotate_xaxis_marks(ax, [mu0], [r"$\mu_0$"], colors=["black"], text_offset_pts=-50, fontsize=24)
+annotate_yaxis_marks(ax, [alpha], [r"$\alpha$"], colors=["black"], text_offset_pts = -40, fontsize=24)
 
-plt.legend(fontsize=18, loc="lower right")
+plt.legend(fontsize=20, loc="lower right")
 plt.ylim(0, 1.02)
 plt.tight_layout()
 plt.show()
@@ -213,18 +213,18 @@ for n in n_values:
 plt.axvline(mu0, color=colors[6], linestyle="--")
 plt.axhline(alpha, color=colors[6], linestyle=":")
 
-plt.xlabel(r"True mean $\mu_1$", fontsize=18)
-plt.ylabel("Power", fontsize=18)
+plt.xlabel(r"True mean $\mu_1$", fontsize=22)
+plt.ylabel("Power", fontsize=24)
 plt.title(r"One-sided $t$-test ($H_0: \mu=\mu_0$, $H_A: \mu > \mu_0$): power vs true mean", fontsize=22)
 
 plt.xticks(fontsize=20)
 plt.yticks(fontsize=20)
 
 ax = plt.gca()
-annotate_xaxis_marks(ax, [mu0], [r"$\mu_0$"], colors=["black"], text_offset_pts=-50, fontsize=20)
-annotate_yaxis_marks(ax, [alpha], [r"$\alpha$"], colors=["black"], text_offset_pts=-40, fontsize=20)
+annotate_xaxis_marks(ax, [mu0], [r"$\mu_0$"], colors=["black"], text_offset_pts=-50, fontsize=24)
+annotate_yaxis_marks(ax, [alpha], [r"$\alpha$"], colors=["black"], text_offset_pts=-40, fontsize=24)
 
-plt.legend(fontsize=18, loc="lower right")
+plt.legend(fontsize=20, loc="lower right")
 plt.ylim(0, 1.02)
 plt.tight_layout()
 plt.show()
@@ -303,18 +303,18 @@ for k, n in enumerate(n_values):
 plt.axvline(sigma0, color=colors[6], linestyle="--", linewidth=2)
 plt.axhline(alpha,  color=colors[6], linestyle=":",  linewidth=2)
 
-plt.xlabel(r"True standard deviation $\sigma_1$", fontsize=18)
-plt.ylabel("Power", fontsize=18)
+plt.xlabel(r"True standard deviation $\sigma_1$", fontsize=22)
+plt.ylabel("Power", fontsize=24)
 plt.title(r"One-sided $\chi^2$ variance test  ($H_0: \sigma^2=\sigma_0^2$, $H_A: \sigma^2 > \sigma_0^2$)", fontsize=22)
 
-plt.xticks(fontsize=18)
-plt.yticks(fontsize=18)
+plt.xticks(fontsize=20)
+plt.yticks(fontsize=20)
 
 ax = plt.gca()
-annotate_xaxis_marks(ax, [sigma0], [r"$\sigma_0$"], colors=["black"], text_offset_pts=-45, fontsize=20)
-annotate_yaxis_marks(ax, [alpha],  [r"$\alpha$"],   colors=["black"], text_offset_pts=-35, fontsize=20)
+annotate_xaxis_marks(ax, [sigma0], [r"$\sigma_0$"], colors=["black"], text_offset_pts=-45, fontsize=24)
+annotate_yaxis_marks(ax, [alpha],  [r"$\alpha$"],   colors=["black"], text_offset_pts=-35, fontsize=24)
 
-plt.legend(fontsize=18, loc="lower right")
+plt.legend(fontsize=20, loc="lower right")
 plt.ylim(0, 1.02)
 plt.tight_layout()
 plt.show()

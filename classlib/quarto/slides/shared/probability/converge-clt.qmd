@@ -1,6 +1,6 @@
 ## Types of convergence{#type-conv}
 
-[({{< meta texts.cb.initials >}} §§5.5; {{< meta texts.wms.initials >}} §§??)]{.small} &nbsp; &nbsp;  Let $X_1, X_2, \ldots$ be random variables and $X$ another random variable
+[({{< meta texts.cb.initials >}} §§5.5]{.small} &nbsp; &nbsp;  Let $X_1, X_2, \ldots$ be random variables and $X$ another random variable
 
 ### Almost Sure Convergence
 $$

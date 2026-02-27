@@ -403,6 +403,38 @@ $$
 \theta_0 \notin \text{corresponding } (1-\alpha) \text{ confidence interval}
 $$
 
+## Hypothesis testing: design vs data
+
+```{mermaid}
+flowchart LR
+
+  subgraph D1["Design Phase (Before Data)"]
+    A[Model Assumptions]
+    B[Choose Test Statistic]
+    C[Sampling Distribution under H0]
+    D[Fix Rejection Region (size α)]
+  end
+
+  subgraph D2["Data Phase (After Data)"]
+    E[Observe Data]
+    F[Compute Test Statistic]
+    G[Decision: Reject or Not]
+  end
+
+  A --> B --> C --> D --> E --> F --> G
+```
+
+---
+
+### Emphasis
+
+- Everything in the **Design Phase** defines the procedure  
+- $\alpha$ and power belong to the Design Phase  
+- The Data Phase only applies the pre-defined rule  
+
+> The power curve describes the procedure, not the observed dataset
+
+
 ## What depends on data and what does not?
 
 :::{.columns}

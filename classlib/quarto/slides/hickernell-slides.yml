@@ -27,6 +27,10 @@ format:
         <span class="fh-footer-main">
           © 2026 Fred J. Hickernell · Illinois Institute of Technology
           <span class="fh-footer-sep">·</span>
+          <span class="fh-footer-deck">
+            {{< meta deck_short_title >}}
+          </span>
+          <span class="fh-footer-sep">·</span>
           <a
             id="fh-course-website"
             href="#"

@@ -77,6 +77,7 @@ $\exstar$ What are the MLE of $\mu$ and $\sigma$ for $X \sim \Norm(\mu,\sigma^2)
 # Properties of Estimators
 - [Bias and variance](#biasvar)
 - [Distributions of estimators](#distribest)
+- [Consistency](#consistency)
 
 ## Bias, variance, and mean squared error of estimators{#biasvar}
 
@@ -157,3 +158,22 @@ For order statistics, $X_{(k)}$, $\displaystyle F_{X_{(k)}}(x) = \sum_{j=k}^n \b
 &nbsp;
 
 $\exstar$ Is the MLE $\theta$ of $\theta$ for $X \sim \Unif(0,\theta)$ unbiased?  Can you modify it to be unbiased?
+
+
+## Consistency of estimators {#consistency}
+
+[({{< meta texts.cb.initials >}} §10.1; {{< meta texts.wms.initials >}} §9.3)]{.small}
+
+
+Let $\Theta_n$ be an estimate $\theta$ based on a sample of size $n$.  This estimator is [consistent]{.alert} if 
+$$
+\Theta_n \pto \theta \quad \text{as } n \to \infty
+$$
+
+This is automatic if $\Theta_n$ is (asymptotically) unbiased and its variance  vanishes as $n \to \infty$
+
+::: {.key-point}
+The sample mean is a consistent estimator of the population mean if the variance of the data is finite
+:::
+
+

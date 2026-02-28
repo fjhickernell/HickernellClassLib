@@ -169,8 +169,9 @@ so $T(\vX)$ is minimal sufficient for $p$
 
 &nbsp;
 
-$\exstar$ For $X_1, \ldots, X_n \IIDsim \Bern(p)$, is the statistic $T'(\vX)=\left(X_1+X_2, \sum_{i=3}^n X_i\right)$ minimal sufficient for $p$?
-
+::: {.exitem}
+<span class="exbullet">$\exstar$</span><span>For $X_1, \ldots, X_n \IIDsim \Bern(p)$, is the statistic $T'(\vX)=\left(X_1+X_2, \sum_{i=3}^n X_i\right)$ minimal sufficient for $p$?</span>
+:::
 ---
 
 ## Rao--Blackwell Theorem {#rao-blackwell}

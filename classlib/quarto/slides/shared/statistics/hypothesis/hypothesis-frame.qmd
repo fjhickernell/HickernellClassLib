@@ -90,6 +90,7 @@ print(rf"- [Alternative hypothesis]{{.alert}} (guilty, change): $\qquad H_A:\ \m
 
 ---
 
+
 ### Step 2: Construct test statistic
 
 ```{python}
@@ -213,6 +214,7 @@ plt.show()
 ::: 
 
 :::
+
 ---
 
 ### Step 4: Observed Data
@@ -229,6 +231,7 @@ print(rf"$$t_{{\text{{obs}}}}=\frac{{2({n})({xbar})}}{{{mu0}}}={t_obs:.2f}$$")
 ```
 
 ::: {.fragment}
+
 ### Step 5: $p$-value and decision
 
 The [$p$-value]{.alert} is
@@ -354,11 +357,13 @@ ax.legend(frameon=False, fontsize=18, loc="upper right")
 plt.tight_layout()
 plt.show()
 ```
+
 ::: {.key-point}
 **Do not** use the power curve to decide whether to reject after seeing the data
 
 Power is about the test procedure, not about the observed data
 :::
+
 ---
 
 ## Two kinds of error
@@ -403,28 +408,37 @@ $$
 \theta_0 \notin \text{corresponding } (1-\alpha) \text{ confidence interval}
 $$
 
-## Hypothesis testing: design vs data
+## Hypothesis Testing: Design vs Data
 
 ```{mermaid}
+%%{init: {"themeVariables":{"fontSize":"36px"}}}%%
 flowchart LR
+  D1T["Design Phase<br/>(Before Data)"]
+  D2T["Data Phase<br/>(After Data)"]
 
-  subgraph D1["Design Phase (Before Data)"]
-    A[Model Assumptions]
-    B[Choose Test Statistic]
-    C[Sampling Distribution under H0]
-    D[Fix Rejection Region (size α)]
+  subgraph D1 [ ]
+    A[Model<br/>Assumptions]
+    B[Choose Test<br/>Statistic]
+    C[Sampling<br/>Distribution<br/>under null]
+    D["Fix Rejection<br/>Region<br/>(size α)"]
   end
 
-  subgraph D2["Data Phase (After Data)"]
-    E[Observe Data]
-    F[Compute Test Statistic]
-    G[Decision: Reject or Not]
+  subgraph D2 [ ]
+    E[Observe<br/>Data]
+    F[Compute<br/>Test<br/>Statistic]
+    G[Decision:<br/>Reject or Not]
   end
 
+  D1T --> A
+  D2T --> E
   A --> B --> C --> D --> E --> F --> G
-```
 
----
+  style D1 fill:transparent,stroke:#888,stroke-width:2px
+  style D2 fill:transparent,stroke:#888,stroke-width:2px
+
+  style D1T fill:transparent,stroke:transparent,font-weight:bold
+  style D2T fill:transparent,stroke:transparent,font-weight:bold
+```
 
 ### Emphasis
 
@@ -432,7 +446,9 @@ flowchart LR
 - $\alpha$ and power belong to the Design Phase  
 - The Data Phase only applies the pre-defined rule  
 
-> The power curve describes the procedure, not the observed dataset
+::: {.key-point}
+The power curve describes the procedure, not the observed dataset
+::: 
 
 
 ## What depends on data and what does not?

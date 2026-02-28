@@ -26,7 +26,12 @@ does **NOT** depend on $\vtheta$.
 
 &nbsp;
 
-> If a sufficient statistic, $T$, is known, then the sample contains no additional information about $\vtheta$
+::: {.key-point}
+
+If a sufficient statistic, $T$, is known, then the sample contains no additional information about $\vtheta$
+
+:::
+
 
 ## Factorization Theorem
 
@@ -82,8 +87,13 @@ A sufficient statistic $T$ is *minimal sufficient* if
 
 -   it is a function of every other sufficient statistic.
 
-> A minimial sufficient statistic compresses the data as much as possible\
-> without losing information about $\vtheta$
+::: {.key-point}
+
+A minimial sufficient statistic compresses the data as much as possible
+without losing information about $\vtheta$
+
+:::
+
 
 **Theorem**: A statistic $T(\vX)$ is minimal sufficient if for all sample points $\vx$, $\vy$,
 
@@ -180,7 +190,12 @@ Then
 
 &nbsp;
 
-> Conditioning on sufficient statistics improves estimators
+::: {.key-point}
+
+Conditioning on sufficient statistics improves estimators
+
+:::
+
 
 ---
 

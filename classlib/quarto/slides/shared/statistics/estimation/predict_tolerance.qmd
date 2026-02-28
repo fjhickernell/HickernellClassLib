@@ -58,7 +58,12 @@ $$
 
 Assume $X \sim N(\mu,\sigma^2)$. Sometimes the question is:
 
-> Can we say that at least 95% of the population lies within an interval?
+::: {.key-point}
+
+Can we say that at least 95% of the population lies within an interval?
+
+:::
+
 
 A $(1-\alpha,\gamma)$ **tolerance interval** consists of random endpoints
 $X_-$ and $X_+$ such that

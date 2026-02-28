@@ -1133,7 +1133,12 @@ $$
 \right]
 $$
 
-> No normality · No variance formula · Works when classical assumptions fail
+::: {.key-point}
+
+No normality · No variance formula · Works when classical assumptions fail
+
+:::
+
 
 ## Example of vanilla bootstrap
 

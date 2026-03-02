@@ -34,14 +34,12 @@
         prevH = idx.h;
       } else if (idx.h !== prevH) {
         prevH = idx.h;
-        startLock(idx.h, 350);
+        startLock(idx.h, 1500);
       }
 
       // While locked, force v=0 (and reset fragments) if needed.
       if (lockH !== null && t <= lockUntil) {
-        if (idx.h === lockH && idx.v !== 0) {
-          Reveal.slide(lockH, 0, 0);
-        }
+        if (idx.h === lockH && (idx.v !== 0 || (idx.f || 0) !== 0)) { Reveal.slide(lockH, 0, 0); }
       } else {
         lockH = null;
       }
